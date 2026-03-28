@@ -53,7 +53,6 @@ pageStyles:
 
 <script>
 function switchTab(targetId, element) {
-    // Remove active class from all items
     document.querySelectorAll('.folder-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -61,7 +60,6 @@ function switchTab(targetId, element) {
         section.classList.remove('active');
     });
 
-    // Add active class to clicked item and target section
     element.classList.add('active');
     document.getElementById(targetId).classList.add('active');
 }

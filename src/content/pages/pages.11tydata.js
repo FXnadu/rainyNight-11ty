@@ -3,7 +3,6 @@ const siteConfig = require("../../_data/siteConfig");
 const PAGE_TITLE_PATHS = {
   index: ["pages", "home", "title"],
   categories: ["pages", "categories", "title"],
-  records: ["pages", "records", "title"],
   services: ["pages", "services", "title"],
   contact: ["pages", "contact", "title"],
   archive: ["pages", "archive", "title"]

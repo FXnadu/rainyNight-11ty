@@ -1,0 +1,106 @@
+npm warn Unknown project config "sharp_binary_host". This will stop working in the next major version of npm.
+npm warn Unknown project config "sharp_libvips_binary_host". This will stop working in the next major version of npm.
+npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+> 2000922.xyz@1.0.0 start
+> eleventy --serve
+
+[11ty] Writing ./_site/categories/index.html from ./src/content/pages/categories.njk
+[11ty] Writing ./_site/categories/系统测试/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/contact/index.html from ./src/content/pages/contact.njk
+[11ty] Writing ./_site/index.html from ./src/content/pages/index.njk
+[11ty] Writing ./_site/records/index.html from ./src/content/pages/records.njk
+[11ty] Writing ./_site/services/index.html from ./src/content/pages/services.njk
+[11ty] Writing ./_site/archive/index.html from ./src/content/pages/archive.njk
+[11ty] Writing ./_site/posts/dummy-tag-post-1/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-1.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-10/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-10.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-11/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-11.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-12/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-12.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-13/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-13.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-14/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-14.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-15/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-15.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-16/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-16.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-17/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-17.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-18/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-18.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-19/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-19.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-2/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-2.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-20/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-20.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-3/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-3.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-4/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-4.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-5/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-5.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-6/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-6.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-7/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-7.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-8/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-8.md (liquid)
+[11ty] Writing ./_site/posts/dummy-tag-post-9/index.html from ./src/content/posts/dummy-tags/dummy-tag-post-9.md (liquid)
+[11ty] Writing ./_site/posts/system-test-02/index.html from ./src/content/posts/第一篇、入门篇/system-test-02.md (liquid)
+[11ty] Writing ./_site/posts/system-test-03/index.html from ./src/content/posts/第一篇、入门篇/system-test-03.md (liquid)
+[11ty] Writing ./_site/posts/system-test-04/index.html from ./src/content/posts/第一篇、入门篇/system-test-04.md (liquid)
+[11ty] Writing ./_site/posts/system-test-05/index.html from ./src/content/posts/第一篇、入门篇/system-test-05.md (liquid)
+[11ty] Writing ./_site/posts/system-test-06/index.html from ./src/content/posts/第一篇、入门篇/system-test-06.md (liquid)
+[11ty] Writing ./_site/posts/system-test-07/index.html from ./src/content/posts/第一篇、入门篇/system-test-07.md (liquid)
+[11ty] Writing ./_site/posts/system-test-08/index.html from ./src/content/posts/第一篇、入门篇/system-test-08.md (liquid)
+[11ty] Writing ./_site/posts/system-test-09/index.html from ./src/content/posts/第一篇、入门篇/system-test-09.md (liquid)
+[11ty] Writing ./_site/posts/system-test-10/index.html from ./src/content/posts/第一篇、入门篇/system-test-10.md (liquid)
+[11ty] Writing ./_site/posts/color-theory/index.html from ./src/content/posts/第三篇、架构篇/color-theory.md (liquid)
+[11ty] Writing ./_site/posts/eleventy-guide/index.html from ./src/content/posts/第三篇、架构篇/eleventy-guide.md (liquid)
+[11ty] Writing ./_site/posts/system-test-11/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-11.md (liquid)
+[11ty] Writing ./_site/posts/system-test-12/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-12.md (liquid)
+[11ty] Writing ./_site/posts/system-test-13/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-13.md (liquid)
+[11ty] Writing ./_site/posts/system-test-14/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-14.md (liquid)
+[11ty] Writing ./_site/posts/system-test-15/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-15.md (liquid)
+[11ty] Writing ./_site/posts/system-test-16/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-16.md (liquid)
+[11ty] Writing ./_site/posts/system-test-17/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-17.md (liquid)
+[11ty] Writing ./_site/posts/system-test-18/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-18.md (liquid)
+[11ty] Writing ./_site/posts/system-test-19/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-19.md (liquid)
+[11ty] Writing ./_site/posts/system-test-20/index.html from ./src/content/posts/第二篇、调研及数据分析篇/system-test-20.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-1/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-1.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-10/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-10.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-2/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-2.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-3/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-3.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-4/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-4.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-5/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-5.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-6/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-6.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-7/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-7.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-8/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-8.md (liquid)
+[11ty] Writing ./_site/posts/test-analysis-9/index.html from ./src/content/posts/第二篇、调研及数据分析篇/test-analysis-9.md (liquid)
+[11ty] Writing ./_site/posts/faq/index.html from ./src/content/posts/第五篇、推广篇/faq.md (liquid)
+[11ty] Writing ./_site/posts/markdown-syntax-test/index.html from ./src/content/posts/第五篇、推广篇/markdown-syntax-test.md (liquid)
+[11ty] Writing ./_site/posts/toc-20-headings-demo/index.html from ./src/content/posts/第五篇、推广篇/toc-20-headings-demo.md (liquid)
+[11ty] Writing ./_site/posts/why-architecture-matters/index.html from ./src/content/posts/第五篇、推广篇/why-architecture-matters.md (liquid)
+[11ty] Writing ./_site/posts/像写笔记一样写博客/index.html from ./src/content/posts/第五篇、推广篇/像写笔记一样写博客.md (liquid)
+[11ty] Writing ./_site/posts/00-目录-电商实战专题/index.html from ./src/content/posts/第六篇、电商实战专题/00-目录-电商实战专题.md (liquid)
+[11ty] Writing ./_site/posts/冷启动90天计划/index.html from ./src/content/posts/第六篇、电商实战专题/01-冷启动90天计划.md (liquid)
+[11ty] Writing ./_site/posts/爆款选品评分卡/index.html from ./src/content/posts/第六篇、电商实战专题/02-爆款选品评分卡.md (liquid)
+[11ty] Writing ./_site/posts/投放与自然流量协同sop/index.html from ./src/content/posts/第六篇、电商实战专题/03-投放与自然流量协同SOP.md (liquid)
+[11ty] Writing ./_site/posts/详情页转化优化清单/index.html from ./src/content/posts/第六篇、电商实战专题/04-详情页转化优化清单.md (liquid)
+[11ty] Writing ./_site/posts/复购增长自动化方案/index.html from ./src/content/posts/第六篇、电商实战专题/05-复购增长自动化方案.md (liquid)
+[11ty] Writing ./_site/posts/refactoring/index.html from ./src/content/posts/第四篇、宣传篇/refactoring.md (liquid)
+[11ty] Writing ./_site/posts/webgpu-intro/index.html from ./src/content/posts/第四篇、宣传篇/webgpu-intro.md (liquid)
+[11ty] Writing ./_site/posts/system-test-01/index.html from ./src/content/posts/第一篇、入门篇/system-test-01.md (liquid)
+[11ty] Writing ./_site/categories/系统测试/page/2/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/archive/page/2/index.html from ./src/content/pages/archive.njk
+[11ty] Writing ./_site/categories/默认分类/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/archive/page/3/index.html from ./src/content/pages/archive.njk
+[11ty] Writing ./_site/categories/电商实战/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/archive/page/4/index.html from ./src/content/pages/archive.njk
+[11ty] Writing ./_site/categories/选品策略/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/流量增长/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/转化优化/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/用户运营/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/dummy-tags/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/dummy-tags/page/2/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/复购率深度挖掘/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/流量来源解析/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/转化率优化分析/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/可视化报表设计/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/Python数据分析/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/技术/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/Excel数据处理/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/数据采集渠道/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/用户画像构建/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/竞品分析方法/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/市场调研基础/index.html from ./src/content/pages/category-detail.njk
+[11ty] Writing ./_site/categories/设计/index.html from ./src/content/pages/category-detail.njk
+[11ty] Copied 13 Wrote 96 files in 0.63 seconds (v3.1.2)
+[11ty] Watching…
+[11ty] Server at http://localhost:8080/

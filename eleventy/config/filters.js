@@ -1,4 +1,5 @@
 const { DateTime } = require("luxon");
+const { getFolderNameFromPostPath } = require("./collections");
 
 const toUtcDate = (dateObj) => DateTime.fromJSDate(dateObj, { zone: "utc" });
 
@@ -15,6 +16,17 @@ function registerDateFilters(eleventyConfig) {
     toUtcDate(dateObj).toFormat("yyyy")
   );
 
+  eleventyConfig.addFilter("archiveMonth", (dateObj) =>
+    toUtcDate(dateObj).toFormat("MM")
+  );
+
+  eleventyConfig.addFilter("archiveMonthLabel", (dateObj) =>
+    toUtcDate(dateObj).toFormat("yyyy年MM月")
+  );
+
+  eleventyConfig.addFilter("folderNameFromPost", (data) =>
+    getFolderNameFromPostPath(data)
+  );
 }
 
 function registerTitleFilters(eleventyConfig) {

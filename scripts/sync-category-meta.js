@@ -36,21 +36,12 @@ function syncMeta() {
   const discoveredMeta = { categories: {} };
 
   files.forEach(file => {
-    const content = fs.readFileSync(file, 'utf8');
-    // Simple regex to extract category from frontmatter
-    // Looks for "category: value" or "category: 'value'" or 'category: "value"'
-    const match = content.match(/^category:\s*["']?([^"'\n]+)["']?/m);
-
     let fullCategory = '';
-    if (match && match[1]) {
-      fullCategory = match[1].trim();
+    const relative = path.relative(CONTENT_DIR, file).split(path.sep);
+    if (relative.length > 1) {
+      fullCategory = relative[0];
     } else {
-      const relative = path.relative(CONTENT_DIR, file).split(path.sep);
-      if (relative.length > 1) {
-        fullCategory = relative[0];
-      } else {
-        fullCategory = '默认分类';
-      }
+      fullCategory = '默认分类';
     }
 
     discoveredMeta.categories[fullCategory] = { description: DEFAULT_DESCRIPTION };

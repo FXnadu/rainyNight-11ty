@@ -6,6 +6,8 @@ pagination:
   size: 1
   alias: pageData
 permalink: "{{ pageData.url }}"
+eleventyComputed:
+  title: "{{ pageData.title }}"
 ---
 {% set detailConfig = siteConfig.pages.categoryDetail %}
 {% set paginationConfig = siteConfig.pagination.labels %}
