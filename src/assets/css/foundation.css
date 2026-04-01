@@ -101,6 +101,19 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+a,
+button,
+summary,
+label[for],
+input[type="checkbox"],
+input[type="radio"],
+select,
+[role="button"],
+[data-lightbox-action],
+[data-lightbox-close] {
+    cursor: pointer;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);

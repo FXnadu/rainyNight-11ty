@@ -10,8 +10,8 @@ table {
 }
 
 thead {
-    background-color: var(--tile-bg-1);
-    border-bottom: 2px solid var(--accent-subtle);
+    background-color: color-mix(in srgb, var(--tile-bg-2) 92%, var(--bg-color));
+    border-bottom: 2px solid color-mix(in srgb, var(--accent-subtle) 78%, var(--text-secondary));
 }
 
 th {

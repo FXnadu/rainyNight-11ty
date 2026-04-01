@@ -277,6 +277,520 @@ const initPostToc = () => {
     };
 };
 
+const initFootnotePreview = () => {
+    const postContent = document.querySelector(".post-content");
+    if (!postContent) {
+        return () => {};
+    }
+
+    const refLinks = Array.from(postContent.querySelectorAll(".footnote-ref a[href^='#fn']"));
+    if (!refLinks.length) {
+        return () => {};
+    }
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "footnote-preview";
+    tooltip.setAttribute("role", "tooltip");
+    document.body.appendChild(tooltip);
+
+    let activeLink = null;
+    let hideTimer = 0;
+    const listeners = [];
+    const tooltipHoverState = {
+        overLink: false,
+        overTooltip: false
+    };
+
+    const cleanupFootnoteHtml = (html) => html
+        .replace(/<a[^>]*class="footnote-backref"[^>]*>[\s\S]*?<\/a>/gi, "")
+        .replace(/\s+↩︎?\s*$/u, "")
+        .trim();
+
+    const getTooltipHtml = (link) => {
+        const targetId = link.getAttribute("href")?.slice(1);
+        if (!targetId) {
+            return "";
+        }
+        const item = postContent.querySelector(`#${CSS.escape(targetId)}`);
+        if (!item) {
+            return "";
+        }
+        return cleanupFootnoteHtml(item.innerHTML);
+    };
+
+    const positionTooltip = (link) => {
+        const rect = link.getBoundingClientRect();
+        const spacing = 12;
+        const viewportPadding = 12;
+        const tooltipRect = tooltip.getBoundingClientRect();
+        let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+        let top = rect.top - tooltipRect.height - spacing;
+
+        if (left < viewportPadding) {
+            left = viewportPadding;
+        }
+        if (left + tooltipRect.width > window.innerWidth - viewportPadding) {
+            left = window.innerWidth - tooltipRect.width - viewportPadding;
+        }
+        if (top < viewportPadding) {
+            top = Math.min(window.innerHeight - tooltipRect.height - viewportPadding, rect.bottom + spacing);
+        }
+
+        tooltip.style.left = `${Math.round(left)}px`;
+        tooltip.style.top = `${Math.round(top)}px`;
+        tooltip.style.setProperty("--footnote-arrow-left", `${Math.round(rect.left + rect.width / 2 - left)}px`);
+        tooltip.dataset.side = top < rect.top ? "top" : "bottom";
+    };
+
+    const clearHideTimer = () => {
+        if (!hideTimer) {
+            return;
+        }
+        window.clearTimeout(hideTimer);
+        hideTimer = 0;
+    };
+
+    const showTooltip = (link) => {
+        clearHideTimer();
+        const html = getTooltipHtml(link);
+        if (!html) {
+            return;
+        }
+        activeLink = link;
+        tooltip.innerHTML = html;
+        tooltip.classList.add("is-visible");
+        link.setAttribute("aria-describedby", "footnote-preview");
+        tooltip.id = "footnote-preview";
+        positionTooltip(link);
+    };
+
+    const hideTooltip = () => {
+        clearHideTimer();
+        if (activeLink) {
+            activeLink.removeAttribute("aria-describedby");
+        }
+        activeLink = null;
+        tooltipHoverState.overLink = false;
+        tooltipHoverState.overTooltip = false;
+        tooltip.classList.remove("is-visible");
+        tooltip.innerHTML = "";
+    };
+
+    const queueHideTooltip = () => {
+        clearHideTimer();
+        hideTimer = window.setTimeout(() => {
+            if (tooltipHoverState.overLink || tooltipHoverState.overTooltip) {
+                return;
+            }
+            hideTooltip();
+        }, 220);
+    };
+
+    const handleKeydown = (event) => {
+        if (event.key === "Escape") {
+            hideTooltip();
+        }
+    };
+
+    const handleViewportChange = () => {
+        if (activeLink) {
+            positionTooltip(activeLink);
+        }
+    };
+
+    refLinks.forEach((link) => {
+        const handleMouseEnter = () => showTooltip(link);
+        const handleFocus = () => showTooltip(link);
+        const handleMouseLeave = () => {
+            tooltipHoverState.overLink = false;
+            queueHideTooltip();
+        };
+        const handleBlur = () => {
+            tooltipHoverState.overLink = false;
+            queueHideTooltip();
+        };
+        const handlePointerEnter = () => {
+            tooltipHoverState.overLink = true;
+            showTooltip(link);
+        };
+        link.addEventListener("mouseenter", handleMouseEnter);
+        link.addEventListener("focus", handleFocus);
+        link.addEventListener("pointerenter", handlePointerEnter);
+        link.addEventListener("mouseleave", handleMouseLeave);
+        link.addEventListener("blur", handleBlur);
+        listeners.push({ link, handleMouseEnter, handleFocus, handleMouseLeave, handleBlur, handlePointerEnter });
+    });
+
+    const handleTooltipEnter = () => {
+        tooltipHoverState.overTooltip = true;
+        clearHideTimer();
+    };
+    const handleTooltipLeave = () => {
+        tooltipHoverState.overTooltip = false;
+        queueHideTooltip();
+    };
+    tooltip.addEventListener("mouseenter", handleTooltipEnter);
+    tooltip.addEventListener("mouseleave", handleTooltipLeave);
+
+    window.addEventListener("scroll", handleViewportChange, { passive: true });
+    window.addEventListener("resize", handleViewportChange);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+        hideTooltip();
+        listeners.forEach(({ link, handleMouseEnter, handleFocus, handleMouseLeave, handleBlur, handlePointerEnter }) => {
+            link.removeEventListener("mouseenter", handleMouseEnter);
+            link.removeEventListener("focus", handleFocus);
+            link.removeEventListener("pointerenter", handlePointerEnter);
+            link.removeEventListener("mouseleave", handleMouseLeave);
+            link.removeEventListener("blur", handleBlur);
+        });
+        tooltip.removeEventListener("mouseenter", handleTooltipEnter);
+        tooltip.removeEventListener("mouseleave", handleTooltipLeave);
+        window.removeEventListener("scroll", handleViewportChange);
+        window.removeEventListener("resize", handleViewportChange);
+        document.removeEventListener("keydown", handleKeydown);
+        tooltip.remove();
+    };
+};
+
+const initFootnoteNavigation = () => {
+    const postContent = document.querySelector(".post-content");
+    if (!postContent) {
+        return () => {};
+    }
+
+    const nav = document.querySelector(".site-nav");
+    const getOffsetTop = (target) => {
+        const navHeight = nav ? nav.offsetHeight : 0;
+        return target.getBoundingClientRect().top + window.scrollY - navHeight - 18;
+    };
+
+    const handleClick = (event) => {
+        const link = event.target.closest(".footnote-ref a[href^='#'], .footnote-backref[href^='#']");
+        if (!link) {
+            return;
+        }
+        const id = link.getAttribute("href")?.slice(1);
+        if (!id) {
+            return;
+        }
+        const target = document.getElementById(id);
+        if (!target) {
+            return;
+        }
+        event.preventDefault();
+        window.history.replaceState(window.history.state, "", `#${id}`);
+        window.scrollTo({
+            top: getOffsetTop(target),
+            behavior: "smooth"
+        });
+    };
+
+    postContent.addEventListener("click", handleClick);
+    return () => {
+        postContent.removeEventListener("click", handleClick);
+    };
+};
+
+const initImageLightbox = () => {
+    const postContent = document.querySelector(".post-content");
+    if (!postContent) {
+        return () => {};
+    }
+
+    const images = Array.from(postContent.querySelectorAll("img"));
+    if (!images.length) {
+        return () => {};
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "image-lightbox";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.innerHTML = `
+        <div class="image-lightbox-backdrop" data-lightbox-close="true"></div>
+        <div class="image-lightbox-shell" role="dialog" aria-modal="true" aria-label="图片放大预览">
+            <div class="image-lightbox-stage">
+                <img class="image-lightbox-image" alt="">
+                <button class="image-lightbox-close" type="button" aria-label="关闭图片预览" data-lightbox-close="true">×</button>
+                <div class="image-lightbox-toolbar">
+                    <button class="image-lightbox-action" type="button" data-lightbox-action="zoom-out" aria-label="缩小">-</button>
+                    <button class="image-lightbox-action" type="button" data-lightbox-action="reset" aria-label="重置缩放">100%</button>
+                    <button class="image-lightbox-action" type="button" data-lightbox-action="zoom-in" aria-label="放大">+</button>
+                </div>
+                <p class="image-lightbox-caption" hidden></p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const lightboxImage = overlay.querySelector(".image-lightbox-image");
+    const caption = overlay.querySelector(".image-lightbox-caption");
+    const resetButton = overlay.querySelector('[data-lightbox-action="reset"]');
+    const stage = overlay.querySelector(".image-lightbox-stage");
+    const body = document.body;
+
+    const MIN_SCALE = 0.6;
+    const MAX_SCALE = 4;
+    const ZOOM_STEP = 0.2;
+
+    let activeImage = null;
+    let scale = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let baseWidth = 0;
+    let baseHeight = 0;
+    let isDragging = false;
+    let dragPointerId = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragOriginX = 0;
+    let dragOriginY = 0;
+
+    const updateScale = () => {
+        lightboxImage.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+        resetButton.textContent = `${Math.round(scale * 100)}%`;
+        stage.classList.toggle("is-draggable", scale > 1.02);
+        lightboxImage.classList.toggle("is-dragging", isDragging);
+    };
+
+    const measureBaseSize = () => {
+        if (!lightboxImage.naturalWidth || !lightboxImage.naturalHeight) {
+            baseWidth = 0;
+            baseHeight = 0;
+            return { innerWidth: 0, innerHeight: 0 };
+        }
+
+        const stageRect = stage.getBoundingClientRect();
+        const stageStyles = getComputedStyle(stage);
+        const paddingX = (Number.parseFloat(stageStyles.paddingLeft) || 0) + (Number.parseFloat(stageStyles.paddingRight) || 0);
+        const paddingY = (Number.parseFloat(stageStyles.paddingTop) || 0) + (Number.parseFloat(stageStyles.paddingBottom) || 0);
+        const innerWidth = Math.max(0, stageRect.width - paddingX);
+        const innerHeight = Math.max(0, stageRect.height - paddingY);
+        const fitRatio = Math.min(
+            innerWidth / lightboxImage.naturalWidth,
+            innerHeight / lightboxImage.naturalHeight
+        );
+
+        baseWidth = lightboxImage.naturalWidth * fitRatio;
+        baseHeight = lightboxImage.naturalHeight * fitRatio;
+        lightboxImage.style.width = `${baseWidth}px`;
+        lightboxImage.style.height = `${baseHeight}px`;
+
+        return { innerWidth, innerHeight };
+    };
+
+    const clampOffsets = () => {
+        const { innerWidth, innerHeight } = measureBaseSize();
+        if (!baseWidth || !baseHeight || !innerWidth || !innerHeight) {
+            offsetX = 0;
+            offsetY = 0;
+            return;
+        }
+
+        const scaledWidth = baseWidth * scale;
+        const scaledHeight = baseHeight * scale;
+        const maxOffsetX = Math.max(0, (scaledWidth - innerWidth) / 2);
+        const maxOffsetY = Math.max(0, (scaledHeight - innerHeight) / 2);
+        offsetX = Math.min(maxOffsetX, Math.max(-maxOffsetX, offsetX));
+        offsetY = Math.min(maxOffsetY, Math.max(-maxOffsetY, offsetY));
+    };
+
+    const syncTransform = () => {
+        clampOffsets();
+        updateScale();
+    };
+
+    const openLightbox = (img) => {
+        activeImage = img;
+        scale = 1;
+        offsetX = 0;
+        offsetY = 0;
+        isDragging = false;
+        lightboxImage.src = img.currentSrc || img.src;
+        lightboxImage.alt = img.alt || "";
+        const figure = img.closest("figure");
+        const captionText = figure?.querySelector("figcaption")?.textContent?.trim() || img.alt?.trim() || "";
+        if (captionText) {
+            caption.hidden = false;
+            caption.textContent = captionText;
+        } else {
+            caption.hidden = true;
+            caption.textContent = "";
+        }
+        syncTransform();
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden", "false");
+        body.classList.add("has-lightbox-open");
+    };
+
+    const closeLightbox = () => {
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden", "true");
+        body.classList.remove("has-lightbox-open");
+        activeImage = null;
+        scale = 1;
+        offsetX = 0;
+        offsetY = 0;
+        isDragging = false;
+        syncTransform();
+    };
+
+    const setScale = (nextScale) => {
+        scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, nextScale));
+        syncTransform();
+    };
+
+    const handleImageClick = (event, img) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openLightbox(img);
+    };
+
+    const imageListeners = images.map((img) => {
+        img.classList.add("is-zoomable");
+        const applyTallClass = () => {
+            if (!img.naturalWidth || !img.naturalHeight) {
+                return;
+            }
+            const aspectRatio = img.naturalHeight / img.naturalWidth;
+            img.classList.toggle("is-tall-image", aspectRatio >= 1.4);
+        };
+        const listener = (event) => handleImageClick(event, img);
+        if (img.complete) {
+            applyTallClass();
+        } else {
+            img.addEventListener("load", applyTallClass, { once: true });
+        }
+        img.addEventListener("click", listener);
+        return { img, listener };
+    });
+
+    const handleOverlayClick = (event) => {
+        const closeTarget = event.target.closest("[data-lightbox-close='true']");
+        if (closeTarget) {
+            closeLightbox();
+        }
+    };
+
+    const handleToolbarClick = (event) => {
+        const action = event.target.closest("[data-lightbox-action]")?.dataset.lightboxAction;
+        if (!action) {
+            return;
+        }
+        if (action === "zoom-in") {
+            setScale(scale + ZOOM_STEP);
+            return;
+        }
+        if (action === "zoom-out") {
+            setScale(scale - ZOOM_STEP);
+            return;
+        }
+        if (action === "reset") {
+            setScale(1);
+        }
+    };
+
+    const handleWheel = (event) => {
+        if (!overlay.classList.contains("is-open")) {
+            return;
+        }
+        event.preventDefault();
+        const delta = event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+        setScale(scale + delta);
+    };
+
+    const handlePointerDown = (event) => {
+        if (!overlay.classList.contains("is-open") || scale <= 1.02) {
+            return;
+        }
+        if (event.target.closest(".image-lightbox-action, .image-lightbox-close")) {
+            return;
+        }
+        isDragging = true;
+        dragPointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragOriginX = offsetX;
+        dragOriginY = offsetY;
+        stage.setPointerCapture?.(event.pointerId);
+        syncTransform();
+        event.preventDefault();
+    };
+
+    const handlePointerMove = (event) => {
+        if (!isDragging || event.pointerId !== dragPointerId) {
+            return;
+        }
+        offsetX = dragOriginX + (event.clientX - dragStartX);
+        offsetY = dragOriginY + (event.clientY - dragStartY);
+        syncTransform();
+    };
+
+    const stopDragging = (event) => {
+        if (!isDragging || (event && event.pointerId !== dragPointerId)) {
+            return;
+        }
+        isDragging = false;
+        if (event) {
+            stage.releasePointerCapture?.(event.pointerId);
+        }
+        dragPointerId = null;
+        syncTransform();
+    };
+
+    const handleKeydown = (event) => {
+        if (!overlay.classList.contains("is-open")) {
+            return;
+        }
+        if (event.key === "Escape") {
+            closeLightbox();
+            return;
+        }
+        if (event.key === "+" || event.key === "=") {
+            setScale(scale + ZOOM_STEP);
+            return;
+        }
+        if (event.key === "-") {
+            setScale(scale - ZOOM_STEP);
+            return;
+        }
+        if (event.key === "0") {
+            setScale(1);
+        }
+    };
+
+    overlay.addEventListener("click", handleOverlayClick);
+    overlay.addEventListener("click", handleToolbarClick);
+    stage.addEventListener("wheel", handleWheel, { passive: false });
+    stage.addEventListener("pointerdown", handlePointerDown);
+    stage.addEventListener("pointermove", handlePointerMove);
+    stage.addEventListener("pointerup", stopDragging);
+    stage.addEventListener("pointercancel", stopDragging);
+    lightboxImage.addEventListener("load", syncTransform);
+    window.addEventListener("resize", syncTransform);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+        closeLightbox();
+        imageListeners.forEach(({ img, listener }) => {
+            img.classList.remove("is-zoomable");
+            img.removeEventListener("click", listener);
+        });
+        overlay.removeEventListener("click", handleOverlayClick);
+        overlay.removeEventListener("click", handleToolbarClick);
+        stage.removeEventListener("wheel", handleWheel);
+        stage.removeEventListener("pointerdown", handlePointerDown);
+        stage.removeEventListener("pointermove", handlePointerMove);
+        stage.removeEventListener("pointerup", stopDragging);
+        stage.removeEventListener("pointercancel", stopDragging);
+        lightboxImage.removeEventListener("load", syncTransform);
+        window.removeEventListener("resize", syncTransform);
+        document.removeEventListener("keydown", handleKeydown);
+        overlay.remove();
+    };
+};
+
 const initNavVisibility = () => {
     const siteNav = document.querySelector(".site-nav");
     if (!siteNav) {
@@ -599,6 +1113,9 @@ const initPage = () => {
     removeAnimationArtifacts();
     pageCleanups.push(initPostActions());
     pageCleanups.push(initPostToc());
+    pageCleanups.push(initFootnotePreview());
+    pageCleanups.push(initFootnoteNavigation());
+    pageCleanups.push(initImageLightbox());
     pageCleanups.push(initNavVisibility());
     pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());
