@@ -5,11 +5,37 @@ const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownIt = require("markdown-it");
 const markdownItFootnote = require("markdown-it-footnote");
 const markdownItGitHubAlerts = require("markdown-it-github-alerts");
+const matter = require("gray-matter");
 const { registerDateFilters, registerTitleFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
 
+function processPostSlugs() {
+  const postsDir = path.join(process.cwd(), "src/content/posts");
+  if (!fs.existsSync(postsDir)) return;
+
+  const processDir = (dir) => {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        processDir(fullPath);
+      } else if (entry.isFile() && entry.name.endsWith(".md")) {
+        const content = fs.readFileSync(fullPath, "utf8");
+        const parsed = matter(content);
+        if (!parsed.data.slug) {
+          console.log(`[slug] Missing slug in: ${entry.name}`);
+        }
+      }
+    }
+  };
+
+  processDir(postsDir);
+}
+
 module.exports = async function(eleventyConfig) {
+  processPostSlugs();
+
   const { default: mermaidPlugin } = await import("@kevingimbel/eleventy-plugin-mermaid");
   const isPostInput = (data) => {
     const inputPath = data && data.page && data.page.inputPath ? data.page.inputPath : "";
@@ -27,6 +53,24 @@ module.exports = async function(eleventyConfig) {
   registerTitleFilters(eleventyConfig);
   registerCollections(eleventyConfig);
 
+  // Validate post filenames: must contain @ symbol
+  eleventyConfig.addCollection("postValidator", (collectionApi) => {
+    const posts = collectionApi.getFilteredByGlob("src/content/posts/**/*.md");
+    for (const post of posts) {
+      const inputPath = post.inputPath;
+      const fileName = inputPath.split(/[/\\]/).pop();
+      const stem = fileName.replace(/\.md$/, "");
+      if (!stem.includes("@")) {
+        throw new Error(
+          `文章文件名格式错误: "${fileName}"\n` +
+          `必须包含 @ 符号，格式: 标题@分类标识.md\n` +
+          `例如: 快速上手@abc.md`
+        );
+      }
+    }
+    return [];
+  });
+
   // Keep post defaults out of src/content/posts so that directory only contains article files.
   eleventyConfig.addGlobalData("eleventyComputed", {
     title: (data) => {
@@ -37,7 +81,19 @@ module.exports = async function(eleventyConfig) {
       const pathParts = inputPath.split(/[/\\]/);
       const fileName = pathParts[pathParts.length - 1];
       const stem = fileName.replace(/\.md$/, "");
-      return stem;
+      const parts = stem.split("@");
+      return parts[0] || stem;
+    },
+    subcategory: (data) => {
+      if (!isPostInput(data)) return data.subcategory;
+      if (data.subcategory) return data.subcategory;
+      const inputPath = data.page && data.page.inputPath;
+      if (!inputPath) return null;
+      const pathParts = inputPath.split(/[/\\]/);
+      const fileName = pathParts[pathParts.length - 1];
+      const stem = fileName.replace(/\.md$/, "");
+      const parts = stem.split("@");
+      return parts[1] ? parts[1].trim() : null;
     },
     layout: (data) => {
       if (!isPostInput(data)) return data.layout;
@@ -46,8 +102,12 @@ module.exports = async function(eleventyConfig) {
     permalink: (data) => {
       if (!isPostInput(data)) return data.permalink;
       if (data.permalink) return data.permalink;
-      const slug = data && data.page && data.page.fileSlug ? data.page.fileSlug : "";
-      return `/posts/${slug}/`;
+      const slug = data.slug;
+      const isPlaceholderSlug = slug && slug.includes("请填写slug");
+      const finalSlug = (!slug || isPlaceholderSlug)
+        ? (data.page && data.page.fileSlug ? data.page.fileSlug : "")
+        : slug;
+      return `/posts/${finalSlug}/`;
     },
     publishDate: (data) => {
       if (!isPostInput(data)) return data.publishDate;
@@ -109,7 +169,7 @@ module.exports = async function(eleventyConfig) {
 
   eleventyConfig.setLibrary("md", mdLib);
 
-  return {
+   return {
     dir: {
       input: "src",
       output: "_site",

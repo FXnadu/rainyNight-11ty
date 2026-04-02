@@ -18,7 +18,7 @@ pageStyles:
             {% if updated %}
             <time datetime="{{ updated }}" style="color: var(--text-secondary); display: inline-flex; align-items: center; gap: 8px; margin-left: 16px;">
                 <i class="fa-solid fa-pen-to-square" aria-hidden="true" style="font-size: 0.9em; line-height: 1; transform: translateY(-1px);"></i>
-                <span>更新于 {{ updated | readableDate }}</span>
+                <span>最后更新于 {{ updated | readableDate }}</span>
             </time>
             {% endif %}
         </div>

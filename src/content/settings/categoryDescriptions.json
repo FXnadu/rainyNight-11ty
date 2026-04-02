@@ -1,25 +1,60 @@
 {
   "categories": {
     "项目速览": {
-      "description": "用简短示例快速浏览不同类型的个人网站页面，适合放在首页或索引区。"
-    },
-    "建站需求篇": {
-      "description": "围绕内容方向、目标读者、页面范围和素材准备，整理建站前的基本思路。"
-    },
-    "方案策划篇": {
-      "description": "从页面地图、信息顺序到内容整理，展示个人网站成形前的思路。"
+      "subcategories": {
+        "xs": {
+          "name": "项目速览",
+          "description": "用简短示例快速浏览不同类型的个人网站页面，适合放在首页或索引区。"
+        }
+      }
     },
     "页面与功能篇": {
-      "description": "说明首页、作品页、文章页和常用模块适合怎样拆分与组合。"
+      "subcategories": {
+        "ymgn": {
+          "name": "页面功能",
+          "description": "说明首页、作品页、文章页和常用模块适合怎样拆分与组合。"
+        }
+      }
     },
     "开发执行篇": {
-      "description": "聚焦实现阶段的安排、检查清单，以及上线前后需要注意的事情。"
-    },
-    "上线交付篇": {
-      "description": "覆盖上线部署、后续维护、常见疑问和交接时常用的文案说明。"
+      "subcategories": {
+        "jssx": {
+          "name": "技术实现",
+          "description": "聚焦实现阶段的安排、检查清单，以及上线前后需要注意的事情。"
+        }
+      }
     },
     "网站示例篇": {
-      "description": "用几组完整示例展示一个个人网站从整理内容到上线的过程。"
+      "subcategories": {
+        "alzs": {
+          "name": "案例展示",
+          "description": "用几组完整示例展示一个个人网站从整理内容到上线的过程。"
+        }
+      }
+    },
+    "资源下载": {
+      "subcategories": {
+        "sxjf": {
+          "name": "资源",
+          "description": "暂无简介"
+        }
+      }
+    },
+    "建站需求篇": {
+      "subcategories": {
+        "xfq": {
+          "name": "xfq",
+          "description": "暂无简介"
+        }
+      }
+    },
+    "方案策划篇": {
+      "subcategories": {
+        "xfq": {
+          "name": "xfq",
+          "description": "暂无简介"
+        }
+      }
     }
   }
 }

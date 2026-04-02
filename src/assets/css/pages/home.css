@@ -126,17 +126,18 @@ body.home-page::before {
 }
 
 .home-search-button {
-    min-width: 112px;
-    min-height: 52px;
+    width: 52px;
+    height: 52px;
     border: 0;
     border-radius: 12px;
-    padding: 0 20px;
     background: var(--accent-color);
     color: #fff;
-    font: inherit;
-    font-weight: 600;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .home-search-button:hover {
@@ -346,7 +347,7 @@ body.home-page::before {
     }
 
     .home-search-button {
-        width: 100%;
+        /* width: 100%; */ /* Removed to keep the button square */
     }
 }
 

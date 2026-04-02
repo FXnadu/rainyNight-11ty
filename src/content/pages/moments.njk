@@ -1,0 +1,80 @@
+---
+layout: layouts/base.njk
+permalink: /moments/
+pageStyles:
+  - /assets/css/pages/moments.css
+---
+
+<div class="moments-page-container">
+    <header class="moments-header">
+        <h1 class="moments-title">动态</h1>
+        <p class="moments-subtitle">日常记录与学习分享</p>
+    </header>
+
+    <div class="moments-timeline">
+
+        
+        {% for group in moments %}
+        <div class="moment-date-group">
+
+            <div class="moment-date-label">
+                <span class="moment-date">
+                    <svg class="moment-date-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    {{ group.date }}
+                </span>
+            </div>
+            <div class="moment-date-items">
+                {% for moment in group.items %}
+                <article class="moment-card" data-id="{{ moment.id }}">
+                    <div class="moment-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="moment-content">
+                        <div class="moment-header">
+                            <svg class="moment-time-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="moment-time">{{ moment.time }}</span>
+                        </div>
+                        
+                        <div class="moment-body">
+                            <p class="moment-text">{{ moment.content }}</p>
+                            
+                            {% if moment.images %}
+                            <div class="moment-images {% if moment.images.length > 1 %}multi{% endif %}">
+                                {% for img in moment.images %}
+                                <div class="moment-image-item">
+                                    <img src="{{ img }}" alt="动态配图" loading="lazy">
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            
+                            {% if moment.video %}
+                            <div class="moment-video">
+                                <div class="moment-video-cover">
+                                    <img src="{{ moment.video.cover }}" alt="视频封面">
+                                    <div class="moment-video-play">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if moment.link %}
+                            <a href="{{ moment.link.url }}" class="moment-link" target="_blank" rel="noopener">
+                                <div class="moment-link-content">
+                                    <span class="moment-link-title">{{ moment.link.title }}</span>
+                                    <span class="moment-link-desc">{{ moment.link.description }}</span>
+                                </div>
+                                <svg class="moment-link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

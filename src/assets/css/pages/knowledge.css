@@ -180,7 +180,8 @@
     font-size: 0.9rem;
     color: var(--text-secondary, #aaa);
     margin: 0 0 16px 0;
-    line-height: 1.6;
+    line-height: 1.5;
+    height: 4.5em; /* 1.5 line-height * 3 lines = 4.5em */
     flex-grow: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;

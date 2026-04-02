@@ -46,11 +46,24 @@
     font-size: 0.9rem;
     font-weight: 500;
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.menu-links a svg {
+    opacity: 0.7;
+    transition: opacity 0.3s;
 }
 
 .menu-links a:hover,
 .menu-links a.active {
     color: var(--text-primary);
+}
+
+.menu-links a:hover svg,
+.menu-links a.active svg {
+    opacity: 1;
 }
 
 /* Theme Toggle Button */

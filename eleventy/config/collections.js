@@ -70,7 +70,7 @@ function loadJsonFileSafe(filePath, fallbackValue = {}) {
   }
 }
 
-function normalizeMetaEntry(entry) {
+function normalizeMetaEntry(entry, categoryPath) {
   if (typeof entry === "string") {
     const description = entry.trim() || DEFAULT_CATEGORY_DESCRIPTION;
     return { description };
@@ -82,7 +82,13 @@ function normalizeMetaEntry(entry) {
     ? (entry.description.trim() || DEFAULT_CATEGORY_DESCRIPTION)
     : DEFAULT_CATEGORY_DESCRIPTION;
 
-  return { description };
+  const result = { description };
+  
+  if (entry.subcategories && typeof entry.subcategories === "object" && !Array.isArray(entry.subcategories)) {
+    result.subcategories = entry.subcategories;
+  }
+
+  return result;
 }
 
 function normalizeMetaObject(rawMeta, sourceLabel) {
@@ -99,7 +105,7 @@ function normalizeMetaObject(rawMeta, sourceLabel) {
     const rawCategories = rawMeta.categories;
     if (rawCategories && typeof rawCategories === "object" && !Array.isArray(rawCategories)) {
       Object.keys(rawCategories).forEach((categoryPath) => {
-        const entry = normalizeMetaEntry(rawCategories[categoryPath]);
+        const entry = normalizeMetaEntry(rawCategories[categoryPath], categoryPath);
         if (entry) normalized.categories[categoryPath] = entry;
       });
     }
@@ -107,7 +113,7 @@ function normalizeMetaObject(rawMeta, sourceLabel) {
   }
 
   Object.keys(rawMeta).forEach((categoryPath) => {
-    const entry = normalizeMetaEntry(rawMeta[categoryPath]);
+    const entry = normalizeMetaEntry(rawMeta[categoryPath], categoryPath);
     if (entry) normalized.categories[categoryPath] = entry;
   });
 
@@ -129,13 +135,21 @@ function getCategoryMeta(meta, categoryPath) {
   return null;
 }
 
+function getSubcategoryMeta(meta, topLevelCategory, subcategoryCode) {
+  if (!meta.categories || !meta.categories[topLevelCategory]) return null;
+  const cat = meta.categories[topLevelCategory];
+  if (!cat.subcategories || !cat.subcategories[subcategoryCode]) return null;
+  return cat.subcategories[subcategoryCode];
+}
+
 function buildCategoryNodes(posts, meta) {
   const nodes = {};
 
   posts.forEach((item) => {
     const category = getCategoryPathFromPost(item);
     const parts = category.split("/");
-    const subcategory = item.data && item.data.subcategory ? item.data.subcategory : null;
+    const subcategoryCode = item.data && item.data.subcategory ? item.data.subcategory : null;
+    const topLevelCategory = parts[0];
     let currentPath = "";
 
     parts.forEach((part, index) => {
@@ -153,18 +167,22 @@ function buildCategoryNodes(posts, meta) {
       }
 
       if (index === parts.length - 1) {
-        if (subcategory) {
-          const subPath = `${currentPath}/${subcategory}`;
+        if (subcategoryCode) {
+          const subMeta = getSubcategoryMeta(meta, topLevelCategory, subcategoryCode);
+          const subPath = `${currentPath}/${subcategoryCode}`;
+          const displayTitle = subMeta && subMeta.name ? subMeta.name : subcategoryCode;
+          
           if (!nodes[subPath]) {
             nodes[subPath] = {
               key: subPath,
-              title: subcategory,
+              title: displayTitle,
               posts: [],
               children: [],
               parent: currentPath,
               meta: {}
             };
           }
+          
           nodes[subPath].posts.push(item);
           if (!nodes[currentPath].children.includes(subPath)) {
             nodes[currentPath].children.push(subPath);
@@ -183,9 +201,15 @@ function buildCategoryNodes(posts, meta) {
       nodes[node.parent].children.push(key);
     }
 
-    const metaEntry = getCategoryMeta(meta, key);
-    if (metaEntry) {
-      node.meta = metaEntry;
+    const parts = key.split("/");
+    const topLevelCategory = parts[0];
+    const subcategoryCode = parts.length > 1 ? parts[1] : null;
+
+    if (subcategoryCode) {
+      const metaEntry = getSubcategoryMeta(meta, topLevelCategory, subcategoryCode);
+      if (metaEntry && metaEntry.description) {
+        node.meta = { description: metaEntry.description };
+      }
     }
   });
 
@@ -295,49 +319,49 @@ function registerCollections(eleventyConfig) {
     const folders = {};
     const posts = getPostsFromContentDir(collectionApi);
     const meta = loadCategoryMeta();
-    const categoryNodes = {};
 
     posts.forEach((item) => {
       const category = getCategoryPathFromPost(item);
       const topLevelCategory = category.split("/")[0];
       const folder = getFolderNameFromPostPath(item);
-      const subcategory = item.data && item.data.subcategory ? item.data.subcategory : null;
-      
-      const nodeKey = subcategory 
-        ? `${folder}::${topLevelCategory}::${subcategory}`
-        : `${folder}::${topLevelCategory}`;
-      
+      const subcategoryCode = item.data && item.data.subcategory ? item.data.subcategory : null;
       const metaEntry = getCategoryMeta(meta, topLevelCategory);
+      const subMeta = subcategoryCode ? getSubcategoryMeta(meta, topLevelCategory, subcategoryCode) : null;
 
-      if (!categoryNodes[nodeKey]) {
-        categoryNodes[nodeKey] = {
-          title: subcategory || topLevelCategory,
-          url: subcategory 
-            ? `/categories/${topLevelCategory}/${subcategory}/`
+      if (!folders[folder]) {
+        folders[folder] = {
+          title: folder,
+          categories: []
+        };
+      }
+
+      const nodeKey = subcategoryCode 
+        ? `${topLevelCategory}::${subcategoryCode}`
+        : topLevelCategory;
+
+      const displayTitle = subMeta && subMeta.name ? subMeta.name : (subcategoryCode || topLevelCategory);
+      const displayDesc = subMeta && subMeta.description ? subMeta.description : (metaEntry ? metaEntry.description : DEFAULT_CATEGORY_DESCRIPTION);
+
+      const existingCategory = folders[folder].categories.find(c => c.key === nodeKey);
+      if (!existingCategory) {
+        folders[folder].categories.push({
+          key: nodeKey,
+          title: displayTitle,
+          url: subcategoryCode 
+            ? `/categories/${topLevelCategory}/${subcategoryCode}/`
             : `/categories/${topLevelCategory}/`,
           count: 0,
           posts: [],
           folder,
-          isSubcategory: !!subcategory,
+          isSubcategory: !!subcategoryCode,
           parentTitle: topLevelCategory,
-          description: metaEntry && metaEntry.description
-            ? metaEntry.description
-            : DEFAULT_CATEGORY_DESCRIPTION
-        };
+          description: displayDesc
+        });
       }
 
-      categoryNodes[nodeKey].count += 1;
-      categoryNodes[nodeKey].posts.push(item);
-    });
-
-    Object.values(categoryNodes).forEach((node) => {
-      if (!folders[node.folder]) {
-        folders[node.folder] = {
-          title: node.folder,
-          categories: []
-        };
-      }
-      folders[node.folder].categories.push(node);
+      const cat = folders[folder].categories.find(c => c.key === nodeKey);
+      cat.count += 1;
+      cat.posts.push(item);
     });
 
     return Object.values(folders).sort((a, b) =>

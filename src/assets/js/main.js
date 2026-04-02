@@ -1279,6 +1279,38 @@ const initHomeSearch = () => {
     };
 };
 
+const initMomentsActions = () => {
+    const momentsPage = document.querySelector(".moments-page-container");
+    if (!momentsPage) {
+        return () => {};
+    }
+
+    const likeButtons = momentsPage.querySelectorAll(".like-btn");
+    
+    likeButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const isLiked = btn.classList.contains("liked");
+            const countSpan = btn.querySelector("span");
+            let count = parseInt(countSpan.textContent, 10) || 0;
+            
+            if (isLiked) {
+                btn.classList.remove("liked");
+                countSpan.textContent = count - 1;
+            } else {
+                btn.classList.add("liked");
+                countSpan.textContent = count + 1;
+            }
+        });
+    });
+
+    return () => {
+        likeButtons.forEach(btn => {
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+        });
+    };
+};
+
 const pageCleanups = [];
 
 const initPage = () => {
@@ -1296,6 +1328,7 @@ const initPage = () => {
     pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());
     pageCleanups.push(initHomeSearch());
+    pageCleanups.push(initMomentsActions());
 };
 
 let globalInited = false;

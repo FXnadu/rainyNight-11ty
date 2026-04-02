@@ -6,12 +6,14 @@
   "scripts": {
     "clean:site": "node scripts/clean-site.js",
     "start": "eleventy --serve",
+    "prebuild": "npm run update-dates",
     "build": "npm run clean:site && npm run sync-meta && eleventy && node scripts/optimize-css-safe.js && node scripts/perf-self-check.js",
     "css:optimize": "node scripts/optimize-css-safe.js",
     "perf:check": "node scripts/perf-self-check.js",
     "sync-meta": "node scripts/sync-category-meta.js",
     "debug": "DEBUG=* eleventy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-dates": "node scripts/manage-dates.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "gray-matter": "^4.0.3",
     "luxon": "^3.7.2"
   }
 }
