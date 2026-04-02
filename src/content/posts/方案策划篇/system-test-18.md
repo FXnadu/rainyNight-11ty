@@ -4,6 +4,7 @@ date: 2026-01-18
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "方案设计"
 description: "用于展示移动端文案调整思路。"
 ---
 

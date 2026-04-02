@@ -4,6 +4,7 @@ date: 2026-01-13
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "方案设计"
 description: "用于展示个人网站首页内容排序思路。"
 ---
 

@@ -4,6 +4,7 @@ date: 2026-01-17
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "方案设计"
 description: "用于展示 FAQ 页面策划思路。"
 ---
 

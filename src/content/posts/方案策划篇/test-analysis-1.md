@@ -1,9 +1,6 @@
 ﻿---
-title: "项目提案开头该怎么写"
-date: 2026-01-21
-tags:
-  - posts
 category: "方案策划篇"
+subcategory: "需求分析"
 description: "用于展示项目提案开头写法。"
 ---
 

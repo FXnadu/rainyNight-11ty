@@ -4,6 +4,7 @@ date: 2026-01-27
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "方案设计"
 description: "用于展示参考站收集方式。"
 ---
 

@@ -4,6 +4,7 @@ date: 2026-01-22
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "需求分析"
 description: "用于展示低素材项目的策划方式。"
 ---
 

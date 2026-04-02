@@ -18,6 +18,31 @@ pageStyles:
 
 <section class="section-block">
     <div class="section-header">
+        <h2 class="section-title">搜索知识库</h2>
+    </div>
+    <div class="home-search" data-home-search>
+        <form class="home-search-form" data-home-search-form>
+            <label class="home-search-label" for="home-search-input">输入关键词，快速定位知识库内容</label>
+            <div class="home-search-controls">
+                <input
+                    id="home-search-input"
+                    class="home-search-input"
+                    type="search"
+                    name="q"
+                    placeholder="例如：首页、摄影师、FAQ、交付、联系页"
+                    autocomplete="off"
+                    data-home-search-input
+                >
+                <button class="home-search-button" type="submit">搜索</button>
+            </div>
+        </form>
+        <p class="home-search-hint" data-home-search-hint>支持标题、分类、摘要和正文关键词检索。</p>
+        <div class="home-search-results" data-home-search-results hidden></div>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-header">
         <h2 class="section-title">{{ homeConfig.audience.title }}</h2>
     </div>
     <div class="who-for-grid">

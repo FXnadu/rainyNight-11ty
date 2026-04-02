@@ -1,4 +1,6 @@
 
+const fs = require("fs");
+const path = require("path");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownIt = require("markdown-it");
 const markdownItFootnote = require("markdown-it-footnote");
@@ -27,6 +29,16 @@ module.exports = async function(eleventyConfig) {
 
   // Keep post defaults out of src/content/posts so that directory only contains article files.
   eleventyConfig.addGlobalData("eleventyComputed", {
+    title: (data) => {
+      if (!isPostInput(data)) return data.title;
+      if (data.title) return data.title;
+      const inputPath = data.page && data.page.inputPath;
+      if (!inputPath) return "";
+      const pathParts = inputPath.split(/[/\\]/);
+      const fileName = pathParts[pathParts.length - 1];
+      const stem = fileName.replace(/\.md$/, "");
+      return stem;
+    },
     layout: (data) => {
       if (!isPostInput(data)) return data.layout;
       return data.layout || "layouts/post.njk";
@@ -37,9 +49,29 @@ module.exports = async function(eleventyConfig) {
       const slug = data && data.page && data.page.fileSlug ? data.page.fileSlug : "";
       return `/posts/${slug}/`;
     },
-    date: (data) => {
-      if (!isPostInput(data)) return data.date;
-      return data.date || "last modified";
+    publishDate: (data) => {
+      if (!isPostInput(data)) return data.publishDate;
+      if (data.publishDate) return data.publishDate;
+      return data.date || new Date().toISOString();
+    },
+    updated: (data) => {
+      if (!isPostInput(data)) return data.updated;
+      const inputPath = data.page && data.page.inputPath;
+      if (!inputPath) return null;
+      try {
+        const stats = fs.statSync(inputPath);
+        const fileMtime = new Date(stats.mtime);
+        const currentDate = new Date();
+        const pubDate = data.date ? new Date(data.date) : currentDate;
+        const diffMs = fileMtime.getTime() - pubDate.getTime();
+        const ONE_MINUTE = 60 * 1000;
+        if (diffMs > ONE_MINUTE && fileMtime.getTime() <= currentDate.getTime()) {
+          return new Date(fileMtime);
+        }
+        return null;
+      } catch (e) {
+        return null;
+      }
     },
     tags: (data) => {
       if (!isPostInput(data)) return data.tags;

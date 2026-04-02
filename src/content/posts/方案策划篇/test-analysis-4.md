@@ -1,9 +1,10 @@
-﻿---
-title: "为什么个人网站要写清楚“不做什么”"
+---
+title: "为什么个人网站要写清楚'不做什么'"
 date: 2026-01-24
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "需求分析"
 description: "用于展示服务边界说明的重要性。"
 ---
 

@@ -4,6 +4,7 @@ date: 2026-01-23
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "需求分析"
 description: "用于展示信息过多时的首页取舍。"
 ---
 

@@ -1103,6 +1103,182 @@ const initThemeToggle = () => {
     });
 };
 
+let homeSearchIndexPromise = null;
+
+const initHomeSearch = () => {
+    const searchRoot = document.querySelector("[data-home-search]");
+    if (!searchRoot) {
+        return () => {};
+    }
+
+    const form = searchRoot.querySelector("[data-home-search-form]");
+    const input = searchRoot.querySelector("[data-home-search-input]");
+    const results = searchRoot.querySelector("[data-home-search-results]");
+    const hint = searchRoot.querySelector("[data-home-search-hint]");
+
+    if (!form || !input || !results || !hint) {
+        return () => {};
+    }
+
+    const RESULT_LIMIT = 6;
+    const normalizeText = (value) => String(value || "").trim().toLowerCase();
+    const escapeHtml = (value) => String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    const highlightText = (text, query) => {
+        if (!query || !text) return text;
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(`(${escaped})`, "gi");
+        return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+    };
+    const formatDate = (value) => {
+        if (!value) {
+            return "";
+        }
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) {
+            return "";
+        }
+        return new Intl.DateTimeFormat("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).format(parsed);
+    };
+    const buildSnippet = (item, query) => {
+        const source = (item.description || item.content || "").replace(/\s+/g, " ").trim();
+        if (!source) {
+            return "该内容已收录到知识库，点击可查看完整文章。";
+        }
+
+        const normalizedSource = source.toLowerCase();
+        const normalizedQuery = query.toLowerCase();
+        const matchIndex = normalizedSource.indexOf(normalizedQuery);
+
+        if (matchIndex === -1 || source.length <= 96) {
+            return highlightText(source.slice(0, 96) + (source.length > 96 ? "..." : ""), query);
+        }
+
+        const start = Math.max(0, matchIndex - 24);
+        const end = Math.min(source.length, matchIndex + normalizedQuery.length + 40);
+        const prefix = start > 0 ? "..." : "";
+        const suffix = end < source.length ? "..." : "";
+        return highlightText(`${prefix}${source.slice(start, end).trim()}${suffix}`, query);
+    };
+    const renderEmptyState = (message) => {
+        results.hidden = false;
+        results.innerHTML = `<p class="home-search-empty">${escapeHtml(message)}</p>`;
+    };
+    const renderResults = (items, query) => {
+        if (!items.length) {
+            renderEmptyState(`没有找到和"${escapeHtml(query)}"相关的知识库内容，请换个关键词试试。`);
+            return;
+        }
+
+        results.hidden = false;
+        results.innerHTML = items.map((item) => {
+            const dateLabel = formatDate(item.date);
+            return `
+                <a class="home-search-result" href="${escapeHtml(item.url)}">
+                    <div class="home-search-result-meta">
+                        ${item.category ? `<span class="home-search-result-category">${escapeHtml(item.category)}</span>` : ""}
+                        ${dateLabel ? `<span>${escapeHtml(dateLabel)}</span>` : ""}
+                    </div>
+                    <h3 class="home-search-result-title">${highlightText(escapeHtml(item.title), query)}</h3>
+                    <p class="home-search-result-desc">${buildSnippet(item, query)}</p>
+                </a>
+            `;
+        }).join("");
+    };
+    const updateIdleState = () => {
+        results.hidden = true;
+        results.innerHTML = "";
+        hint.textContent = "支持标题、分类、摘要和正文关键词检索。";
+    };
+    const loadIndex = async () => {
+        if (!homeSearchIndexPromise) {
+            homeSearchIndexPromise = fetch("/search.json", {
+                headers: {
+                    "X-Requested-With": "home-search"
+                }
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Search index request failed: ${response.status}`);
+                }
+                return response.json();
+            });
+        }
+
+        return homeSearchIndexPromise;
+    };
+    const performSearch = async (rawQuery) => {
+        const query = rawQuery.trim();
+        if (!query) {
+            updateIdleState();
+            return;
+        }
+
+        hint.textContent = "正在搜索知识库...";
+
+        try {
+            const index = await loadIndex();
+            const keywords = query
+                .split(/\s+/)
+                .map((item) => normalizeText(item))
+                .filter(Boolean);
+
+            const matched = index
+                .filter((item) => {
+                    const haystack = normalizeText([
+                        item.title,
+                        item.category,
+                        item.description,
+                        item.content
+                    ].join(" "));
+                    return keywords.every((keyword) => haystack.includes(keyword));
+                })
+                .sort((a, b) => {
+                    const aTitleHit = normalizeText(a.title).includes(normalizeText(query)) ? 1 : 0;
+                    const bTitleHit = normalizeText(b.title).includes(normalizeText(query)) ? 1 : 0;
+                    if (aTitleHit !== bTitleHit) {
+                        return bTitleHit - aTitleHit;
+                    }
+                    return (b.date || "").localeCompare(a.date || "");
+                })
+                .slice(0, RESULT_LIMIT);
+
+            hint.textContent = `共找到 ${matched.length} 条结果。`;
+            renderResults(matched, query);
+        } catch (error) {
+            console.warn("[home-search] failed to load search index:", error);
+            hint.textContent = "搜索暂时不可用。";
+            renderEmptyState("搜索索引加载失败，请稍后刷新重试。");
+        }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        performSearch(input.value);
+    };
+    const handleInput = () => {
+        if (!input.value.trim()) {
+            updateIdleState();
+        }
+    };
+
+    form.addEventListener("submit", handleSubmit);
+    input.addEventListener("input", handleInput);
+    updateIdleState();
+
+    return () => {
+        form.removeEventListener("submit", handleSubmit);
+        input.removeEventListener("input", handleInput);
+    };
+};
+
 const pageCleanups = [];
 
 const initPage = () => {
@@ -1119,6 +1295,7 @@ const initPage = () => {
     pageCleanups.push(initNavVisibility());
     pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());
+    pageCleanups.push(initHomeSearch());
 };
 
 let globalInited = false;

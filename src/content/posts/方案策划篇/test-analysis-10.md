@@ -4,6 +4,7 @@ date: 2026-01-30
 tags:
   - posts
 category: "方案策划篇"
+subcategory: "方案设计"
 description: "用于展示首屏信息压缩方式。"
 ---
 

@@ -47,6 +47,10 @@
     --color-warning: #FACC15; /* Bright Yellow */
     --color-danger:  #F87171; /* Salmon Red */
     --color-info:    #38BDF8; /* Sky Blue */
+
+    /* Search Highlight */
+    --mark-bg: #5c4a00;
+    --mark-text: #ffffff;
 }
 
 [data-theme="light"] {
@@ -90,6 +94,10 @@
     --color-warning: #d97706;
     --color-danger:  #dc2626;
     --color-info:    #2563eb;
+
+    /* Search Highlight */
+    --mark-bg: #fff3cd;
+    --mark-text: inherit;
 }
 
 * {

@@ -135,6 +135,7 @@ function buildCategoryNodes(posts, meta) {
   posts.forEach((item) => {
     const category = getCategoryPathFromPost(item);
     const parts = category.split("/");
+    const subcategory = item.data && item.data.subcategory ? item.data.subcategory : null;
     let currentPath = "";
 
     parts.forEach((part, index) => {
@@ -152,7 +153,25 @@ function buildCategoryNodes(posts, meta) {
       }
 
       if (index === parts.length - 1) {
-        nodes[currentPath].posts.push(item);
+        if (subcategory) {
+          const subPath = `${currentPath}/${subcategory}`;
+          if (!nodes[subPath]) {
+            nodes[subPath] = {
+              key: subPath,
+              title: subcategory,
+              posts: [],
+              children: [],
+              parent: currentPath,
+              meta: {}
+            };
+          }
+          nodes[subPath].posts.push(item);
+          if (!nodes[currentPath].children.includes(subPath)) {
+            nodes[currentPath].children.push(subPath);
+          }
+        } else {
+          nodes[currentPath].posts.push(item);
+        }
       }
     });
   });
@@ -282,16 +301,25 @@ function registerCollections(eleventyConfig) {
       const category = getCategoryPathFromPost(item);
       const topLevelCategory = category.split("/")[0];
       const folder = getFolderNameFromPostPath(item);
-      const nodeKey = `${folder}::${topLevelCategory}`;
+      const subcategory = item.data && item.data.subcategory ? item.data.subcategory : null;
+      
+      const nodeKey = subcategory 
+        ? `${folder}::${topLevelCategory}::${subcategory}`
+        : `${folder}::${topLevelCategory}`;
+      
       const metaEntry = getCategoryMeta(meta, topLevelCategory);
 
       if (!categoryNodes[nodeKey]) {
         categoryNodes[nodeKey] = {
-          title: topLevelCategory,
-          url: `/categories/${topLevelCategory}/`,
+          title: subcategory || topLevelCategory,
+          url: subcategory 
+            ? `/categories/${topLevelCategory}/${subcategory}/`
+            : `/categories/${topLevelCategory}/`,
           count: 0,
           posts: [],
           folder,
+          isSubcategory: !!subcategory,
+          parentTitle: topLevelCategory,
           description: metaEntry && metaEntry.description
             ? metaEntry.description
             : DEFAULT_CATEGORY_DESCRIPTION
