@@ -30,7 +30,14 @@ pageStyles:
                         {% if item.bullets and item.bullets.length %}
                             <ul class="service-list-items">
                                 {% for bullet in item.bullets %}
-                                    <li>{{ bullet }}</li>
+                                    {% if item.isProtected and bullet.encoded %}
+                                        <li>
+                                            <span class="contact-label">{{ bullet.label }}：</span>
+                                            <button type="button" class="protected-contact-btn" data-encoded="{{ bullet.encoded }}" data-label="{{ bullet.label }}">点击查看</button>
+                                        </li>
+                                    {% else %}
+                                        <li>{{ bullet }}</li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         {% endif %}

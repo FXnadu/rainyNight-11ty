@@ -10,6 +10,46 @@ const removeAnimationArtifacts = () => {
     // Keep a placeholder to restore/extend simple UI interactions without tying to DOM ready logic.
 };
 
+const initProtectedContact = () => {
+    const buttons = document.querySelectorAll(".protected-contact-btn");
+    if (!buttons.length) return () => {};
+
+    const handleClick = (event) => {
+        const btn = event.currentTarget;
+        if (btn.dataset.revealed === "true") return;
+
+        try {
+            const decoded = atob(btn.dataset.encoded);
+            const label = btn.dataset.label || "联系方式";
+            const wrapper = btn.parentElement;
+            
+            // 创建显示元素
+            const displaySpan = document.createElement("span");
+            displaySpan.className = "protected-contact-value";
+            displaySpan.textContent = decoded;
+            
+            // 如果是邮箱，添加 mailto 链接
+            if (label.toLowerCase() === "email" && decoded.includes("@")) {
+                const mailLink = document.createElement("a");
+                mailLink.href = `mailto:${decoded}`;
+                mailLink.textContent = decoded;
+                mailLink.className = "protected-contact-link";
+                displaySpan.textContent = "";
+                displaySpan.appendChild(mailLink);
+            }
+            
+            // 替换按钮
+            btn.replaceWith(displaySpan);
+        } catch (e) {
+            console.error("解码失败:", e);
+            btn.textContent = "解码失败";
+        }
+    };
+
+    buttons.forEach(btn => btn.addEventListener("click", handleClick));
+    return () => buttons.forEach(btn => btn.removeEventListener("click", handleClick));
+};
+
 const initPostActions = () => {
     const actionWrap = document.querySelector(".post-actions");
     if (!actionWrap) {
@@ -1328,6 +1368,7 @@ const initPage = () => {
     pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());
     pageCleanups.push(initHomeSearch());
+    pageCleanups.push(initProtectedContact());
     pageCleanups.push(initMomentsActions());
 };
 

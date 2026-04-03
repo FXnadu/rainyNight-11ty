@@ -52,10 +52,10 @@ const config = {
         home: {
             title: "首页",
             hero: {
-                title: "my personal website ",
-                subtitle: "我的个人主页、教程的演示站",
+                title: "Welcome！ ",
+                subtitle: "RainyNight的个人主页、教程的网站",
                 descriptionLines: [
-                    "这是一个面向个人网站搭建的演示站，重点展示页面设计、内容组织和整体表达方式。",
+                    "的演示站，重点展示页面设计、内容组织和整体表达方式。",
                     "你可以直接把它当成个人网站模板，也可以继续替换成自己的内容。"
                 ]
             },
@@ -66,23 +66,25 @@ const config = {
                         icon: "fa-solid fa-briefcase",
                         title: "福星抖音",
                         description: "福星抖音上货软件使用教程",
-                        targetCategory: "开发执行篇"
+                        targetCategory: "福星抖音"
                     },
                     {
-                        icon: "fa-solid fa-pen-nib",
+                        icon: "fa-solid fa-briefcase",
                         title: "福星淘宝",
                         description: "福星淘宝店铺管理软件使用教程",
-                        targetCategory: "建站需求篇"
+                        targetCategory: "福星淘宝"
                     },
                     {
-                        icon: "fa-solid fa-camera-retro",
+                        icon: "fa-solid fa-briefcase",
                         title: "福星微店",
-                        description: "福星微店管理软件使用教程"
+                        description: "福星微店管理软件使用教程",
+                        targetCategory: "福星微店"
                     },
                     {
                         icon: "fa-solid fa-laptop-code",
-                        title: "其他",
-                        description: "敬请期待..."
+                        title: "资源下载",
+                        description: "...",
+                         targetCategory: "资源下载"
                     }
                 ]
             },
@@ -91,12 +93,12 @@ const config = {
                 items: [
                     {
                         title: "内容归档",
-                        description: "查看不同类型的个人网站示例文案，包括页面想法、结构整理和展示方式。",
+                        description: "",
                         url: "/categories/"
                     },
                     {
-                        title: "页面说明",
-                        description: "看看这类个人网站通常会包含哪些页面，以及这些页面适合放什么内容。",
+                        title: "网站说明",
+                        description: "",
                         url: "/services/"
                     }
                 ]
@@ -111,8 +113,6 @@ const config = {
         },
 
         categories: {
-            title: "内容归档",
-            subtitle: "按主题浏览演示文案，快速查看个人网站通常如何组织内容。",
             sidebarTitle: "项目阶段导航",
             docUnit: "篇文档",
             monthUnit: "个月份"
@@ -134,31 +134,41 @@ const config = {
             title: "网站说明",
             headerTitle: "Services.",
             subtitleBackground: "网站说明",
-            headerMetaLines: ["从个人表达出发", "把结构和内容整理清楚"],
+            headerMetaLines: ["从实际出发，", "把结构内容整理清楚，打造清晰易懂的文章。持续更新优化内容，为学习与实践提供可靠参考。"],
             items: [
                 {
                     number: "01",
-                    title: "需要注意的是",
-                    description: "请勿把该网站当成任何软件官网，所有内容皆为个人整理的笔记与观点分享。以下三点请知晓：",
+                    title: "本关于教程",
+                    description: "本站文章以及教程说明",
                     bullets: [
-                        "非官方网站，软件问题请咨询官方售后",
-                        "教程仅作学习，不承担软件使用后果",
-                        "内容仅供学习参考，不代表官方立场"
+                        "内容均为实操经验整理",
+                        "适用场景不同，效果因人而异",
+                        "教程持续更新迭代",
                     ]
                 },
                 {
                     number: "02",
                     title: "免责声明",
-                    description: "适合作品较多的人，把项目背景、作品说明和相关链接整理成更完整的展示页面。",
+                    description: "本网站非任何软件官方平台，请注意以下声明：",
                     bullets: [
-                        "教程持续更新迭代",
-                        "作品说明与链接布局",
-                        "适配手机端浏览体验"
+                        "非官方站点，软件售后及问题请咨询官方",
+                        "教程、文章内容仅供学习参考",
+                        "部分内容源自网络，侵删"
                     ]
                 },
+                {
+                    number: "03",
+                    title: "联系站长",
+                    description: "如有疑问或建议，可通过以下方式联系：",
+                    bullets: [
+                        { label: "QQ", encoded: "MjAzNTA4MzMxMA==" },
+                        { label: "Email", encoded: "ZGVlcHdoaXRlODZAb3V0bG9vay5jb20=" }
+                    ],
+                    isProtected: true
+                }
             ],
             cta: {
-                title: "如果你想继续把它改成自己的站点，",
+                title: "如果你也曾有和我一样的问题，",
                 linkText: "可以看看内容归档 →",
                 linkUrl: "/categories/"
             }

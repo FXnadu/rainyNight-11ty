@@ -1,50 +1,5 @@
 {
   "categories": {
-    "方案策划篇": {
-      "order": 1,
-      "subcategories": {
-        "xfq": {
-          "name": "xfq",
-          "description": "暂无简介"
-        }
-      }
-    },
-    "建站需求篇": {
-      "order": 2,
-      "subcategories": {
-        "xfq": {
-          "name": "xfq",
-          "description": "暂无简介"
-        }
-      }
-    },
-    "网站示例篇": {
-      "order": 4,
-      "subcategories": {
-        "alzs": {
-          "name": "案例展示",
-          "description": "用几组完整示例展示一个个人网站从整理内容到上线的过程。"
-        }
-      }
-    },
-    "项目速览": {
-      "order": 5,
-      "subcategories": {
-        "xs": {
-          "name": "项目速览",
-          "description": "用简短示例快速浏览不同类型的个人网站页面，适合放在首页或索引区。"
-        }
-      }
-    },
-    "页面与功能篇": {
-      "order": 6,
-      "subcategories": {
-        "ymgn": {
-          "name": "页面功能",
-          "description": "说明首页、作品页、文章页和常用模块适合怎样拆分与组合。"
-        }
-      }
-    },
     "资源下载": {
       "order": 7,
       "subcategories": {
@@ -54,20 +9,29 @@
         }
       }
     },
-    "测试": {
-      "order": 8,
+    "福星抖音": {
+      "order": 1,
       "subcategories": {
-        "test": {
-          "name": "test",
+        "fxdy": {
+          "name": "使用教程",
+          "description": "福星抖音上货软件使用教程。"
+        }
+      }
+    },
+    "福星微店": {
+      "order": 3,
+      "subcategories": {
+        "ymgn": {
+          "name": "ymgn",
           "description": "暂无简介"
         }
       }
     },
-    "福星抖音上货使用教程": {
-      "order": 9,
+    "福星淘宝": {
+      "order": 2,
       "subcategories": {
-        "fxdy": {
-          "name": "fxdy",
+        "test": {
+          "name": "test",
           "description": "暂无简介"
         }
       }
