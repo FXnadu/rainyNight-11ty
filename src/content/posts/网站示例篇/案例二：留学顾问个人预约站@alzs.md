@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示留学顾问个人预约站案例文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例二：留学顾问个人预约站
+categoryOrder: 3
 ---
 
 这篇案例文案展示如何为个人顾问搭建预约站，帮助来访者更快理解页面内容和联系入口。

@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站后续更新频率的评估方法。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：估算更新频率
+categoryOrder: 1
 ---
 
 这篇文案用来判断网站是否需要长期更新内容，从而决定页面结构和维护方式。

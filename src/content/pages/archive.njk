@@ -18,8 +18,8 @@ bodyClass: no-grid-page
         
         {% if currentYear != postYear %}
             {% set currentYear = postYear %}
-            <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; color: var(--text-secondary); display: flex; align-items: center; gap: 10px; transform: translateZ(0);">
-                <i class="fa-solid fa-book-open" style="font-size: 0.8em; opacity: 0.75; -webkit-text-stroke: 0.5px currentColor; text-rendering: optimizeLegibility;"></i>
+            <h2 class="archive-year-title">
+                <svg width="16" height="16"><use href="#icon-book-open"/></svg>
                 {{ currentYear }}
             </h2>
         {% endif %}

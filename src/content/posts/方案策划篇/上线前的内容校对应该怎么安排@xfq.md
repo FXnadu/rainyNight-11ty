@@ -4,7 +4,9 @@ tags:
   - posts
 category: 方案策划篇
 description: 用于展示上线前内容校对流程。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 上线前的内容校对应该怎么安排
+categoryOrder: 2
 ---
 ## 上线前的内容校对应该
 

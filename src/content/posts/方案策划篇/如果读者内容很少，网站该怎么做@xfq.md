@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 需求分析
 description: 用于展示低素材项目的策划方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 如果读者内容很少，网站该怎么做
+categoryOrder: 10
 ---
 
 这篇文案适合素材不多的个人读者，重点通过结构和表达补足信息量。

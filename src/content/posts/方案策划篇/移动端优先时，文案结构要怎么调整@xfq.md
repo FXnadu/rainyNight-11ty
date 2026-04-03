@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示移动端文案调整思路。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 移动端优先时，文案结构要怎么调整
+categoryOrder: 13
 ---
 
 这篇文案说明在手机端优先浏览的情况下，文字长度、模块顺序和按钮位置需要怎样调整。

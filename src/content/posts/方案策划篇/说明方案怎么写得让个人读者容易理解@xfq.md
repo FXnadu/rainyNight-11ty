@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示个人网站说明方案的写法。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 说明方案怎么写得让个人读者容易理解
+categoryOrder: 14
 ---
 
 这篇文案演示如何把说明拆成页面范围、设计开发、上线部署和维护支持几部分。

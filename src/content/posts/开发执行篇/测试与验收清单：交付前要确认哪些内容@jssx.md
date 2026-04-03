@@ -4,8 +4,9 @@ tags:
   - posts
 category: 开发执行篇
 description: 用于展示个人网站交付前的验收清单。
-slug: "pre-delivery-checklist"
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 测试与验收清单：交付前要确认哪些内容
+categoryOrder: 2
 ---
 
 这篇文案用于说明交付前的测试重点，包括页面显示、链接跳转、移动端适配和联系信息核对。

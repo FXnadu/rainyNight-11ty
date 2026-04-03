@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明项目范围沟通方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：明确范围区间
+categoryOrder: 6
 ---
 
 这篇文案适合把范围沟通前置，避免双方在需求和交付预期上出现明显偏差。

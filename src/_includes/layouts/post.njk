@@ -11,13 +11,13 @@ pageStyles:
     <header class="post-header">
         <h1 class="post-title">{{ title }}</h1>
         <div class="post-meta">
-            <time datetime="{{ page.date }}" style="color: var(--text-secondary); display: inline-flex; align-items: center; gap: 8px;">
-                <i class="fa-regular fa-calendar" aria-hidden="true" style="font-size: 0.95em; line-height: 1; transform: translateY(-1px);"></i>
+            <time datetime="{{ page.date }}" class="post-meta-time">
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-calendar"/></svg>
                 <span>{{ page.date | readableDate }}</span>
             </time>
-            {% if updated %}
-            <time datetime="{{ updated }}" style="color: var(--text-secondary); display: inline-flex; align-items: center; gap: 8px; margin-left: 16px;">
-                <i class="fa-solid fa-pen-to-square" aria-hidden="true" style="font-size: 0.9em; line-height: 1; transform: translateY(-1px);"></i>
+            {% if updated and (updated | readableDate) != (page.date | readableDate) %}
+            <time datetime="{{ updated }}" class="post-meta-time post-meta-updated">
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-edit"/></svg>
                 <span>最后更新于 {{ updated | readableDate }}</span>
             </time>
             {% endif %}
@@ -39,10 +39,10 @@ pageStyles:
 
     <div class="post-actions" aria-label="文章操作">
         <button class="post-action post-top" type="button" data-action="top" aria-label="返回顶部" title="返回顶部">
-            <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+            <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-up"/></svg>
         </button>
         <button class="post-action post-back" type="button" data-action="back" aria-label="返回上页" title="返回上页">
-            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
         </button>
     </div>
 </article>

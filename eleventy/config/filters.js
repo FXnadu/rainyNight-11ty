@@ -1,5 +1,6 @@
 const { DateTime } = require("luxon");
 const { getFolderNameFromPostPath } = require("./collections");
+const { encodeSlug } = require("../utils/slug-encoder");
 
 const toUtcDate = (dateObj) => DateTime.fromJSDate(dateObj, { zone: "utc" });
 
@@ -36,6 +37,11 @@ function registerTitleFilters(eleventyConfig) {
     const t = String(title);
     if (!s) return t;
     return t.includes(s) ? t : `${t}${sep}${s}`;
+  });
+
+  // 将字符串编码为BV风格短ID
+  eleventyConfig.addFilter("encodeSlug", (str, options = {}) => {
+    return encodeSlug(str, options);
   });
 }
 

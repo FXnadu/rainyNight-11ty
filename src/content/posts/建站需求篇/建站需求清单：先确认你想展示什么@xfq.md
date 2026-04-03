@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站项目启动前的目标确认。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：先确认你想展示什么
+categoryOrder: 2
 ---
 
 这篇文案适合在首次沟通时使用，帮助读者先回答个人网站最想解决什么问题。

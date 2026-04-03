@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站内容整理方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：整理你的核心内容
+categoryOrder: 5
 ---
 
 这篇文案适合把读者能提供的内容拆清楚，避免页面里只出现空泛介绍。

@@ -1,22 +1,25 @@
 {
   "categories": {
-    "项目速览": {
+    "方案策划篇": {
+      "order": 1,
       "subcategories": {
-        "xs": {
-          "name": "项目速览",
-          "description": "用简短示例快速浏览不同类型的个人网站页面，适合放在首页或索引区。"
+        "xfq": {
+          "name": "xfq",
+          "description": "暂无简介"
         }
       }
     },
-    "页面与功能篇": {
+    "建站需求篇": {
+      "order": 2,
       "subcategories": {
-        "ymgn": {
-          "name": "页面功能",
-          "description": "说明首页、作品页、文章页和常用模块适合怎样拆分与组合。"
+        "xfq": {
+          "name": "xfq",
+          "description": "暂无简介"
         }
       }
     },
     "开发执行篇": {
+      "order": 3,
       "subcategories": {
         "jssx": {
           "name": "技术实现",
@@ -25,6 +28,7 @@
       }
     },
     "网站示例篇": {
+      "order": 4,
       "subcategories": {
         "alzs": {
           "name": "案例展示",
@@ -32,7 +36,26 @@
         }
       }
     },
+    "项目速览": {
+      "order": 5,
+      "subcategories": {
+        "xs": {
+          "name": "项目速览",
+          "description": "用简短示例快速浏览不同类型的个人网站页面，适合放在首页或索引区。"
+        }
+      }
+    },
+    "页面与功能篇": {
+      "order": 6,
+      "subcategories": {
+        "ymgn": {
+          "name": "页面功能",
+          "description": "说明首页、作品页、文章页和常用模块适合怎样拆分与组合。"
+        }
+      }
+    },
     "资源下载": {
+      "order": 7,
       "subcategories": {
         "sxjf": {
           "name": "资源",
@@ -40,18 +63,10 @@
         }
       }
     },
-    "建站需求篇": {
+    "测试": {
       "subcategories": {
-        "xfq": {
-          "name": "xfq",
-          "description": "暂无简介"
-        }
-      }
-    },
-    "方案策划篇": {
-      "subcategories": {
-        "xfq": {
-          "name": "xfq",
+        "test": {
+          "name": "test",
           "description": "暂无简介"
         }
       }

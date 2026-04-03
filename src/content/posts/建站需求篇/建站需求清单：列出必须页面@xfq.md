@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站页面范围确认方法。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：列出必须页面
+categoryOrder: 4
 ---
 
 这篇文案用于确认第一阶段真正需要做哪些页面，避免一开始范围过大。

@@ -4,7 +4,9 @@ tags:
   - posts
 category: 上线交付篇
 description: 用于展示个人个人创作者准备演示站的价值。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 为什么个人创作者要准备一个演示站
+categoryOrder: 4
 ---
 
 这篇文案适合写给自由职业者和个人开发者，说明为什么一个演示站比只发聊天截图更有说服力。

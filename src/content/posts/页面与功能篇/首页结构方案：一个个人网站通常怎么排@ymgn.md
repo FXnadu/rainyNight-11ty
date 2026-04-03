@@ -4,7 +4,9 @@ tags:
   - posts
 category: 页面与功能篇
 description: 用于展示个人网站首页结构方案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 首页结构方案：一个个人网站通常怎么排
+categoryOrder: 4
 ---
 
 这篇文案把个人网站首页常见的模块顺序拆开讲，方便直接复用到自己的项目里。

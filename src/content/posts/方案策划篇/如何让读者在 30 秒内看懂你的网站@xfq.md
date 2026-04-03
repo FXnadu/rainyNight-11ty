@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示首屏信息压缩方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 如何让读者在 30 秒内看懂你的网站
+categoryOrder: 9
 ---
 
 这篇文案适合说明首屏和前两屏应该承担什么信息任务，避免访客看不懂就离开。

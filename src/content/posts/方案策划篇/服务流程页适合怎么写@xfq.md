@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示服务流程页的写法。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 服务流程页适合怎么写
+categoryOrder: 11
 ---
 
 这篇文案演示个人网站常见的流程页结构，让读者知道合作从咨询到交付会发生什么。

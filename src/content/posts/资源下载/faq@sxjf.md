@@ -4,7 +4,9 @@ tags:
   - posts
 category: 上线交付篇
 description: 用于回答个人网站定制中最常见的问题。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: faq
+categoryOrder: 1
 ---
 ## 常见疑问解答
 

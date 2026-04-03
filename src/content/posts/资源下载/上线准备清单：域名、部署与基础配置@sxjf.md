@@ -4,7 +4,9 @@ tags:
   - posts
 category: 上线交付篇
 description: 用于展示网站上线准备清单。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 上线准备清单：域名、部署与基础配置
+categoryOrder: 3
 ---
 
 这篇文案用于交付前梳理域名、托管、分享图和基础 SEO 等上线事项。

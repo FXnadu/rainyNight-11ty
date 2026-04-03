@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示摄影师个人作品集案例文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例三：摄影师个人作品集
+categoryOrder: 2
 ---
 
 这篇案例文案展示如何把摄影作品、拍摄服务和档期咨询整合到同一个高质量个人网站中。

@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示插画师个人展示站案例文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例四：插画师个人展示站
+categoryOrder: 5
 ---
 
 这篇案例文案展示如何把插画作品整理成更容易理解的个人展示站，并承接合作咨询。

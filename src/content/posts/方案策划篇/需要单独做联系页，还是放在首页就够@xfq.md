@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示联系页设置思路。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 需要单独做联系页，还是放在首页就够
+categoryOrder: 17
 ---
 
 这篇文案帮助读者判断是做独立联系页，还是在首页多个位置嵌入联系入口即可。

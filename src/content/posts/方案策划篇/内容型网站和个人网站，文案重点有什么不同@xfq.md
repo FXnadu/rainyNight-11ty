@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示不同网站目标下的文案差异。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 内容型网站和个人网站，文案重点有什么不同
+categoryOrder: 5
 ---
 
 这篇文案帮助读者理解网站目标不同，页面结构和文案重点也会明显不同。

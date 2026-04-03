@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示说明页结构选择。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 说明页里适合放套餐还是定制说明
+categoryOrder: 15
 ---
 
 这篇文案帮助根据业务类型判断是适合展示套餐价，还是强调按需评估的定制流程。

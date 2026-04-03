@@ -28,6 +28,17 @@
     font-family: 'JetBrains Mono', monospace;
 }
 
+.post-meta-time {
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-meta-updated {
+    margin-left: 16px;
+}
+
 .post-tag {
     /* Dynamic Color Construction */
     --tag-hue-final: var(--tag-hue, 270); /* Default to purple if missing */

@@ -1,46 +1,21 @@
 
 const fs = require("fs");
-const path = require("path");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownIt = require("markdown-it");
 const markdownItFootnote = require("markdown-it-footnote");
 const markdownItGitHubAlerts = require("markdown-it-github-alerts");
-const matter = require("gray-matter");
 const { registerDateFilters, registerTitleFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
 
-function processPostSlugs() {
-  const postsDir = path.join(process.cwd(), "src/content/posts");
-  if (!fs.existsSync(postsDir)) return;
-
-  const processDir = (dir) => {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        processDir(fullPath);
-      } else if (entry.isFile() && entry.name.endsWith(".md")) {
-        const content = fs.readFileSync(fullPath, "utf8");
-        const parsed = matter(content);
-        if (!parsed.data.slug) {
-          console.log(`[slug] Missing slug in: ${entry.name}`);
-        }
-      }
-    }
-  };
-
-  processDir(postsDir);
-}
-
 module.exports = async function(eleventyConfig) {
-  processPostSlugs();
-
   const { default: mermaidPlugin } = await import("@kevingimbel/eleventy-plugin-mermaid");
   const isPostInput = (data) => {
     const inputPath = data && data.page && data.page.inputPath ? data.page.inputPath : "";
+    // 规范化路径分隔符，兼容 Windows 和 Unix
+    const normalizedPath = inputPath.split(/[/\\]/).join("/");
     return typeof inputPath === "string"
-      && inputPath.includes("/src/content/posts/")
+      && normalizedPath.includes("/src/content/posts/")
       && inputPath.endsWith(".md");
   };
 
@@ -98,16 +73,6 @@ module.exports = async function(eleventyConfig) {
     layout: (data) => {
       if (!isPostInput(data)) return data.layout;
       return data.layout || "layouts/post.njk";
-    },
-    permalink: (data) => {
-      if (!isPostInput(data)) return data.permalink;
-      if (data.permalink) return data.permalink;
-      const slug = data.slug;
-      const isPlaceholderSlug = slug && slug.includes("请填写slug");
-      const finalSlug = (!slug || isPlaceholderSlug)
-        ? (data.page && data.page.fileSlug ? data.page.fileSlug : "")
-        : slug;
-      return `/posts/${finalSlug}/`;
     },
     publishDate: (data) => {
       if (!isPostInput(data)) return data.publishDate;

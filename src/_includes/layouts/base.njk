@@ -4,6 +4,9 @@
     {% include "partials/head.njk" %}
 </head>
 <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+    {# SVG Sprite - 所有图标定义一次 #}
+    {% include "partials/svg-sprite.njk" %}
+    
     {% include "partials/site-header.njk" %}
 
     <main class="site-main">
@@ -12,7 +15,6 @@
 
     {% include "partials/site-footer.njk" %}
 
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="/assets/js/main.js"></script>
     {% mermaid_js %}
 </body>

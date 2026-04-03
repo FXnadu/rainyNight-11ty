@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示交付物说明方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 读者最在意的网站交付物有哪些
+categoryOrder: 16
 ---
 
 这篇文案适合把读者最关心的交付内容提前写清，包括页面、源码、部署和维护说明。

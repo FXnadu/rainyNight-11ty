@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示 FAQ 页面策划思路。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: FAQ 页面怎么降低读者顾虑
+categoryOrder: 1
 ---
 
 这篇文案适合把周期、范围、维护、内容更新等高频疑问提前写进网站。

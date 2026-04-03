@@ -53,34 +53,36 @@ const config = {
             title: "首页",
             hero: {
                 title: "my personal website ",
-                subtitle: "适合个人主页、作品集、博客的演示站",
+                subtitle: "我的个人主页、教程的演示站",
                 descriptionLines: [
                     "这是一个面向个人网站搭建的演示站，重点展示页面设计、内容组织和整体表达方式。",
                     "你可以直接把它当成个人网站模板，也可以继续替换成自己的内容。"
                 ]
             },
             audience: {
-                title: "适合谁使用",
+                title: "常用教程",
                 items: [
                     {
                         icon: "fa-solid fa-briefcase",
-                        title: "自由职业者",
-                        description: "需要一个能展示自己、作品和联系入口的个人页面。"
+                        title: "福星抖音",
+                        description: "福星抖音上货软件使用教程",
+                        targetCategory: "开发执行篇"
                     },
                     {
                         icon: "fa-solid fa-pen-nib",
-                        title: "设计师与创作者",
-                        description: "想把作品、风格说明和联系入口整理成清晰的个人展示站。"
+                        title: "福星淘宝",
+                        description: "福星淘宝店铺管理软件使用教程",
+                        targetCategory: "建站需求篇"
                     },
                     {
                         icon: "fa-solid fa-camera-retro",
-                        title: "摄影师与插画师",
-                        description: "希望把作品、擅长方向和联系方式放到一个页面里。"
+                        title: "福星微店",
+                        description: "福星微店管理软件使用教程"
                     },
                     {
                         icon: "fa-solid fa-laptop-code",
-                        title: "个人开发者",
-                        description: "想整理自己的项目、文章和个人介绍，做成一个清晰的网站。"
+                        title: "其他",
+                        description: "敬请期待..."
                     }
                 ]
             },
@@ -101,8 +103,8 @@ const config = {
             },
             closing: {
                 label: "开始浏览",
-                headline: "先把内容整理清楚\n再慢慢长成你想要的网站",
-                description: "这套演示文案更偏向轻量展示，不强调推销，而是先把个人介绍、作品和页面结构讲明白。",
+                headline: "把接触的内容整理清楚 \n 让结果自然生长",
+                description: "欢迎来到我的电商笔记网页，所有内容皆为个人整理的笔记与分享",
                 actionText: "查看内容归档",
                 actionUrl: "/categories/"
             }

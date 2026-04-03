@@ -4,7 +4,9 @@ tags:
   - posts
 category: 上线交付篇
 description: 用于展示网站维护协作方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 维护协作方式：一次性交付还是长期支持
+categoryOrder: 5
 ---
 
 这篇文案帮助读者理解一次性交付和长期维护各自适合什么类型的项目。

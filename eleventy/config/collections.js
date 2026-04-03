@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const siteConfig = require("../../src/_data/siteConfig");
+const { encodeSlug } = require("../utils/slug-encoder");
 
 const DEFAULT_CATEGORY_DESCRIPTION = "暂无简介";
 
@@ -162,7 +163,9 @@ function buildCategoryNodes(posts, meta) {
           posts: [],
           children: [],
           parent: index > 0 ? parts.slice(0, index).join("/") : null,
-          meta: {}
+          meta: {},
+          // 生成 BV 风格短 ID（使用 'c' 前缀表示 category）
+          encodedKey: encodeSlug(currentPath, { prefix: 'c', minLength: 6 })
         };
       }
 
@@ -179,7 +182,9 @@ function buildCategoryNodes(posts, meta) {
               posts: [],
               children: [],
               parent: currentPath,
-              meta: {}
+              meta: {},
+              // 生成 BV 风格短 ID
+              encodedKey: encodeSlug(subPath, { prefix: 'c', minLength: 6 })
             };
           }
           
@@ -266,7 +271,8 @@ function registerCollections(eleventyConfig) {
     Object.values(nodes).forEach((node) => {
       const sortedPosts = [...node.posts].sort(comparePostsForCategoryPages);
       const totalPages = Math.max(1, Math.ceil(sortedPosts.length / categoryPageSize));
-      const baseUrl = `/categories/${node.key}/`;
+      // 使用 encodedKey 生成 URL
+      const baseUrl = `/categories/${node.encodedKey}/`;
       const parts = node.key.split("/");
       const breadcrumbs = [];
       let parentPath = "";
@@ -276,7 +282,7 @@ function registerCollections(eleventyConfig) {
         const parentNode = nodes[parentPath];
         breadcrumbs.push({
           title: parentNode ? parentNode.title : parts[i],
-          url: `/categories/${parentPath}/`
+          url: `/categories/${parentNode ? parentNode.encodedKey : encodeSlug(parentPath, { prefix: 'c', minLength: 6 })}/`
         });
       }
 
@@ -285,7 +291,7 @@ function registerCollections(eleventyConfig) {
           const child = nodes[childKey];
           return {
             title: child.title,
-            url: `/categories/${childKey}/`,
+            url: `/categories/${child.encodedKey}/`,
             count: child.posts.length
           };
         })
@@ -298,6 +304,7 @@ function registerCollections(eleventyConfig) {
 
         pages.push({
           key: node.key,
+          encodedKey: node.encodedKey,
           title: node.title,
           url,
           baseUrl,
@@ -313,6 +320,76 @@ function registerCollections(eleventyConfig) {
     });
 
     return pages;
+  });
+
+  // 生成分类页面重定向（旧中文 URL → 新短编码 URL）
+  eleventyConfig.addCollection("categoryRedirects", (collectionApi) => {
+    const posts = getPostsFromContentDir(collectionApi);
+    const meta = loadCategoryMeta();
+    const nodes = buildCategoryNodes(posts, meta);
+    const redirects = [];
+
+    Object.values(nodes).forEach((node) => {
+      // 旧 URL（中文）
+      const oldUrl = `/categories/${node.key}/`;
+      // 新 URL（短编码）
+      const newUrl = `/categories/${node.encodedKey}/`;
+      
+      redirects.push({
+        oldUrl,
+        newUrl,
+        title: node.title
+      });
+
+      // 也生成分页的重定向
+      const sortedPosts = [...node.posts].sort(comparePostsForCategoryPages);
+      const totalPages = Math.ceil(sortedPosts.length / categoryPageSize);
+      
+      for (let pageNumber = 2; pageNumber <= totalPages; pageNumber += 1) {
+        redirects.push({
+          oldUrl: `/categories/${node.key}/page/${pageNumber}/`,
+          newUrl: `/categories/${node.encodedKey}/page/${pageNumber}/`,
+          title: node.title
+        });
+      }
+    });
+
+    return redirects;
+  });
+
+  // 生成文章页面重定向（旧 fileSlug URL → 新短编码 URL）
+  eleventyConfig.addCollection("postRedirects", (collectionApi) => {
+    const posts = getPostsFromContentDir(collectionApi);
+    const redirects = [];
+
+    posts.forEach((post) => {
+      const inputPath = post.inputPath || "";
+      const normalizedPath = inputPath.split(path.sep).join("/");
+      const marker = "/src/content/posts/";
+      const markerIndex = normalizedPath.indexOf(marker);
+      
+      if (markerIndex === -1) return;
+      
+      const relativePath = normalizedPath.slice(markerIndex + marker.length);
+      const fileName = relativePath.split("/").pop();
+      const fileSlug = fileName.replace(/\.md$/, "");
+      
+      // 旧 URL（基于文件名/fileSlug）
+      const oldUrl = `/posts/${fileSlug}/`;
+      // 新 URL（已经编码好的）
+      const newUrl = post.url;
+      
+      // 如果新旧 URL 不同，添加重定向
+      if (oldUrl !== newUrl) {
+        redirects.push({
+          oldUrl,
+          newUrl,
+          title: post.data?.title || fileSlug
+        });
+      }
+    });
+
+    return redirects;
   });
 
   eleventyConfig.addCollection("folderGroups", (collectionApi) => {
@@ -331,6 +408,7 @@ function registerCollections(eleventyConfig) {
       if (!folders[folder]) {
         folders[folder] = {
           title: folder,
+          order: metaEntry && metaEntry.order ? metaEntry.order : 999,
           categories: []
         };
       }
@@ -344,12 +422,16 @@ function registerCollections(eleventyConfig) {
 
       const existingCategory = folders[folder].categories.find(c => c.key === nodeKey);
       if (!existingCategory) {
+        // 生成编码后的 URL
+        const categoryPath = subcategoryCode 
+          ? `${topLevelCategory}/${subcategoryCode}`
+          : topLevelCategory;
+        const encodedPath = encodeSlug(categoryPath, { prefix: 'c', minLength: 6 });
+        
         folders[folder].categories.push({
           key: nodeKey,
           title: displayTitle,
-          url: subcategoryCode 
-            ? `/categories/${topLevelCategory}/${subcategoryCode}/`
-            : `/categories/${topLevelCategory}/`,
+          url: `/categories/${encodedPath}/`,
           count: 0,
           posts: [],
           folder,
@@ -364,9 +446,13 @@ function registerCollections(eleventyConfig) {
       cat.posts.push(item);
     });
 
-    return Object.values(folders).sort((a, b) =>
-      a.title.localeCompare(b.title, "zh-Hans-CN")
-    );
+    // 按 order 排序，order 相同则按标题排序
+    return Object.values(folders).sort((a, b) => {
+      if (a.order !== b.order) {
+        return a.order - b.order;
+      }
+      return a.title.localeCompare(b.title, "zh-Hans-CN");
+    });
   });
 }
 

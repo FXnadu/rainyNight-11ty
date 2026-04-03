@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示前端开发者个人主页案例文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例一：前端开发者个人主页
+categoryOrder: 1
 ---
 
 这篇案例文案展示如何为一位前端开发者搭建个人主页，重点解决介绍分散和联系入口不清的问题。

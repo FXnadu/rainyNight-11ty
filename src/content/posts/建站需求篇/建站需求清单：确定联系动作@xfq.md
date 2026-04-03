@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站联系动作设计方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：确定联系动作
+categoryOrder: 8
 ---
 
 这篇文案适合在策划阶段提前定义网站想让访客做什么动作。

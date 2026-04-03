@@ -4,7 +4,9 @@ tags:
   - posts
 category: 开发执行篇
 description: 用于展示个人网站开发排期说明。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 开发排期说明：从确认需求到交付上线
+categoryOrder: 1
 ---
 
 这篇文案适合向读者说明项目执行节奏，让对方知道每个阶段会看到什么结果。

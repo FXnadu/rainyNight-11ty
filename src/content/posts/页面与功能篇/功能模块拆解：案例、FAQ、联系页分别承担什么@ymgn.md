@@ -4,7 +4,9 @@ tags:
   - posts
 category: 页面与功能篇
 description: 用于展示常见页面模块的作用拆解。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 功能模块拆解：案例、FAQ、联系页分别承担什么
+categoryOrder: 2
 ---
 
 这篇文案适合解释案例页、FAQ 和联系页为什么不是可有可无，而是个人网站的重要成交模块。

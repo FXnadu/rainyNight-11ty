@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示个人网站页面地图策划文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 页面地图：先把个人网站结构画出来
+categoryOrder: 18
 ---
 
 这篇文案适合在正式设计前先用文字版页面地图和读者对齐整体结构。

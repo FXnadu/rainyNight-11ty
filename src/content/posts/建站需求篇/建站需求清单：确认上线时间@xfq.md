@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站上线时间确认方法。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：确认上线时间
+categoryOrder: 9
 ---
 
 这篇文案适合在项目开始前确认上线节点，尤其适用于求职、作品发布和个人转型阶段。

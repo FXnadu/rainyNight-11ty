@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示参考站收集方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 参考站该怎么收集才有用
+categoryOrder: 7
 ---
 
 这篇文案帮助读者理解参考站不是越多越好，而是要说明喜欢哪里、不喜欢哪里。

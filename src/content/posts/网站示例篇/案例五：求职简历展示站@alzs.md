@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示求职简历展示站案例文案。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例五：求职简历展示站
+categoryOrder: 4
 ---
 
 这篇案例文案展示如何为个人求职者制作简历展示站，用更有条理的内容结构提升表达效果。

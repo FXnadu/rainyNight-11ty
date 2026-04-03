@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人建站前素材准备事项。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：准备头像、简介和素材
+categoryOrder: 3
 ---
 
 这篇文案帮助读者提前收集头像、配色、图片和个人介绍，避免开发中途反复补资料。

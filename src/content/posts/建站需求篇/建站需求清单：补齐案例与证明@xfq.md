@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明案例素材与信任证明准备方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：补齐案例与证明
+categoryOrder: 10
 ---
 
 这篇文案帮助读者整理案例、评价、证书和公开经历等信任内容。

@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示案例页表达重点。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 案例页为什么要写结果而不是过程流水账
+categoryOrder: 12
 ---
 
 这篇文案用于说明案例页面应优先强调项目目标、解决方案和结果，而不是只堆过程记录。

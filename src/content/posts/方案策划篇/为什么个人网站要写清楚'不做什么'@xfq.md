@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 需求分析
 description: 用于展示服务边界说明的重要性。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 为什么个人网站要写清楚'不做什么'
+categoryOrder: 3
 ---
 
 ## 为什么个人网站要写清楚“不做什么”

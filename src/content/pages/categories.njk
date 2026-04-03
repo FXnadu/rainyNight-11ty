@@ -10,13 +10,13 @@ pageStyles:
 <div class="knowledge-container">
     <aside class="knowledge-sidebar">
         <h3 class="sidebar-title">
-            <i class="fa-solid fa-book"></i>
+            <svg width="18" height="18"><use href="#icon-book"/></svg>
             {{ categoriesConfig.sidebarTitle }}
         </h3>
         <ul class="folder-list">
             {% for folder in collections.folderGroups %}
-            <li class="folder-item {% if loop.first %}active{% endif %}" onclick="switchTab('folder-{{ loop.index }}', this)">
-                <i class="fa-solid fa-file-lines folder-icon"></i>
+            <li class="folder-item {% if loop.first %}active{% endif %}" onclick="switchTab('folder-{{ folder.title | encodeSlug }}', this)">
+                <svg class="folder-icon" width="16" height="16"><use href="#icon-file"/></svg>
                 {{ folder.title }}
             </li>
             {% endfor %}
@@ -25,10 +25,10 @@ pageStyles:
 
     <main class="knowledge-content">
         {% for folder in collections.folderGroups %}
-        <div id="folder-{{ loop.index }}" class="folder-section {% if loop.first %}active{% endif %}">
+        <div id="folder-{{ folder.title | encodeSlug }}" class="folder-section {% if loop.first %}active{% endif %}">
             <div class="section-header">
-                <h2 style="display: flex; align-items: center; gap: 12px; transform: translateZ(0);">
-                    <i class="fa-solid fa-book-open" style="font-size: 0.9em; opacity: 0.85; -webkit-text-stroke: 0.5px currentColor; text-rendering: optimizeLegibility;"></i>
+                <h2 class="folder-title">
+                    <svg width="18" height="18"><use href="#icon-book-open"/></svg>
                     {{ folder.title }}
                 </h2>
             </div>
@@ -41,7 +41,7 @@ pageStyles:
                     {% endif %}
                     <div class="card-footer">
                         <span>{{ cat.count }} {{ categoriesConfig.docUnit }}</span>
-                        <i class="fa-solid fa-arrow-right" style="opacity: 0.5; font-size: 0.9em;"></i>
+                        <svg width="14" height="14" class="card-arrow"><use href="#icon-arrow-right"/></svg>
                     </div>
                 </div>
                 {% endfor %}
@@ -52,7 +52,7 @@ pageStyles:
 </div>
 
 <script>
-function switchTab(targetId, element) {
+function switchTab(targetId, element, updateHash = true) {
     document.querySelectorAll('.folder-item').forEach(item => {
         item.classList.remove('active');
     });
@@ -62,5 +62,81 @@ function switchTab(targetId, element) {
 
     element.classList.add('active');
     document.getElementById(targetId).classList.add('active');
+
+    // 更新 URL hash，但不触发页面滚动
+    if (updateHash) {
+        history.pushState(null, null, '#' + targetId);
+    }
 }
+
+// 根据 URL hash 激活对应的分类
+function activateTabFromHash() {
+    const hash = window.location.hash.slice(1); // 去掉 # 符号
+
+    if (hash) {
+        const targetElement = document.getElementById(hash);
+
+        if (targetElement) {
+            // 找到对应的 folder-item
+            const folderItems = document.querySelectorAll('.folder-item');
+            const folderSections = document.querySelectorAll('.folder-section');
+
+            const itemIndex = Array.from(folderSections).findIndex(section => section.id === hash);
+
+            if (itemIndex >= 0 && folderItems[itemIndex]) {
+                // 移除所有 active 类
+                folderItems.forEach(item => item.classList.remove('active'));
+                folderSections.forEach(section => section.classList.remove('active'));
+
+                // 添加 active 类到对应元素
+                folderItems[itemIndex].classList.add('active');
+                targetElement.classList.add('active');
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// 页面加载时检查 hash
+function initTabFromHash() {
+    const hash = window.location.hash.slice(1);
+
+    if (!activateTabFromHash()) {
+        // 如果没有 hash 或 hash 无效，默认激活第一个
+        const firstItem = document.querySelector('.folder-item');
+        const firstSection = document.querySelector('.folder-section');
+        if (firstItem && firstSection) {
+            firstItem.classList.add('active');
+            firstSection.classList.add('active');
+        }
+    }
+}
+
+// 多种方式触发，确保 hash 被正确处理
+function runInit() {
+    // 使用 setTimeout 确保在 Eleventy Live Reload 之后执行
+    setTimeout(initTabFromHash, 0);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runInit);
+} else {
+    runInit();
+}
+
+// 也监听 hashchange 事件（当用户直接修改 URL hash 时）
+window.addEventListener('hashchange', function() {
+    activateTabFromHash();
+});
+
+// 监听 load 事件，作为后备方案
+window.addEventListener('load', function() {
+    activateTabFromHash();
+});
+
+// 监听浏览器前进/后退按钮
+window.addEventListener('popstate', function() {
+    activateTabFromHash();
+});
 </script>

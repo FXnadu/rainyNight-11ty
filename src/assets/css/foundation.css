@@ -268,3 +268,23 @@ hr {
     border-top: 1px solid var(--accent-subtle);
     margin: 60px 0;
 }
+
+/* SVG Icon Rendering Optimization */
+svg {
+    display: inline-block;
+    vertical-align: middle;
+    shape-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+svg use {
+    pointer-events: none;
+}
+
+/* Ensure crisp icon rendering */
+.menu-links a svg,
+.theme-toggle svg {
+    display: inline-block;
+    flex-shrink: 0;
+}

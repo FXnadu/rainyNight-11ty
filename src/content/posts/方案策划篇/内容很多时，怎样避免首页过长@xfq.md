@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 需求分析
 description: 用于展示信息过多时的首页取舍。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 内容很多时，怎样避免首页过长
+categoryOrder: 6
 ---
 
 这篇文案帮助读者在内容很多时做好取舍，让首页承担引导而不是容纳全部信息。

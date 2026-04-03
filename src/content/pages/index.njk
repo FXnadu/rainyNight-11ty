@@ -34,7 +34,7 @@ pageStyles:
                     data-home-search-input
                 >
                 <button class="home-search-button" type="submit" aria-label="搜索">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <svg width="18" height="18"><use href="#icon-search"/></svg>
                 </button>
             </div>
         </form>
@@ -49,13 +49,37 @@ pageStyles:
     </div>
     <div class="who-for-grid">
         {% for item in homeConfig.audience.items %}
+            {% set cardUrl = item.url | default('') %}
+            {% if item.targetCategory %}
+                {% set cardUrl = '/categories/#folder-' + (item.targetCategory | encodeSlug) %}
+            {% endif %}
+            {% if cardUrl %}
+            <a href="{{ cardUrl }}" class="who-for-item who-for-link" style="text-decoration: none; color: inherit;">
+            {% else %}
             <div class="who-for-item">
-                <i class="{{ item.icon }} who-for-icon"></i>
+            {% endif %}
+                <svg class="who-for-icon" width="24" height="24">
+                    {%- if item.icon == "fa-solid fa-briefcase" -%}
+                    <use href="#icon-briefcase"/>
+                    {%- elif item.icon == "fa-solid fa-pen-nib" -%}
+                    <use href="#icon-pen"/>
+                    {%- elif item.icon == "fa-solid fa-camera-retro" -%}
+                    <use href="#icon-camera"/>
+                    {%- elif item.icon == "fa-solid fa-laptop-code" -%}
+                    <use href="#icon-laptop"/>
+                    {%- else -%}
+                    <use href="#icon-file"/>
+                    {%- endif -%}
+                </svg>
                 <div>
                     <h3 class="who-for-title">{{ item.title }}</h3>
                     <p class="who-for-desc">{{ item.description }}</p>
                 </div>
+            {% if cardUrl %}
+            </a>
+            {% else %}
             </div>
+            {% endif %}
         {% endfor %}
     </div>
 </section>
@@ -86,7 +110,7 @@ pageStyles:
             <p class="closing-desc">{{ homeConfig.closing.description }}</p>
             <a class="closing-link" href="{{ homeConfig.closing.actionUrl }}">
                 <span>{{ homeConfig.closing.actionText }}</span>
-                <i class="fa-solid fa-arrow-right-long"></i>
+                <svg width="16" height="16"><use href="#icon-arrow-right-long"/></svg>
             </a>
         </div>
     </div>

@@ -1,0 +1,21 @@
+---
+layout: null
+pagination:
+  data: collections.categoryRedirects
+  size: 1
+  alias: redirect
+permalink: "{{ redirect.oldUrl }}"
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url={{ redirect.newUrl }}">
+  <link rel="canonical" href="{{ redirect.newUrl }}">
+  <script>window.location.href = "{{ redirect.newUrl }}";</script>
+  <title>重定向中...</title>
+</head>
+<body>
+  <p>正在跳转到 <a href="{{ redirect.newUrl }}">{{ redirect.title }}</a>...</p>
+</body>
+</html>

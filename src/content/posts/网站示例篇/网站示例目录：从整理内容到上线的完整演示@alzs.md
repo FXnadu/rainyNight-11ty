@@ -4,7 +4,9 @@ tags:
   - posts
 category: 网站示例篇
 description: 用于展示个人网站网站示例目录。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 网站示例目录：从整理内容到上线的完整演示
+categoryOrder: 6
 ---
 
 这篇文案作为示例目录页，集中串联一整套从整理内容到上线的个人网站示例。

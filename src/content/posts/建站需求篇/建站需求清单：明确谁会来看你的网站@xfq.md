@@ -4,7 +4,9 @@ tags:
   - posts
 category: 建站需求篇
 description: 用于说明个人网站目标读者梳理方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 建站需求清单：明确谁会来看你的网站
+categoryOrder: 7
 ---
 
 这篇文案用于帮助读者把“谁会来看这个网站”说具体，而不是笼统写成所有人。

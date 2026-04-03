@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示低表达个人网站的常见原因。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 为什么很多个人网站上线后依然不够清楚
+categoryOrder: 4
 ---
 
 这篇文案适合用来解释网站看起来不够清楚，往往不是技术问题，而是信息表达和页面路径有缺口。

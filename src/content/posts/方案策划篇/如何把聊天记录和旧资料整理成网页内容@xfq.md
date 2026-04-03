@@ -5,7 +5,9 @@ tags:
 category: 方案策划篇
 subcategory: 方案设计
 description: 用于展示个人网站内容整理方式。
-updated: '2026-04-02'
+updated: '2026-04-03'
+title: 如何把聊天记录和旧资料整理成网页内容
+categoryOrder: 8
 ---
 
 这篇文案适合说明如何把聊天记录、简历、文档和图片整理成可上线页面内容。
