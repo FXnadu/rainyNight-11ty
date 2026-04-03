@@ -85,6 +85,11 @@ function normalizeMetaEntry(entry, categoryPath) {
 
   const result = { description };
   
+  // 保留 order 字段用于排序
+  if (typeof entry.order === "number") {
+    result.order = entry.order;
+  }
+  
   if (entry.subcategories && typeof entry.subcategories === "object" && !Array.isArray(entry.subcategories)) {
     result.subcategories = entry.subcategories;
   }

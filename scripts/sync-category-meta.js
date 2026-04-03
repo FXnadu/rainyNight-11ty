@@ -117,9 +117,21 @@ function syncMeta() {
   let addedCategories = 0;
   let addedSubcategories = 0;
   let removedSubcategories = 0;
+  
+  // 计算下一个可用的 order 值
+  let maxOrder = 0;
+  Object.keys(descriptions.categories).forEach((categoryPath) => {
+    const cat = descriptions.categories[categoryPath];
+    if (cat.order && typeof cat.order === 'number' && cat.order > maxOrder) {
+      maxOrder = cat.order;
+    }
+  });
+  
   Object.keys(discoveredMeta.categories).forEach((categoryPath) => {
     if (!descriptions.categories[categoryPath]) {
+      maxOrder++;
       descriptions.categories[categoryPath] = { 
+        order: maxOrder,
         subcategories: {}
       };
       addedCategories++;
@@ -156,6 +168,21 @@ function syncMeta() {
       value.subcategories = {};
     }
   });
+  
+  // 为缺少 order 字段的分类自动补充（重新创建对象以保持字段顺序）
+  let addedOrders = 0;
+  Object.keys(descriptions.categories).forEach((categoryPath) => {
+    const cat = descriptions.categories[categoryPath];
+    if (cat.order === undefined || cat.order === null) {
+      maxOrder++;
+      // 重新创建对象，确保 order 在前
+      descriptions.categories[categoryPath] = {
+        order: maxOrder,
+        subcategories: cat.subcategories || {}
+      };
+      addedOrders++;
+    }
+  });
 
   // Sync subcategories
   Object.keys(discoveredMeta.categories).forEach((categoryPath) => {
@@ -188,11 +215,12 @@ function syncMeta() {
   });
 
   fs.writeFileSync(DESCRIPTIONS_FILE, JSON.stringify(descriptions, null, 2));
-  if (addedCategories > 0 || normalizedCategories > 0 || removedCategories > 0 || addedSubcategories > 0 || removedSubcategories > 0) {
+  if (addedCategories > 0 || normalizedCategories > 0 || removedCategories > 0 || addedSubcategories > 0 || removedSubcategories > 0 || addedOrders > 0) {
     const updates = [];
     if (addedCategories > 0) updates.push(`added ${addedCategories} categories`);
     if (normalizedCategories > 0) updates.push(`normalized ${normalizedCategories} categories`);
     if (removedCategories > 0) updates.push(`removed ${removedCategories} categories`);
+    if (addedOrders > 0) updates.push(`added order to ${addedOrders} categories`);
     if (addedSubcategories > 0) updates.push(`added ${addedSubcategories} subcategories`);
     if (removedSubcategories > 0) updates.push(`removed ${removedSubcategories} subcategories`);
     console.log(`🧩 Updated descriptions: ${updates.join(', ')}.`);
