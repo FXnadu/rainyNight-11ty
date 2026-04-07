@@ -148,6 +148,12 @@ mark {
     border-radius: 4px;
 }
 
+/* Dark Theme Mark Highlight */
+[data-theme="dark"] mark {
+    background-color: #d4a72c;
+    color: #1a1a1a;
+}
+
 /* Dark Theme Syntax Highlighting */
 [data-theme="dark"] code[class*="language-"],
 [data-theme="dark"] pre[class*="language-"] {

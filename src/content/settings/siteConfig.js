@@ -3,7 +3,7 @@
  */
 const config = {
     brand: {
-        logoText: "rainyNight Workspace",
+        logoText: "RN Workspace",
         homeUrl: "/"
     },
 
@@ -16,8 +16,8 @@ const config = {
     },
 
     footer: {
-        copyrightOwner: "rainyNight Workspace",
-        tagline: "用于记录展示的轻量演示站",
+        copyrightOwner: "RainyNight Workspace",
+        tagline: "用于记录展示的轻量网站",
         socialLinks: [
             { text: "GitHub", url: "https://github.com", icon: "fa-brands fa-github" },
             { text: "页面说明", url: "/services/", icon: "fa-solid fa-file-lines" }
@@ -25,11 +25,11 @@ const config = {
     },
 
     meta: {
-        title: "rainyNight Workspace | 个人网站搭建演示站",
-        description: "一个面向个人网站搭建的演示站，展示个人主页、作品集、博客的页面文案。",
-        author: "rainyNight Workspace",
+        title: "RainyNight | 教程",
+        description: "my Tutorial Website",
+        author: "RainyNight Workspace",
         email: "contact@rainyNight.dev",
-        url: "https://rainyNight.dev",
+        url: "https://deepwhite.me",
         lang: "zh-CN"
     },
 
@@ -52,11 +52,11 @@ const config = {
         home: {
             title: "首页",
             hero: {
-                title: "Welcome！ ",
-                subtitle: "RainyNight的个人主页、教程的网站",
+                title: "Welcome ",
+                subtitle: "RainyNight's Tutorial Website",
                 descriptionLines: [
-                    "的演示站，重点展示页面设计、内容组织和整体表达方式。",
-                    "你可以直接把它当成个人网站模板，也可以继续替换成自己的内容。"
+                    "my Tutorial Website",
+                    "你可以直接把它当成电商软件教程网站，获取自己需要的内容。"
                 ]
             },
             audience: {
@@ -88,21 +88,7 @@ const config = {
                     }
                 ]
             },
-            features: {
-                title: "核心入口",
-                items: [
-                    {
-                        title: "内容归档",
-                        description: "",
-                        url: "/categories/"
-                    },
-                    {
-                        title: "网站说明",
-                        description: "",
-                        url: "/services/"
-                    }
-                ]
-            },
+
             closing: {
                 label: "开始浏览",
                 headline: "把接触的内容整理清楚 \n 让结果自然生长",
@@ -168,8 +154,8 @@ const config = {
                 }
             ],
             cta: {
-                title: "如果你也曾有和我一样的问题，",
-                linkText: "可以看看内容归档 →",
+                title: "或许，文档里藏着问题的答案",
+                linkText: "看看内容归档 →",
                 linkUrl: "/categories/"
             }
         }

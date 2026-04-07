@@ -4,6 +4,8 @@ const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownIt = require("markdown-it");
 const markdownItFootnote = require("markdown-it-footnote");
 const markdownItGitHubAlerts = require("markdown-it-github-alerts");
+const markdownItMark = require("markdown-it-mark");
+const markdownItTaskLists = require("markdown-it-task-lists");
 const { registerDateFilters, registerTitleFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
@@ -130,7 +132,9 @@ module.exports = async function(eleventyConfig) {
 
   const mdLib = markdownIt(mdOptions)
     .use(markdownItFootnote)
-    .use(markdownItGitHubAlerts.default);
+    .use(markdownItGitHubAlerts.default)
+    .use(markdownItMark)
+    .use(markdownItTaskLists, { enabled: true, label: true });
 
   eleventyConfig.setLibrary("md", mdLib);
 

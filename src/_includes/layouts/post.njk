@@ -8,41 +8,72 @@ pageStyles:
 ---
 
 <article class="post-container">
-    <header class="post-header">
-        <h1 class="post-title">{{ title }}</h1>
-        <div class="post-meta">
-            <time datetime="{{ page.date }}" class="post-meta-time">
-                <svg width="16" height="16" aria-hidden="true"><use href="#icon-calendar"/></svg>
-                <span>{{ page.date | readableDate }}</span>
-            </time>
-            {% if updated and (updated | readableDate) != (page.date | readableDate) %}
-            <time datetime="{{ updated }}" class="post-meta-time post-meta-updated">
-                <svg width="16" height="16" aria-hidden="true"><use href="#icon-edit"/></svg>
-                <span>最后更新于 {{ updated | readableDate }}</span>
-            </time>
-            {% endif %}
-        </div>
-    </header>
-
-    <details class="post-toc-mobile is-hidden">
-        <summary>文章目录</summary>
-        <ol class="post-toc-list" id="post-toc-mobile-list"></ol>
-    </details>
-
-    <nav class="post-toc post-toc-desktop is-hidden" aria-label="文章目录">
-        <ol class="post-toc-list" id="post-toc-list"></ol>
-    </nav>
-
-    <div class="post-content">
-        {{ content | safe }}
+    {% set categoryName = page.inputPath | categoryFromPath %}
+    {% if categoryName %}
+    {% set categoryPosts = collections.categories[categoryName] %}
+    {% if categoryPosts and categoryPosts.length > 0 %}
+    <div class="post-sidebar-wrapper">
+        <button class="post-sidebar-trigger" aria-label="展开目录" title="展开目录">
+            <svg width="16" height="16" aria-hidden="true"><use href="#icon-folder"/></svg>
+        </button>
+        <nav class="post-sidebar" aria-label="同分类文章">
+            <div class="post-sidebar-header">
+                <h3 class="post-sidebar-title">{{ categoryName }}</h3>
+                <button class="post-sidebar-close" aria-label="收起目录" title="收起目录">
+                    <svg width="14" height="14" aria-hidden="true"><use href="#icon-x"/></svg>
+                </button>
+            </div>
+            <ol class="post-sidebar-list">
+                {% for post in categoryPosts %}
+                <li class="post-sidebar-item">
+                    <a href="{{ post.url }}" class="post-sidebar-link {% if post.url == page.url %}is-current{% endif %}" {% if post.url == page.url %}aria-current="page"{% endif %}>
+                        {{ post.data.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ol>
+        </nav>
     </div>
+    {% endif %}
+    {% endif %}
 
-    <div class="post-actions" aria-label="文章操作">
-        <button class="post-action post-top" type="button" data-action="top" aria-label="返回顶部" title="返回顶部">
-            <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-up"/></svg>
-        </button>
-        <button class="post-action post-back" type="button" data-action="back" aria-label="返回上页" title="返回上页">
-            <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
-        </button>
+    <div class="post-main">
+        <header class="post-header">
+            <h1 class="post-title">{{ title }}</h1>
+            <div class="post-meta">
+                <time datetime="{{ page.date }}" class="post-meta-time">
+                    <svg width="16" height="16" aria-hidden="true"><use href="#icon-calendar"/></svg>
+                    <span>{{ page.date | readableDate }}</span>
+                </time>
+                {% if updated and (updated | readableDate) != (page.date | readableDate) %}
+                <time datetime="{{ updated }}" class="post-meta-time post-meta-updated">
+                    <svg width="16" height="16" aria-hidden="true"><use href="#icon-edit"/></svg>
+                    <span>最后更新于 {{ updated | readableDate }}</span>
+                </time>
+                {% endif %}
+            </div>
+        </header>
+
+        <details class="post-toc-mobile is-hidden">
+            <summary>文章目录</summary>
+            <ol class="post-toc-list" id="post-toc-mobile-list"></ol>
+        </details>
+
+        <nav class="post-toc post-toc-desktop is-hidden" aria-label="文章目录">
+            <ol class="post-toc-list" id="post-toc-list"></ol>
+        </nav>
+
+        <div class="post-content">
+            {{ content | safe }}
+        </div>
+
+        <div class="post-actions" aria-label="文章操作">
+            <button class="post-action post-top" type="button" data-action="top" aria-label="返回顶部" title="返回顶部">
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-up"/></svg>
+            </button>
+            <button class="post-action post-back" type="button" data-action="back" aria-label="返回上页" title="返回上页">
+                <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+            </button>
+        </div>
     </div>
 </article>

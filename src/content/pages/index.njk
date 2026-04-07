@@ -8,38 +8,34 @@ pageStyles:
 {% set homeConfig = siteConfig.pages.home %}
 
 <section class="hero-section">
-    <h1 class="hero-title">{{ homeConfig.hero.title }}</h1>
-    <p class="hero-subtitle">{{ homeConfig.hero.subtitle }}</p>
-    <p class="hero-description">
-        {{ homeConfig.hero.descriptionLines[0] }}<br>
-        {{ homeConfig.hero.descriptionLines[1] }}
-    </p>
-</section>
-
-<section class="section-block">
-    <div class="section-header">
-        <h2 class="section-title">搜索知识库</h2>
-    </div>
-    <div class="home-search" data-home-search>
-        <form class="home-search-form" data-home-search-form>
-            <label class="home-search-label" for="home-search-input">输入关键词，快速定位知识库内容</label>
-            <div class="home-search-controls">
-                <input
-                    id="home-search-input"
-                    class="home-search-input"
-                    type="search"
-                    name="q"
-                    placeholder="例如：首页、摄影师、FAQ、交付、联系页"
-                    autocomplete="off"
-                    data-home-search-input
-                >
-                <button class="home-search-button" type="submit" aria-label="搜索">
-                    <svg width="18" height="18"><use href="#icon-search"/></svg>
-                </button>
-            </div>
-        </form>
-        <p class="home-search-hint" data-home-search-hint>支持标题、分类、摘要和正文关键词检索。</p>
-        <div class="home-search-results" data-home-search-results hidden></div>
+    <div class="hero-content">
+        <h1 class="hero-title">{{ homeConfig.hero.title }}</h1>
+        <p class="hero-subtitle">{{ homeConfig.hero.subtitle }}</p>
+        
+        <div class="hero-search" data-home-search>
+            <form class="home-search-form" data-home-search-form>
+                <div class="home-search-controls">
+                    <input
+                        id="home-search-input"
+                        class="home-search-input"
+                        type="search"
+                        name="q"
+                        placeholder="搜索知识库..."
+                        autocomplete="off"
+                        data-home-search-input
+                    >
+                    <button class="home-search-button" type="submit" aria-label="搜索">
+                        <svg width="18" height="18"><use href="#icon-search"/></svg>
+                    </button>
+                </div>
+            </form>
+            <div class="home-search-results" data-home-search-results hidden></div>
+        </div>
+        
+        <p class="hero-description">
+            支持标题、分类、摘要和正文关键词检索，快速找到你需要的内容。<br>
+            例如：福星抖音、福星淘宝、使用教程、安装指南...
+        </p>
     </div>
 </section>
 
@@ -84,33 +80,17 @@ pageStyles:
     </div>
 </section>
 
-<section class="section-block">
-    <div class="section-header">
-        <h2 class="section-title">{{ homeConfig.features.title }}</h2>
-    </div>
-    <div class="features-grid">
-        {% for item in homeConfig.features.items %}
-            <div>
-                <a href="{{ item.url }}" class="feature-item-link">
-                    <h3 class="feature-title">{{ item.title }}</h3>
-                    <p class="feature-desc">{{ item.description }}</p>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
-</section>
-
-<section class="section-block closing-block">
+<section class="closing-block">
     <div class="closing-layout">
-        <div class="closing-header">
-            <h2 class="closing-label">{{ homeConfig.closing.label }}</h2>
-            <p class="closing-headline">{{ homeConfig.closing.headline | replace('\n', '<br>') | safe }}</p>
+        <div>
+            <span class="closing-label">{{ homeConfig.closing.label }}</span>
+            <h2 class="closing-headline">{{ homeConfig.closing.headline | nl2br | safe }}</h2>
         </div>
         <div class="closing-content">
             <p class="closing-desc">{{ homeConfig.closing.description }}</p>
-            <a class="closing-link" href="{{ homeConfig.closing.actionUrl }}">
-                <span>{{ homeConfig.closing.actionText }}</span>
-                <svg width="16" height="16"><use href="#icon-arrow-right-long"/></svg>
+            <a href="{{ homeConfig.closing.actionUrl }}" class="closing-link">
+                {{ homeConfig.closing.actionText }}
+                <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
     </div>

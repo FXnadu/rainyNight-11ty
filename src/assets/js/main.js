@@ -1156,7 +1156,7 @@ const initHomeSearch = () => {
     const results = searchRoot.querySelector("[data-home-search-results]");
     const hint = searchRoot.querySelector("[data-home-search-hint]");
 
-    if (!form || !input || !results || !hint) {
+    if (!form || !input || !results) {
         return () => {};
     }
 
@@ -1189,24 +1189,54 @@ const initHomeSearch = () => {
         }).format(parsed);
     };
     const buildSnippet = (item, query) => {
-        const source = (item.description || item.content || "").replace(/\s+/g, " ").trim();
-        if (!source) {
+        const description = (item.description || "").replace(/\s+/g, " ").trim();
+        const content = (item.content || "").replace(/\s+/g, " ").trim();
+        const normalizedQuery = query.toLowerCase();
+
+        const findBestMatch = (text) => {
+            if (!text) return -1;
+            const normalizedText = text.toLowerCase();
+            const index = normalizedText.indexOf(normalizedQuery);
+            return index;
+        };
+
+        const descMatchIndex = findBestMatch(description);
+        const contentMatchIndex = findBestMatch(content);
+
+        let source, matchIndex, sourceType;
+
+        if (descMatchIndex !== -1) {
+            source = description;
+            matchIndex = descMatchIndex;
+            sourceType = "desc";
+        } else if (contentMatchIndex !== -1) {
+            source = content;
+            matchIndex = contentMatchIndex;
+            sourceType = "content";
+        } else if (description) {
+            source = description;
+            matchIndex = -1;
+            sourceType = "desc";
+        } else if (content) {
+            source = content;
+            matchIndex = -1;
+            sourceType = "content";
+        } else {
             return "该内容已收录到知识库，点击可查看完整文章。";
         }
 
-        const normalizedSource = source.toLowerCase();
-        const normalizedQuery = query.toLowerCase();
-        const matchIndex = normalizedSource.indexOf(normalizedQuery);
-
         if (matchIndex === -1 || source.length <= 96) {
-            return highlightText(source.slice(0, 96) + (source.length > 96 ? "..." : ""), query);
+            const snippet = source.slice(0, 96) + (source.length > 96 ? "..." : "");
+            return highlightText(snippet, query);
         }
 
-        const start = Math.max(0, matchIndex - 24);
-        const end = Math.min(source.length, matchIndex + normalizedQuery.length + 40);
+        const start = Math.max(0, matchIndex - 30);
+        const end = Math.min(source.length, matchIndex + normalizedQuery.length + 50);
         const prefix = start > 0 ? "..." : "";
         const suffix = end < source.length ? "..." : "";
-        return highlightText(`${prefix}${source.slice(start, end).trim()}${suffix}`, query);
+        const snippet = `${prefix}${source.slice(start, end).trim()}${suffix}`;
+
+        return highlightText(snippet, query);
     };
     const renderEmptyState = (message) => {
         results.hidden = false;
@@ -1236,7 +1266,9 @@ const initHomeSearch = () => {
     const updateIdleState = () => {
         results.hidden = true;
         results.innerHTML = "";
-        hint.textContent = "支持标题、分类、摘要和正文关键词检索。";
+        if (hint) {
+            hint.textContent = "支持标题、分类、摘要和正文关键词检索。";
+        }
     };
     const loadIndex = async () => {
         if (!homeSearchIndexPromise) {
@@ -1261,7 +1293,9 @@ const initHomeSearch = () => {
             return;
         }
 
-        hint.textContent = "正在搜索知识库...";
+        if (hint) {
+            hint.textContent = "正在搜索知识库...";
+        }
 
         try {
             const index = await loadIndex();
@@ -1290,32 +1324,58 @@ const initHomeSearch = () => {
                 })
                 .slice(0, RESULT_LIMIT);
 
-            hint.textContent = `共找到 ${matched.length} 条结果。`;
+            if (hint) {
+                hint.textContent = `共找到 ${matched.length} 条结果。`;
+            }
             renderResults(matched, query);
         } catch (error) {
             console.warn("[home-search] failed to load search index:", error);
-            hint.textContent = "搜索暂时不可用。";
+            if (hint) {
+                hint.textContent = "搜索暂时不可用。";
+            }
             renderEmptyState("搜索索引加载失败，请稍后刷新重试。");
         }
     };
+
+    let searchTimeout = null;
+    const SEARCH_DELAY = 200;
 
     const handleSubmit = (event) => {
         event.preventDefault();
         performSearch(input.value);
     };
     const handleInput = () => {
-        if (!input.value.trim()) {
+        const query = input.value.trim();
+        if (!query) {
+            updateIdleState();
+            return;
+        }
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, SEARCH_DELAY);
+    };
+
+    const handleClickOutside = (event) => {
+        if (!searchRoot.contains(event.target)) {
             updateIdleState();
         }
     };
 
     form.addEventListener("submit", handleSubmit);
     input.addEventListener("input", handleInput);
+    document.addEventListener("click", handleClickOutside);
     updateIdleState();
 
     return () => {
         form.removeEventListener("submit", handleSubmit);
         input.removeEventListener("input", handleInput);
+        document.removeEventListener("click", handleClickOutside);
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
     };
 };
 
@@ -1353,6 +1413,57 @@ const initMomentsActions = () => {
 
 const pageCleanups = [];
 
+const initSidebarToggle = () => {
+    const wrapper = document.querySelector(".post-sidebar-wrapper");
+    const trigger = document.querySelector(".post-sidebar-trigger");
+    const closeBtn = document.querySelector(".post-sidebar-close");
+    if (!wrapper) {
+        return () => {};
+    }
+
+    const openSidebar = () => {
+        wrapper.classList.add("is-open");
+    };
+
+    const closeSidebar = () => {
+        wrapper.classList.remove("is-open");
+    };
+
+    if (trigger) {
+        trigger.addEventListener("click", openSidebar);
+    }
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeSidebar);
+    }
+
+    // 点击外部关闭
+    const handleClickOutside = (e) => {
+        if (wrapper.classList.contains("is-open") &&
+            !wrapper.contains(e.target)) {
+            closeSidebar();
+        }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    // 目录链接使用 replaceState 不记录历史
+    const sidebarLinks = wrapper.querySelectorAll(".post-sidebar-link");
+    const handleLinkClick = (e) => {
+        const link = e.currentTarget;
+        const href = link.getAttribute("href");
+        if (!href || href.startsWith("#")) return;
+        e.preventDefault();
+        window.location.replace(href);
+    };
+    sidebarLinks.forEach(link => link.addEventListener("click", handleLinkClick));
+
+    return () => {
+        if (trigger) trigger.removeEventListener("click", openSidebar);
+        if (closeBtn) closeBtn.removeEventListener("click", closeSidebar);
+        document.removeEventListener("click", handleClickOutside);
+        sidebarLinks.forEach(link => link.removeEventListener("click", handleLinkClick));
+    };
+};
+
 const initPage = () => {
     while (pageCleanups.length) {
         const cleanup = pageCleanups.pop();
@@ -1370,6 +1481,7 @@ const initPage = () => {
     pageCleanups.push(initHomeSearch());
     pageCleanups.push(initProtectedContact());
     pageCleanups.push(initMomentsActions());
+    pageCleanups.push(initSidebarToggle());
 };
 
 let globalInited = false;

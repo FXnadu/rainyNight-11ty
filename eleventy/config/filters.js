@@ -1,8 +1,18 @@
 const { DateTime } = require("luxon");
 const { getFolderNameFromPostPath } = require("./collections");
 const { encodeSlug } = require("../utils/slug-encoder");
+const path = require("path");
 
 const toUtcDate = (dateObj) => DateTime.fromJSDate(dateObj, { zone: "utc" });
+
+function getCategoryName(inputPath) {
+  if (!inputPath) return null;
+  const normalized = inputPath.split(path.sep).join("/");
+  const marker = "/src/content/posts/";
+  const idx = normalized.indexOf(marker);
+  if (idx === -1) return null;
+  return normalized.slice(idx + marker.length).split("/").filter(Boolean)[0] || null;
+}
 
 function registerDateFilters(eleventyConfig) {
   eleventyConfig.addFilter("readableDate", (dateObj) =>
@@ -28,6 +38,10 @@ function registerDateFilters(eleventyConfig) {
   eleventyConfig.addFilter("folderNameFromPost", (data) =>
     getFolderNameFromPostPath(data)
   );
+
+  eleventyConfig.addFilter("categoryFromPath", (inputPath) =>
+    getCategoryName(inputPath)
+  );
 }
 
 function registerTitleFilters(eleventyConfig) {
@@ -42,6 +56,11 @@ function registerTitleFilters(eleventyConfig) {
   // 将字符串编码为BV风格短ID
   eleventyConfig.addFilter("encodeSlug", (str, options = {}) => {
     return encodeSlug(str, options);
+  });
+
+  // 将换行符转换为br标签
+  eleventyConfig.addFilter("nl2br", (str) => {
+    return String(str || "").replace(/\n/g, "<br>");
   });
 }
 

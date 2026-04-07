@@ -1,4 +1,45 @@
-.hero-section { margin-bottom: 80px; }
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.hero-content {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-search {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.home-search-form {
+    width: 100%;
+}
+
+.home-search-controls {
+    width: 100%;
+}
+
+.home-search-input {
+    width: 100%;
+}
+
+.search-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-primary, #fff);
+}
 
 /* 首页首屏巨大方格背景 */
 body.home-page::before {
@@ -59,7 +100,6 @@ body.home-page::before {
 
 .hero-subtitle {
     font-size: 1.5rem;
-    margin-bottom: 32px;
     color: var(--text-secondary);
     font-weight: 400;
     letter-spacing: -0.01em;
@@ -68,10 +108,11 @@ body.home-page::before {
 }
 
 .hero-description {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     max-width: 600px;
     line-height: 1.8;
+    margin-top: 8px;
 }
 
 .section-block { margin-bottom: 80px; }
@@ -97,55 +138,65 @@ body.home-page::before {
 }
 
 .home-search-controls {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
+    position: relative;
+    display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .home-search-input {
     width: 100%;
-    min-height: 52px;
-    border-radius: 12px;
+    min-height: 56px;
+    border-radius: 28px;
     border: 1px solid var(--accent-subtle);
-    background: color-mix(in srgb, var(--bg-color, #fff), var(--tile-bg-1) 70%);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
-    padding: 0 16px;
+    padding: 0 68px 0 20px;
     font: inherit;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .home-search-input::placeholder {
     color: var(--text-secondary);
+    font-style: italic;
 }
 
 .home-search-input:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 78%);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 78%), 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .home-search-button {
-    width: 52px;
-    height: 52px;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
     border: 0;
-    border-radius: 12px;
-    background: var(--accent-color);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #fff 20%));
     color: #fff;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .home-search-button:hover {
-    opacity: 0.92;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    opacity: 1;
 }
 
 .home-search-button:active {
-    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .home-search-hint {
@@ -156,9 +207,30 @@ body.home-page::before {
 }
 
 .home-search-results {
-    margin-top: 20px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: grid;
-    gap: 14px;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--tile-bg-1);
+    border: 1px solid var(--accent-subtle);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.home-search-results[hidden] {
+    display: none;
+}
+
+.hero-search {
+    position: relative;
 }
 
 .home-search-empty {

@@ -1,8 +1,19 @@
 .knowledge-container {
     display: flex;
+    flex-direction: column;
     gap: 40px;
     margin-top: 10px;
     min-height: 60vh;
+}
+
+.knowledge-header {
+    margin-bottom: 20px;
+}
+
+.knowledge-body {
+    display: flex;
+    gap: 40px;
+    flex: 1;
 }
 
 .knowledge-sidebar {
