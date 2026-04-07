@@ -12,6 +12,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const SITE_ROOT = path.join(process.cwd(), "_site");
 const CSS_ROOT = path.join(SITE_ROOT, "assets", "css");
@@ -28,8 +29,10 @@ const BASE_CSS_FILES = [
 // 合并后的文件名
 const BUNDLE_NAME = "bundle.css";
 
-// 版本号（用于缓存控制）
-const VERSION = Date.now().toString();
+// 生成内容哈希（用于缓存控制）
+function generateHash(content) {
+  return crypto.createHash("md5").update(content).digest("hex").slice(0, 8);
+}
 
 /**
  * 递归查找所有 HTML 文件
@@ -161,10 +164,14 @@ function run() {
     return;
   }
 
+  // 生成内容哈希
+  const bundleHash = generateHash(bundle);
+  
   // 写入 bundle.css
   const bundlePath = path.join(CSS_ROOT, BUNDLE_NAME);
   fs.writeFileSync(bundlePath, bundle, "utf8");
   console.log(`[merge-css] Created: ${BUNDLE_NAME} (${bytes(Buffer.byteLength(bundle, "utf8"))})`);
+  console.log(`[merge-css] Bundle hash: ${bundleHash}`);
 
   // 更新 HTML 文件中的引用
   const htmlFiles = walkHtmlFiles(SITE_ROOT);
@@ -172,7 +179,7 @@ function run() {
 
   htmlFiles.forEach((filePath) => {
     const html = fs.readFileSync(filePath, "utf8");
-    const updated = updateHtmlReferences(html, VERSION);
+    const updated = updateHtmlReferences(html, bundleHash);
     
     if (updated !== html) {
       fs.writeFileSync(filePath, updated, "utf8");
