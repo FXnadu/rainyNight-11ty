@@ -39,7 +39,7 @@ const config = {
 
     pagination: {
         archivePageSize: 20,
-        categoryPageSize: 10,
+        categoryPageSize: 16,
         recordsPageSize: 8,
         labels: {
             previousPage: "← 上一页",
