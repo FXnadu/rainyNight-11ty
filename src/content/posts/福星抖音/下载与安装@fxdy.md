@@ -7,7 +7,40 @@ categoryOrder: 1
 updated: '2026-04-07'
 ---
 
+## 下载
+
 > [!NOTE]
 >
 > 软件通过此链接下载：[福星抖店上货.zip - 蓝奏云](https://wwbp.lanzouw.com/ipdsd2oae0de)
+
+## 安装
+
+1. 在C盘以外的盘新建文件夹，把下载的安装包放入该文件夹中。
+2. 选中安装包，点击右键解压。
+
+<img src="https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260407171547618.png" alt="解压安装包" style="zoom:80%;" />
+
+## 打开软件
+
+> [!WARNING]
+>
+> 双击打开解压后的文件夹，注意图标差异。
+
+![打开软件文件夹](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260407171955699.png)
+
+![打开启动程序](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260407173030118.png)
+
+> [!TIP]
+>
+> 如双击程序无反应, 请尝试双击Launcher.exe启动程序。
+
+## 验证是否安装成功
+
+软件最后打开如图所示，显示这样即为安装成功：
+
+![软件主界面](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260407173441385.png)
+
+---
+
+参考信息：www.yuque.com/maisi-f3g6d/mv24cn/mtos9avrw71lrl0g
 

@@ -1,0 +1,28 @@
+---
+title: 创建任务：本地数据包复制
+category: 福星抖音
+date: '2026-04-08'
+description: ''
+categoryOrder: 5
+---
+
+## 支持搬运的平台：
+
+|          | 淘宝            | 天猫            | 1688 | 多多            |
+| -------- | --------------- | --------------- | ---- | --------------- |
+| 是否支持 | ✅               | ✅               | ❌    | ✅               |
+| 扣点规则 | 1 点 / 1 个商品 | 1 点 / 1 个商品 | -    | 1 点 / 1 个商品 |
+
+## 创建任务流程：
+
+![xianjian](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-01-15.png)
+
+![步骤2](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-02-12.png)
+
+![步骤3](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-02-38.png)
+
+![步骤4](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-03-02.png)
+
+![步骤5](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-03-29.png)
+
+![创建任务](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-05-08.png)

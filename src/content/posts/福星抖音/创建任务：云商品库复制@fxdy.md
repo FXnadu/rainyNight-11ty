@@ -1,0 +1,56 @@
+---
+title: 创建任务：云商品库复制
+category: 福星抖音
+date: '2026-04-08'
+description: ''
+categoryOrder: 4
+---
+
+## 支持搬运的平台：
+
+|          | 淘宝            | 天猫            | 1688            | 多多            | 抖音            |
+| -------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| 是否支持 | ✅               | ✅               | ✅               | ✅               | ✅               |
+| 扣点规则 | 1 点 / 1 个商品 | 1 点 / 1 个商品 | 1 点 / 1 个商品 | 1 点 / 1 个商品 | 1 点 / 1 个商品 |
+
+> [!NOTE]
+>
+> 下面流程仅为已经入库的商品进行复制上架的教程；在此前请先把商品入库。商品入库教程：[🔗点击此查看入库教程](/categories/c1Rmetd/)
+
+## 勾选商品进行搬运
+
+勾选对应商品即可进行搬运，操作较为自由，可按需选择想要搬运的商品。
+
+![勾选商品搬运](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image.png)
+
+![勾选对应商品](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/imag1e.png)
+
+![成功会有提示](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(1).png)
+
+**完成以上步骤后，返回上货软件，前往“新建复制”页面勾选对应店铺，创建任务开始上传商品**。
+
+![创建任务](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(2).png)
+
+> [!WARNING]
+>
+> 软件中的“乱码”则是通过云商品库添加进来的链接，禁止改动，点击创建任务即可。
+
+## 对整个云商品库进行搬运
+
+**复制对应云商品库的“共享码”，即可搬运整个云商品**。
+
+![image (3)](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(3).png)
+
+![image (4)](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(4).png)
+
+### 使用共享码进行商品搬运
+
+> [!NOTE]
+>
+> 复制共享码后，返回至搬运商品的【新建复制】模块，随后点击“导入云商品库”，点击下一步，设置参数并创建任务。按下图步骤操作：
+
+![image (5)](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(5).png)
+
+![image (6)](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(6).png)
+
+![创建任务](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image%20(2).png)

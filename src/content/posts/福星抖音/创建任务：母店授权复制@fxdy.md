@@ -1,0 +1,59 @@
+---
+title: 创建任务：母店授权复制
+category: 福星抖音
+date: '2026-04-08'
+description: ''
+categoryOrder: 6
+---
+
+> [!IMPORTANT]
+>
+> 1. 只能搬运母店存在的商品，不存在的跳过。
+> 2. 每成功搬运1个商品扣1个点。
+> 3. 原商品审核不通过等会跳过搬运，避免浪费点数。
+> 4. 不想复制后的商品价格有变动，价格公式填写*1+0，这样填写后，复制与原链接价格一样。
+
+> [!NOTE]搬运前请确保母店和子店：
+>
+> 1. 均需要在软件登录
+> 2. 需要开通并授权：“店羊羊商品分销铺货”，在软件的服务操作栏中点击==开通按授权==按钮。
+> 3. 请保持软件最新版本。
+> 4. 月卡存在剩余时间。
+
+## 功能教学
+
+![条件](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-13-02.png)
+
+![xyb](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-26-40.png)
+
+> [!WARNING]
+>
+> 确保对应商品是存在于母店中的，否则无法搬运。
+
+## 启动相关任务参数，创建任务
+
+![参数设置](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-29-06.png)
+
+> [!CAUTION]注意：
+>
+> **设置参数中也需要勾选“启动母店授权复制”复制功能选项**，才会激活母店授权模式。
+
+
+
+## 如何导出母店商品链接？
+
+#### 操作步骤
+
+1. 登录**抖店网页后台**，进入「**商品管理**」模块，导出商品数据。
+2. 处理导出表格：
+   - 规则说明：表格行数与商品 SKU 对应；例如：1 个商品含 10 个 SKU，则对应占 10 行数据。
+   - 去重操作：定位表格右侧倒数第二列「**商品链接**」，选中整列数据，执行**去重**操作（去重逻辑仅保留唯一链接）。
+3. 上传提交：将去重后的商品链接，导入至目标软件中完成上传。
+
+![导出链接](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-21-53.png)
+
+![2](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-22-55.png)
+
+![3](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-23-27.png)
+
+![4](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_15-23-47.png)

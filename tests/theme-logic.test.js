@@ -31,32 +31,50 @@ global.localStorage.clear();
 // Reset DOM
 global.document.documentElement.attributes = {};
 
-// Simulate Inline Script
+// Simulate Inline Script - 默认 light 模式
 (function() {
     const savedTheme = global.localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        global.document.documentElement.setAttribute('data-theme', 'light');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+        global.document.documentElement.setAttribute('data-theme', savedTheme);
     } else {
-        global.document.documentElement.setAttribute('data-theme', 'dark');
+        global.document.documentElement.setAttribute('data-theme', 'light');
     }
 })();
 
 // Assertions
-assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'dark', 'Default should be dark');
-console.log('PASS: Default is dark');
+assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'light', 'Default should be light');
+console.log('PASS: Default is light');
 
 
-// Test 2: Persistence Logic (Simulate Saved Light Theme)
-console.log('\nTest 2: Persistence Logic (Saved Light Theme)');
+// Test 2: Persistence Logic (Simulate Saved Dark Theme)
+console.log('\nTest 2: Persistence Logic (Saved Dark Theme)');
+global.localStorage.setItem('theme', 'dark');
+global.document.documentElement.attributes = {};
+
+(function() {
+    const savedTheme = global.localStorage.getItem('theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+        global.document.documentElement.setAttribute('data-theme', savedTheme);
+    } else {
+        global.document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+
+assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'dark', 'Should respect saved dark theme');
+console.log('PASS: Respects saved dark theme');
+
+
+// Test 3: Persistence Logic (Simulate Saved Light Theme)
+console.log('\nTest 3: Persistence Logic (Saved Light Theme)');
 global.localStorage.setItem('theme', 'light');
 global.document.documentElement.attributes = {};
 
 (function() {
     const savedTheme = global.localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        global.document.documentElement.setAttribute('data-theme', 'light');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+        global.document.documentElement.setAttribute('data-theme', savedTheme);
     } else {
-        global.document.documentElement.setAttribute('data-theme', 'dark');
+        global.document.documentElement.setAttribute('data-theme', 'light');
     }
 })();
 
@@ -64,11 +82,11 @@ assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), '
 console.log('PASS: Respects saved light theme');
 
 
-// Test 3: Toggle Logic
-console.log('\nTest 3: Toggle Logic');
-// Reset to Dark
-global.document.documentElement.setAttribute('data-theme', 'dark');
-global.localStorage.setItem('theme', 'dark');
+// Test 4: Toggle Logic
+console.log('\nTest 4: Toggle Logic');
+// Reset to Light
+global.document.documentElement.setAttribute('data-theme', 'light');
+global.localStorage.setItem('theme', 'light');
 
 // Extract Toggle Logic from main.js idea
 function onToggle() {
@@ -84,14 +102,14 @@ function onToggle() {
 
 // Action: Click Toggle
 onToggle();
-assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'light', 'Should switch to light');
-assert.strictEqual(global.localStorage.getItem('theme'), 'light', 'Should save light preference');
-console.log('PASS: Toggles to Light');
+assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'dark', 'Should switch to dark');
+assert.strictEqual(global.localStorage.getItem('theme'), 'dark', 'Should save dark preference');
+console.log('PASS: Toggles to Dark');
 
 // Action: Click Toggle Again
 onToggle();
-assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'dark', 'Should switch back to dark');
-assert.strictEqual(global.localStorage.getItem('theme'), 'dark', 'Should save dark preference');
-console.log('PASS: Toggles back to Dark');
+assert.strictEqual(global.document.documentElement.getAttribute('data-theme'), 'light', 'Should switch back to light');
+assert.strictEqual(global.localStorage.getItem('theme'), 'light', 'Should save light preference');
+console.log('PASS: Toggles back to Light');
 
 console.log('\nAll tests passed successfully.');

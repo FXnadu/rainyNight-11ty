@@ -14,7 +14,7 @@
       "subcategories": {
         "fxdy": {
           "name": "使用教程",
-          "description": "福星抖音上货软件使用教程以及相关文档。"
+          "description": "福星抖音上货软件使用教程以及相关文档。本栏目教程基于其他文档进行简化，方便快速开始使用，参考文档：www.yuque.com/maisi-f3g6d/mv24cn，若不一致，以文档内容为准。"
         }
       }
     },
@@ -33,6 +33,15 @@
         "test": {
           "name": "test",
           "description": "暂无简介"
+        }
+      }
+    },
+    "云商品库": {
+      "order": 5,
+      "subcategories": {
+        "yspk": {
+          "name": "云商品库教程",
+          "description": "云商品库使用教程以及相关文档。本栏目教程基于其他文档进行简化，参考文档：www.yuque.com/maisi-f3g6d/yunshangpinku/ep1ntlt54rx5v65y，若不一致，以官方为准。"
         }
       }
     }

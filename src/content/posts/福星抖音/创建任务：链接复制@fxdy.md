@@ -1,0 +1,53 @@
+---
+title: 创建任务：链接复制
+category: 福星抖音
+date: '2026-04-08'
+description: ''
+categoryOrder: 3
+---
+
+链接复制模式下支持搬运的平台以及扣点规则：
+
+|          | 淘宝              | 天猫              | 1688            | 多多             | 抖音             |
+| -------- | ----------------- | ----------------- | --------------- | ---------------- | ---------------- |
+| 是否支持 | ✅                 | ✅                 | ✅               | ✅                | ✅                |
+| 扣点规则 | 1~2 点 / 1 个商品 | 1~2 点 / 1 个商品 | 1 点 / 1 个商品 | 10 点 / 1 个商品 | 10 点 / 1 个商品 |
+
+## ⚠️ 特别说明
+
+> [!CAUTION]
+>
+> 淘宝商品链接搬运有==两种数据上传模式==：缓存数据与实时数据。缓存数据搬运成功扣1点数量包，实时数据商品信息填写成功后立即扣1点数量包，商品上传成功再扣除1点数量包。获取失败不扣点。==此选项当前仅影响淘宝数据时效性，其他平台暂不影响。==
+
+![两种数据上传模式](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_13-32-47.png)
+
+
+
+> [!TIP]
+>
+> **多多、抖音商品直接使用链接搬运，搬运成功会扣除10点数量包**。若需要降低成本可以使用“本地数据包”方式进行商品搬运。[🔗点击此查看本地数据包复制教程](/posts/p2tTw6R/)
+
+
+
+## 创建任务流程
+
+![创建任务](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260408102410393.png)
+
+![创建任务](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_10-34-44.png)
+
+![创建任务2](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_10-37-58.png)
+
+![复制模式](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_10-39-07.png)
+
+![保存为模板](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_10-39-48.png)
+
+任务创建成功示例截图：
+
+![创建任务成功](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/PixPin_2026-04-08_10-40-24.png)
+
+## 支持的链接格式示例：
+
+https://item.taobao.com/item.htm?id=000001
+https://detail.1688.com/offer/000001.html
+https://mobile.yangkeduo.com/goods.html?goods_id=000001
+https://haohuo.jinritemai.com/ecommerce/trade/detail/index.html?origin_type=604&id=000001
