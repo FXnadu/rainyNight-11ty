@@ -257,6 +257,11 @@ function registerCollections(eleventyConfig) {
       });
     });
 
+    // 对每个分类下的文章按 categoryOrder 排序
+    Object.keys(categories).forEach((key) => {
+      categories[key].sort(comparePostsForCategoryPages);
+    });
+
     return categories;
   });
 
