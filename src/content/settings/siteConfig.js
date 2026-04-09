@@ -60,33 +60,34 @@ const config = {
                 ]
             },
             audience: {
-                title: "常用教程",
+                title: "常用",
                 items: [
                     {
                         icon: "fa-solid fa-briefcase",
                         title: "福星抖音",
-                        description: "福星抖音上货软件使用教程",
+                        description: "福星抖音使用教程",
                         targetCategory: "福星抖音"
                     },
                     {
                         icon: "fa-solid fa-briefcase",
-                        title: "福星淘宝",
-                        description: "福星淘宝店铺管理软件使用教程",
-                        targetCategory: "福星淘宝"
+                        title: "Personal Q&A",
+                        description: "个人所遇问题整理合集",
+                        targetCategory: "Personal Q&A"
                     },
                     {
                         icon: "fa-solid fa-briefcase",
-                        title: "福星微店",
-                        description: "福星微店管理软件使用教程",
-                        targetCategory: "福星微店"
-                    },
-                    {
-                        icon: "fa-solid fa-laptop-code",
-                        title: "资源下载",
-                        description: "...",
-                         targetCategory: "资源下载"
+                        title: "抖店相关",
+                        description: "抖店FAQ快速导航",
+                        targetCategory: "抖店相关"
                     }
                 ]
+            },
+
+            search: {
+                placeholder: "搜索知识库...",
+                buttonLabel: "搜索",
+                description: "支持标题、分类、摘要和正文关键词检索，快速找到你需要的内容。",
+                examples: "例如：限售品牌、指定类目发布、使用教程、安装指南..."
             },
 
             closing: {

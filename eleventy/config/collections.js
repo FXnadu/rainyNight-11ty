@@ -226,10 +226,25 @@ function buildCategoryNodes(posts, meta) {
   return nodes;
 }
 
+function compareMoments(a, b) {
+  const dateA = a.date;
+  const dateB = b.date;
+  if (dateA - dateB !== 0) return dateB - dateA;
+  const timeA = a.data && a.data.time ? a.data.time : "";
+  const timeB = b.data && b.data.time ? b.data.time : "";
+  return timeB.localeCompare(timeA);
+}
+
 function registerCollections(eleventyConfig) {
   const categoryPageSize = siteConfig.pagination && Number(siteConfig.pagination.categoryPageSize) > 0
     ? Number(siteConfig.pagination.categoryPageSize)
     : 10;
+
+  eleventyConfig.addCollection("moments", (collectionApi) =>
+    collectionApi
+      .getFilteredByTag("moments")
+      .sort(compareMoments)
+  );
 
   eleventyConfig.addCollection("posts", (collectionApi) =>
     getPostsFromContentDir(collectionApi)

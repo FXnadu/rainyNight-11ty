@@ -20,11 +20,11 @@ pageStyles:
                         class="home-search-input"
                         type="search"
                         name="q"
-                        placeholder="搜索知识库..."
+                        placeholder="{{ homeConfig.search.placeholder }}"
                         autocomplete="off"
                         data-home-search-input
                     >
-                    <button class="home-search-button" type="submit" aria-label="搜索">
+                    <button class="home-search-button" type="submit" aria-label="{{ homeConfig.search.buttonLabel }}">
                         <svg width="18" height="18"><use href="#icon-search"/></svg>
                     </button>
                 </div>
@@ -33,8 +33,8 @@ pageStyles:
         </div>
         
         <p class="hero-description">
-            支持标题、分类、摘要和正文关键词检索，快速找到你需要的内容。<br>
-            例如：福星抖音、福星淘宝、使用教程、安装指南...
+            {{ homeConfig.search.description }}<br>
+            {{ homeConfig.search.examples }}
         </p>
     </div>
 </section>

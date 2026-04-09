@@ -1,17 +1,11 @@
 ---
-title: 下载与安装
+title: 安装
 category: 福星抖音上货使用教程
 date: '2026-04-03'
 description: ''
 categoryOrder: 1
-updated: '2026-04-07'
+updated: '2026-04-09'
 ---
-
-## 下载
-
-> [!NOTE]
->
-> 软件通过此链接下载：[福星抖店上货.zip - 蓝奏云](https://wwbp.lanzouw.com/ipdsd2oae0de)
 
 ## 安装
 
@@ -39,8 +33,4 @@ updated: '2026-04-07'
 软件最后打开如图所示，显示这样即为安装成功：
 
 ![软件主界面](https://deepwhite-workspace.oss-cn-guangzhou.aliyuncs.com/image-20260407173441385.png)
-
----
-
-参考信息：www.yuque.com/maisi-f3g6d/mv24cn/mtos9avrw71lrl0g
 

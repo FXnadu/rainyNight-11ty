@@ -14,7 +14,7 @@ pageStyles:
     <div class="moments-timeline">
 
         
-        {% for group in moments %}
+        {% for group in collections.moments | groupByDate %}
         <div class="moment-date-group">
 
             <div class="moment-date-label">
@@ -25,22 +25,22 @@ pageStyles:
             </div>
             <div class="moment-date-items">
                 {% for moment in group.items %}
-                <article class="moment-card" data-id="{{ moment.id }}">
+                <article class="moment-card" data-id="{{ moment.fileSlug }}">
                     <div class="moment-avatar">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
                     <div class="moment-content">
                         <div class="moment-header">
                             <svg class="moment-time-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            <span class="moment-time">{{ moment.time }}</span>
+                            <span class="moment-time">{{ moment.data.time }}</span>
                         </div>
                         
                         <div class="moment-body">
-                            <p class="moment-text">{{ moment.content }}</p>
+                            <div class="moment-text">{{ moment.templateContent | safe }}</div>
                             
-                            {% if moment.images %}
-                            <div class="moment-images {% if moment.images.length > 1 %}multi{% endif %}">
-                                {% for img in moment.images %}
+                            {% if moment.data.images and moment.data.images.length %}
+                            <div class="moment-images {% if moment.data.images.length > 1 %}multi{% endif %}">
+                                {% for img in moment.data.images %}
                                 <div class="moment-image-item">
                                     <img src="{{ img }}" alt="动态配图" loading="lazy">
                                 </div>
@@ -48,10 +48,10 @@ pageStyles:
                             </div>
                             {% endif %}
                             
-                            {% if moment.video %}
+                            {% if moment.data.video %}
                             <div class="moment-video">
                                 <div class="moment-video-cover">
-                                    <img src="{{ moment.video.cover }}" alt="视频封面">
+                                    <img src="{{ moment.data.video.cover }}" alt="视频封面">
                                     <div class="moment-video-play">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                     </div>
@@ -59,11 +59,11 @@ pageStyles:
                             </div>
                             {% endif %}
                             
-                            {% if moment.link %}
-                            <a href="{{ moment.link.url }}" class="moment-link" target="_blank" rel="noopener">
+                            {% if moment.data.link %}
+                            <a href="{{ moment.data.link.url }}" class="moment-link" target="_blank" rel="noopener">
                                 <div class="moment-link-content">
-                                    <span class="moment-link-title">{{ moment.link.title }}</span>
-                                    <span class="moment-link-desc">{{ moment.link.description }}</span>
+                                    <span class="moment-link-title">{{ moment.data.link.title }}</span>
+                                    <span class="moment-link-desc">{{ moment.data.link.description }}</span>
                                 </div>
                                 <svg class="moment-link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
