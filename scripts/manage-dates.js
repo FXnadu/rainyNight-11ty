@@ -19,10 +19,17 @@ const extractTitleFromFilename = (filename) => {
   return baseName.split('@')[0].trim();
 };
 
-// Extract category from parent directory name
+// Extract category from directory structure
+// For structure: posts/Category/Subcategory/file.md -> returns Category
+// For structure: posts/Category/file.md -> returns Category
 const extractCategoryFromPath = (filePath) => {
-  const parentDir = path.basename(path.dirname(filePath));
-  return parentDir;
+  const relative = path.relative(postsDir, filePath).split(path.sep);
+  if (relative.length >= 2) {
+    // Always return the first directory as category
+    return relative[0];
+  }
+  // Fallback to parent directory name
+  return path.basename(path.dirname(filePath));
 };
 
 // 获取分类的下一个可用 order
@@ -58,6 +65,9 @@ function processFile(filePath, ordersMap) {
     needsUpdate = true;
     console.log(`[Category] Added category to: ${filename}`);
   }
+
+  // Note: subcategory is no longer auto-added to front-matter
+  // It is automatically detected from directory structure during build
 
   // 3. Handle 'date' (creation date)
   if (!frontMatter.date) {

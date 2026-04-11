@@ -1,0 +1,433 @@
+/* 电商链接转换工具页面样式 - 侧边栏布局 */
+
+.converter-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.converter-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.converter-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+    margin-bottom: 0.5rem;
+}
+
+.converter-subtitle {
+    color: var(--text-secondary, #666);
+    font-size: 0.95rem;
+}
+
+/* 主布局 - 侧边栏 + 内容区 */
+.converter-layout {
+    display: flex;
+    gap: 1.5rem;
+    align-items: stretch;
+    min-height: 600px;
+}
+
+/* 侧边栏 */
+.converter-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav {
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.sidebar-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary, #666);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+}
+
+.sidebar-tab:last-child {
+    border-bottom: none;
+}
+
+.sidebar-tab:hover {
+    background: var(--bg-secondary, #f8f9fa);
+    color: var(--text-primary, #1a1a1a);
+}
+
+.sidebar-tab.active {
+    background: var(--accent-color, #0066cc);
+    color: #fff;
+}
+
+.tab-icon {
+    flex-shrink: 0;
+}
+
+.tab-label {
+    flex: 1;
+}
+
+/* 侧边栏使用说明 */
+.sidebar-tips {
+    background: var(--bg-secondary, #f8f9fa);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.sidebar-tips h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.sidebar-tips ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.sidebar-tips li {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary, #666);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.sidebar-tips li:last-child {
+    margin-bottom: 0;
+}
+
+.content-panel {
+    display: none;
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 1.5rem;
+    flex: 1;
+    flex-direction: column;
+}
+
+.content-panel.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* .panel-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+} */
+
+/* .panel-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+    margin-bottom: 0.25rem;
+} */
+
+.panel-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+    margin: 0;
+}
+
+/* 输入框 */
+.converter-input {
+    width: 100%;
+    height: 150px;
+    padding: 1rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    resize: vertical;
+    background: var(--bg-secondary, #fafafa);
+    color: var(--text-primary, #1a1a1a);
+    transition: border-color 0.2s;
+}
+
+.converter-input:focus {
+    outline: none;
+    border-color: var(--accent-color, #0066cc);
+}
+
+.converter-input::placeholder {
+    color: var(--text-tertiary, #999);
+}
+
+/* 控制按钮 */
+.converter-controls {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.converter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.converter-btn svg {
+    flex-shrink: 0;
+}
+
+.converter-btn-primary {
+    background: var(--accent-color, #0066cc);
+    color: #fff;
+}
+
+.converter-btn-primary:hover {
+    background: var(--accent-hover, #0052a3);
+}
+
+.converter-btn-primary:disabled {
+    background: var(--text-tertiary, #999);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.converter-btn-secondary {
+    background: var(--bg-secondary, #f0f0f0);
+    color: var(--text-primary, #1a1a1a);
+}
+
+.converter-btn-secondary:hover {
+    background: var(--border-color, #e0e0e0);
+}
+
+/* 移除按钮聚焦时的悬浮效果 */
+.converter-btn:focus {
+    transform: none;
+    box-shadow: none;
+}
+
+/* 状态显示 */
+.converter-status {
+    font-weight: 500;
+    color: var(--text-secondary, #666);
+    min-height: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+/* 结果区域 */
+.converter-results {
+    background: var(--bg-secondary, #fafafa);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    padding: 1rem;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 150px;
+}
+
+.converter-results-placeholder {
+    text-align: center;
+    color: var(--text-tertiary, #999);
+    margin: 2rem 0;
+}
+
+.result-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.original-command {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
+}
+
+.final-link {
+    font-weight: 500;
+    color: var(--accent-color, #0066cc);
+    word-break: break-all;
+    text-decoration: none;
+}
+
+.final-link:hover {
+    text-decoration: underline;
+}
+
+.error-link {
+    font-weight: 500;
+    color: var(--error-color, #dc3545);
+}
+
+.error-suggestion {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+}
+
+/* 通用 */
+.hidden {
+    display: none;
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .sidebar-nav,
+    .content-panel {
+        background: var(--bg-primary-dark, #1e1e1e);
+        border-color: var(--border-color-dark, #333);
+    }
+    
+    .sidebar-tab {
+        border-color: var(--border-color-dark, #333);
+    }
+    
+    .sidebar-tab:hover {
+        background: var(--bg-secondary-dark, #2a2a2a);
+    }
+    
+    .sidebar-tips {
+        background: var(--bg-secondary-dark, #2a2a2a);
+        border-color: var(--border-color-dark, #333);
+    }
+    
+    .panel-header {
+        border-color: var(--border-color-dark, #333);
+    }
+    
+    .converter-input {
+        background: var(--bg-secondary-dark, #2a2a2a);
+        border-color: var(--border-color-dark, #333);
+        color: var(--text-primary-dark, #e0e0e0);
+    }
+    
+    .converter-btn-secondary {
+        background: var(--bg-secondary-dark, #2a2a2a);
+        color: var(--text-primary-dark, #e0e0e0);
+    }
+    
+    .converter-btn-secondary:hover {
+        background: var(--border-color-dark, #333);
+    }
+    
+    .converter-results {
+        background: var(--bg-secondary-dark, #2a2a2a);
+        border-color: var(--border-color-dark, #333);
+    }
+    
+    .error-suggestion {
+        background: var(--bg-primary-dark, #1e1e1e);
+        border-color: var(--border-color-dark, #333);
+    }
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .converter-page-container {
+        padding: 1rem;
+    }
+    
+    .converter-header h1 {
+        font-size: 1.4rem;
+    }
+    
+    /* 移动端改为上下布局 */
+    .converter-layout {
+        flex-direction: column;
+    }
+    
+    .converter-sidebar {
+        width: 100%;
+        position: static;
+    }
+    
+    .sidebar-nav {
+        display: flex;
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-tab {
+        flex: 1;
+        justify-content: center;
+        border-bottom: none;
+        border-right: 1px solid var(--border-color, #e0e0e0);
+    }
+    
+    .sidebar-tab:last-child {
+        border-right: none;
+    }
+    
+    .tab-label {
+        display: none;
+    }
+    
+    .sidebar-tips {
+        display: none;
+    }
+    
+    .content-panel {
+        padding: 1rem;
+    }
+    
+    .panel-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .converter-controls {
+        flex-direction: column;
+    }
+    
+    .converter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

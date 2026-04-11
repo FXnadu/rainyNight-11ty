@@ -4,6 +4,8 @@ category: 福星抖音
 date: '2026-04-08'
 description: ''
 categoryOrder: 11
+updated: '2026-04-10'
+subcategory: 福星抖音
 ---
 
 该报错常见于跨平台复制，原商品规格名称与发布规则不一致导致。

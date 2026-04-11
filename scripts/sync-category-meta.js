@@ -24,6 +24,14 @@ function getAllFiles(dirPath, arrayOfFiles) {
   return arrayOfFiles;
 }
 
+function extractSubcategoryFromPath(filePath) {
+  const relative = path.relative(CONTENT_DIR, filePath).split(path.sep);
+  if (relative.length > 2) {
+    return relative[relative.length - 2].trim();
+  }
+  return null;
+}
+
 function extractSubcategoryFromFilename(filename) {
   const stem = filename.replace(/\.md$/, '');
   const parts = stem.split('@');
@@ -31,6 +39,16 @@ function extractSubcategoryFromFilename(filename) {
     return parts[parts.length - 1].trim();
   }
   return null;
+}
+
+function extractSubcategory(filePath) {
+  const subcategoryFromPath = extractSubcategoryFromPath(filePath);
+  if (subcategoryFromPath) {
+    return subcategoryFromPath;
+  }
+  
+  const filename = path.basename(filePath);
+  return extractSubcategoryFromFilename(filename);
 }
 
 function syncMeta() {
@@ -53,8 +71,7 @@ function syncMeta() {
       fullCategory = '默认分类';
     }
 
-    const filename = path.basename(file);
-    const subcategoryCode = extractSubcategoryFromFilename(filename);
+    const subcategoryCode = extractSubcategory(file);
     
     if (!discoveredMeta.categories[fullCategory]) {
       discoveredMeta.categories[fullCategory] = { 
@@ -198,10 +215,13 @@ function syncMeta() {
     Object.keys(discoveredSubcats).forEach((subcatCode) => {
       if (!descSubcats[subcatCode]) {
         descSubcats[subcatCode] = {
-          name: subcatCode,
           description: DEFAULT_DESCRIPTION
         };
         addedSubcategories++;
+      }
+      // Remove stale 'name' field from older format
+      if (descSubcats[subcatCode].name) {
+        delete descSubcats[subcatCode].name;
       }
     });
     

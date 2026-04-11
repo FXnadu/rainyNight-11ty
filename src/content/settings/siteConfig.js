@@ -75,10 +75,10 @@ const config = {
                         targetCategory: "Personal Q&A"
                     },
                     {
-                        icon: "fa-solid fa-briefcase",
-                        title: "抖店相关",
-                        description: "抖店FAQ快速导航",
-                        targetCategory: "抖店相关"
+                        icon: "fa-solid fa-link",
+                        title: "链接转换工具",
+                        description: "长链接转短链接",
+                        url: "/link-converter/"
                     }
                 ]
             },

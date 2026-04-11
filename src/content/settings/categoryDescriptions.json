@@ -1,19 +1,13 @@
 {
   "categories": {
-    "福星抖音": {
+    "Personal Q&A": {
       "order": 3,
       "subcategories": {
-        "fxdy": {
-          "name": "使用教程",
-          "description": "福星抖音上货软件使用教程以及相关文档。本栏目教程基于其他文档进行简化，方便快速开始使用，参考文档：www.yuque.com/maisi-f3g6d/mv24cn，若不一致，以该文档内容为准。"
-        }
-      }
-    },
-    "Personal Q&A": {
-      "order": 1,
-      "subcategories": {
         "qa": {
-          "name": "qa",
+          "order": 1,
+          "description": "暂无简介"
+        },
+        "others": {
           "description": "暂无简介"
         }
       }
@@ -21,8 +15,26 @@
     "抖店相关": {
       "order": 2,
       "subcategories": {
-        "faq": {
-          "name": "faq",
+        "相关文档": {
+          "description": "暂无简介"
+        },
+        "抖电商学习笔记": {
+          "description": "暂无简介"
+        }
+      }
+    },
+    "福星铺货教程": {
+      "order": 2,
+      "subcategories": {
+        "福星抖音": {
+          "description": "暂无简介"
+        }
+      }
+    },
+    "资源下载": {
+      "order": 4,
+      "subcategories": {
+        "行业报告": {
           "description": "暂无简介"
         }
       }

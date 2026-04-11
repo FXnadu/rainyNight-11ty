@@ -178,7 +178,8 @@ function buildCategoryNodes(posts, meta) {
         if (subcategoryCode) {
           const subMeta = getSubcategoryMeta(meta, topLevelCategory, subcategoryCode);
           const subPath = `${currentPath}/${subcategoryCode}`;
-          const displayTitle = subMeta && subMeta.name ? subMeta.name : subcategoryCode;
+          // Use subcategory code as display title (folder name is the identifier)
+          const displayTitle = subcategoryCode;
           
           if (!nodes[subPath]) {
             nodes[subPath] = {
@@ -220,6 +221,30 @@ function buildCategoryNodes(posts, meta) {
       if (metaEntry && metaEntry.description) {
         node.meta = { description: metaEntry.description };
       }
+    }
+  });
+
+  // Sort children (subcategories) by order from meta
+  Object.keys(nodes).forEach((key) => {
+    const node = nodes[key];
+    if (node.children && node.children.length > 0) {
+      node.children.sort((a, b) => {
+        const partsA = a.split("/");
+        const partsB = b.split("/");
+        const subcatCodeA = partsA.length > 1 ? partsA[1] : null;
+        const subcatCodeB = partsB.length > 1 ? partsB[1] : null;
+        
+        if (!subcatCodeA || !subcatCodeB) return 0;
+        
+        const topLevelCategory = partsA[0];
+        const subMetaA = getSubcategoryMeta(meta, topLevelCategory, subcatCodeA);
+        const subMetaB = getSubcategoryMeta(meta, topLevelCategory, subcatCodeB);
+        
+        const orderA = subMetaA && typeof subMetaA.order === "number" ? subMetaA.order : Number.MAX_SAFE_INTEGER;
+        const orderB = subMetaB && typeof subMetaB.order === "number" ? subMetaB.order : Number.MAX_SAFE_INTEGER;
+        
+        return orderA - orderB;
+      });
     }
   });
 

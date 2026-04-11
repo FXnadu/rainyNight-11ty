@@ -30,18 +30,29 @@ module.exports = async function(eleventyConfig) {
   registerTitleFilters(eleventyConfig);
   registerCollections(eleventyConfig);
 
-  // Validate post filenames: must contain @ symbol
+  // Validate post filenames: must contain @ symbol OR be in a subcategory folder
   eleventyConfig.addCollection("postValidator", (collectionApi) => {
     const posts = collectionApi.getFilteredByGlob("src/content/posts/**/*.md");
     for (const post of posts) {
       const inputPath = post.inputPath;
-      const fileName = inputPath.split(/[/\\]/).pop();
+      const pathParts = inputPath.split(/[/\\]/);
+      const fileName = pathParts[pathParts.length - 1];
       const stem = fileName.replace(/\.md$/, "");
-      if (!stem.includes("@")) {
+      
+      // Check if file has @ suffix in filename
+      const hasAtSuffix = stem.includes("@");
+      
+      // Check if file is in a subcategory folder (posts/Category/Subcategory/file.md)
+      // Path structure: src/content/posts/Category/Subcategory/file.md
+      const postsIndex = pathParts.findIndex(part => part === "posts");
+      const isInSubcategoryFolder = postsIndex !== -1 && pathParts.length > postsIndex + 3;
+      
+      if (!hasAtSuffix && !isInSubcategoryFolder) {
         throw new Error(
           `文章文件名格式错误: "${fileName}"\n` +
-          `必须包含 @ 符号，格式: 标题@分类标识.md\n` +
-          `例如: 快速上手@abc.md`
+          `必须满足以下任一条件:\n` +
+          `1. 文件名包含 @ 符号，格式: 标题@分类标识.md (例如: 快速上手@abc.md)\n` +
+          `2. 文件放在子分类文件夹中，格式: posts/分类/子分类/标题.md`
         );
       }
     }
@@ -67,6 +78,16 @@ module.exports = async function(eleventyConfig) {
       const inputPath = data.page && data.page.inputPath;
       if (!inputPath) return null;
       const pathParts = inputPath.split(/[/\\]/);
+      
+      // First, try to extract from directory structure (posts/Category/Subcategory/file.md)
+      const postsIndex = pathParts.findIndex(part => part === "posts");
+      if (postsIndex !== -1 && pathParts.length > postsIndex + 3) {
+        // Path: .../posts/Category/Subcategory/file.md
+        // Subcategory is the folder before the file
+        return pathParts[pathParts.length - 2];
+      }
+      
+      // Fallback: extract from filename suffix (file@subcategory.md)
       const fileName = pathParts[pathParts.length - 1];
       const stem = fileName.replace(/\.md$/, "");
       const parts = stem.split("@");
