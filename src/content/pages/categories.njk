@@ -36,6 +36,16 @@ pageStyles:
             </div>
             <div class="cards-grid">
                 {% for cat in folder.categories %}
+                {# 检查是否是子分类（有子分类的分类显示卡片，无子分类的分类直接显示文章） #}
+                {% set hasSubcategories = false %}
+                {% for c in folder.categories %}
+                    {% if c.parentTitle == cat.title and c.isSubcategory %}
+                        {% set hasSubcategories = true %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if cat.isSubcategory or hasSubcategories %}
+                {# 子分类或有子分类的分类 - 显示卡片 #}
                 <div class="clean-card" onclick="if(!event.target.closest('a')) window.location.href='{{ cat.url }}'" style="cursor: pointer;">
                     <h3><a href="{{ cat.url }}" style="text-decoration: none; color: inherit;">{{ cat.title }}</a></h3>
                     {% if cat.description %}
@@ -46,6 +56,22 @@ pageStyles:
                         <svg width="14" height="14" class="card-arrow"><use href="#icon-arrow-right"/></svg>
                     </div>
                 </div>
+                {% else %}
+                {# 无子分类的分类 - 显示前8篇文章和查看更多按钮 #}
+                <div class="clean-list" style="grid-column: 1 / -1;">
+                    {% for post in cat.posts | limit(8) %}
+                    <a href="{{ post.url }}" class="clean-item">
+                        <span class="clean-item-title">{{ post.data.title }}</span>
+                        <span class="clean-item-index">#{{ loop.index }}</span>
+                    </a>
+                    {% endfor %}
+                    {% if cat.posts.length > 8 %}
+                    <a href="{{ cat.url }}" class="clean-item" style="justify-content: center; color: var(--accent-color);">
+                        <span>查看更多 ({{ cat.posts.length - 8 }} 篇) →</span>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>

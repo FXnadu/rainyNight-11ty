@@ -30,8 +30,9 @@ eleventyComputed:
     {% endif %}
 </p>
 
+{# 子分类文件夹卡片 - 始终显示（如果有子分类）#}
 {% if pageData.children.length > 0 %}
-<div class="clean-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 0; margin-bottom: 40px; gap: 20px;">
+<div class="clean-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 0; margin-bottom: 24px; gap: 20px;">
     {% for child in pageData.children %}
     <div class="clean-card" style="padding: 20px;" onclick="window.location.href='{{ child.url }}'">
         <h4 style="margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;"><a href="{{ child.url }}" style="text-decoration: none; color: inherit;">{{ child.title }}</a></h4>

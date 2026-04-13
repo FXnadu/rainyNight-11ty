@@ -30,34 +30,14 @@ module.exports = async function(eleventyConfig) {
   registerTitleFilters(eleventyConfig);
   registerCollections(eleventyConfig);
 
-  // Validate post filenames: must contain @ symbol OR be in a subcategory folder
-  eleventyConfig.addCollection("postValidator", (collectionApi) => {
-    const posts = collectionApi.getFilteredByGlob("src/content/posts/**/*.md");
-    for (const post of posts) {
-      const inputPath = post.inputPath;
-      const pathParts = inputPath.split(/[/\\]/);
-      const fileName = pathParts[pathParts.length - 1];
-      const stem = fileName.replace(/\.md$/, "");
-      
-      // Check if file has @ suffix in filename
-      const hasAtSuffix = stem.includes("@");
-      
-      // Check if file is in a subcategory folder (posts/Category/Subcategory/file.md)
-      // Path structure: src/content/posts/Category/Subcategory/file.md
-      const postsIndex = pathParts.findIndex(part => part === "posts");
-      const isInSubcategoryFolder = postsIndex !== -1 && pathParts.length > postsIndex + 3;
-      
-      if (!hasAtSuffix && !isInSubcategoryFolder) {
-        throw new Error(
-          `文章文件名格式错误: "${fileName}"\n` +
-          `必须满足以下任一条件:\n` +
-          `1. 文件名包含 @ 符号，格式: 标题@分类标识.md (例如: 快速上手@abc.md)\n` +
-          `2. 文件放在子分类文件夹中，格式: posts/分类/子分类/标题.md`
-        );
-      }
-    }
-    return [];
+  // Add limit filter for arrays
+  eleventyConfig.addFilter("limit", (array, limit) => {
+    if (!Array.isArray(array)) return [];
+    return array.slice(0, limit);
   });
+
+  // Post validation removed - allowing mixed structure:
+  // Categories can have both subcategory folders AND posts directly in the category folder
 
   // Keep post defaults out of src/content/posts so that directory only contains article files.
   eleventyConfig.addGlobalData("eleventyComputed", {

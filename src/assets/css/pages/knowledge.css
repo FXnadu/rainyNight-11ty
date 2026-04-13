@@ -259,3 +259,30 @@
         padding-bottom: 20px;
     }
 }
+
+/* 展开卡片样式 - 用于无子分类的分类 */
+.clean-card.expanded {
+    height: auto;
+    display: block;
+}
+
+.clean-card.expanded h3 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.clean-card.expanded .article-list {
+    background: var(--bg-primary, #0a0a0a);
+}
+
+.clean-card.expanded .article-list a:hover {
+    background: var(--bg-secondary, #1a1a1a) !important;
+}
+
+[data-theme="light"] .clean-card.expanded .article-list {
+    background: var(--bg-primary, #ffffff);
+}
+
+[data-theme="light"] .clean-card.expanded .article-list a:hover {
+    background: var(--bg-secondary, #f3f4f6) !important;
+}

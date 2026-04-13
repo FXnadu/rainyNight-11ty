@@ -152,66 +152,65 @@ function buildCategoryNodes(posts, meta) {
   const nodes = {};
 
   posts.forEach((item) => {
-    const category = getCategoryPathFromPost(item);
-    const parts = category.split("/");
-    const subcategoryCode = item.data && item.data.subcategory ? item.data.subcategory : null;
-    const topLevelCategory = parts[0];
-    let currentPath = "";
-
-    parts.forEach((part, index) => {
-      currentPath = currentPath ? `${currentPath}/${part}` : part;
-
-      if (!nodes[currentPath]) {
-        nodes[currentPath] = {
-          key: currentPath,
-          title: part,
+    const inputPath = item && item.inputPath ? item.inputPath : "";
+    const normalizedPath = inputPath.split(path.sep).join("/");
+    const marker = "/src/content/posts/";
+    const markerIndex = normalizedPath.indexOf(marker);
+    
+    if (markerIndex === -1) return;
+    
+    const relativePath = normalizedPath.slice(markerIndex + marker.length);
+    const segments = relativePath.split("/").filter(Boolean);
+    
+    if (segments.length < 2) return;
+    
+    const topLevelCategory = segments[0];
+    const subcategoryCode = segments.length >= 3 ? segments[segments.length - 2] : null;
+    
+    // 构建分类路径
+    const categoryPath = topLevelCategory;
+    
+    // 创建顶级分类节点
+    if (!nodes[categoryPath]) {
+      nodes[categoryPath] = {
+        key: categoryPath,
+        title: topLevelCategory,
+        posts: [],
+        children: [],
+        parent: null,
+        meta: {},
+        encodedKey: encodeSlug(categoryPath, { prefix: 'c', minLength: 6 })
+      };
+    }
+    
+    // 如果有子分类
+    if (subcategoryCode) {
+      const subPath = `${categoryPath}/${subcategoryCode}`;
+      
+      if (!nodes[subPath]) {
+        nodes[subPath] = {
+          key: subPath,
+          title: subcategoryCode,
           posts: [],
           children: [],
-          parent: index > 0 ? parts.slice(0, index).join("/") : null,
+          parent: categoryPath,
           meta: {},
-          // 生成 BV 风格短 ID（使用 'c' 前缀表示 category）
-          encodedKey: encodeSlug(currentPath, { prefix: 'c', minLength: 6 })
+          encodedKey: encodeSlug(subPath, { prefix: 'c', minLength: 6 })
         };
       }
-
-      if (index === parts.length - 1) {
-        if (subcategoryCode) {
-          const subMeta = getSubcategoryMeta(meta, topLevelCategory, subcategoryCode);
-          const subPath = `${currentPath}/${subcategoryCode}`;
-          // Use subcategory code as display title (folder name is the identifier)
-          const displayTitle = subcategoryCode;
-          
-          if (!nodes[subPath]) {
-            nodes[subPath] = {
-              key: subPath,
-              title: displayTitle,
-              posts: [],
-              children: [],
-              parent: currentPath,
-              meta: {},
-              // 生成 BV 风格短 ID
-              encodedKey: encodeSlug(subPath, { prefix: 'c', minLength: 6 })
-            };
-          }
-          
-          nodes[subPath].posts.push(item);
-          if (!nodes[currentPath].children.includes(subPath)) {
-            nodes[currentPath].children.push(subPath);
-          }
-        } else {
-          nodes[currentPath].posts.push(item);
-        }
+      
+      nodes[subPath].posts.push(item);
+      if (!nodes[categoryPath].children.includes(subPath)) {
+        nodes[categoryPath].children.push(subPath);
       }
-    });
+    } else {
+      nodes[categoryPath].posts.push(item);
+    }
   });
 
+  // 为子分类添加元数据描述
   Object.keys(nodes).forEach((key) => {
     const node = nodes[key];
-
-    if (node.parent && nodes[node.parent] && !nodes[node.parent].children.includes(key)) {
-      nodes[node.parent].children.push(key);
-    }
-
     const parts = key.split("/");
     const topLevelCategory = parts[0];
     const subcategoryCode = parts.length > 1 ? parts[1] : null;
@@ -224,26 +223,14 @@ function buildCategoryNodes(posts, meta) {
     }
   });
 
-  // Sort children (subcategories) by order from meta
+  // 按文件夹名排序子分类
   Object.keys(nodes).forEach((key) => {
     const node = nodes[key];
     if (node.children && node.children.length > 0) {
       node.children.sort((a, b) => {
-        const partsA = a.split("/");
-        const partsB = b.split("/");
-        const subcatCodeA = partsA.length > 1 ? partsA[1] : null;
-        const subcatCodeB = partsB.length > 1 ? partsB[1] : null;
-        
-        if (!subcatCodeA || !subcatCodeB) return 0;
-        
-        const topLevelCategory = partsA[0];
-        const subMetaA = getSubcategoryMeta(meta, topLevelCategory, subcatCodeA);
-        const subMetaB = getSubcategoryMeta(meta, topLevelCategory, subcatCodeB);
-        
-        const orderA = subMetaA && typeof subMetaA.order === "number" ? subMetaA.order : Number.MAX_SAFE_INTEGER;
-        const orderB = subMetaB && typeof subMetaB.order === "number" ? subMetaB.order : Number.MAX_SAFE_INTEGER;
-        
-        return orderA - orderB;
+        const nodeA = nodes[a];
+        const nodeB = nodes[b];
+        return nodeA.title.localeCompare(nodeB.title, "zh-Hans-CN");
       });
     }
   });
@@ -494,6 +481,27 @@ function registerCollections(eleventyConfig) {
       const cat = folders[folder].categories.find(c => c.key === nodeKey);
       cat.count += 1;
       cat.posts.push(item);
+    });
+
+    // 对每个分类下的文章排序：先按 order/categoryOrder，再按日期（新到旧）
+    Object.values(folders).forEach((folder) => {
+      folder.categories.forEach((cat) => {
+        cat.posts.sort((a, b) => {
+          // 获取 order 或 categoryOrder，默认 Infinity（排最后）
+          const orderA = a.data?.order ?? a.data?.categoryOrder ?? Infinity;
+          const orderB = b.data?.order ?? b.data?.categoryOrder ?? Infinity;
+          
+          // 如果都有 order，按 order 排序
+          if (orderA !== Infinity || orderB !== Infinity) {
+            if (orderA !== orderB) {
+              return orderA - orderB;
+            }
+          }
+          
+          // 否则按日期排序（新到旧）
+          return b.date - a.date;
+        });
+      });
     });
 
     // 按 order 排序，order 相同则按标题排序
