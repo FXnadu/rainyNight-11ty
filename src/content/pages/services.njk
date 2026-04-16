@@ -26,7 +26,7 @@ pageStyles:
                     </div>
                     <h2 class="service-title">{{ item.title }}</h2>
                     <div class="service-desc-wrapper">
-                        <p class="service-desc">{{ item.description }}</p>
+                        <p class="service-desc">{{ item.description | safe }}</p>
                         {% if item.bullets and item.bullets.length %}
                             <ul class="service-list-items">
                                 {% for bullet in item.bullets %}

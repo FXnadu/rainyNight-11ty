@@ -1,4 +1,4 @@
-# 11ty-rainyNight-doc：内容站模板
+# 11ty-deepwhitedocs：内容站模板
 
 这是一个基于 Eleventy 的、经过高度自动化改造的内容站模板，旨在让写作者可以完全专注于内容创作，而将技术细节（如元数据管理）交给脚本自动处理。
 
@@ -127,7 +127,7 @@ npm run build
 
 ### 站点全局文案
 
-- **位置**: `src/content/settings/siteConfig.js`
+- **位置**: `src/_data/siteConfig.js`
 - **用途**: 修改站点的全局信息，例如：
   - `brand`: 站点名称
   - `navigation`: 顶部导航栏

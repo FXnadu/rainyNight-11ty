@@ -14,13 +14,9 @@
     <div class="menu-links">
         {% if siteConfig.navigation.main %}
             {% for item in siteConfig.navigation.main %}
-            <a href="{{ item.url }}" class="{% if page.url == item.url %}active{% endif %}">
-                {% if item.url == '/' %}
-                <svg width="18" height="18"><use href="#icon-home"/></svg>
-                {% elif item.url == '/categories/' %}
-                <svg width="18" height="18"><use href="#icon-folder"/></svg>
-                {% elif item.url == '/services/' %}
-                <svg width="18" height="18"><use href="#icon-info"/></svg>
+            <a href="{{ item.url }}" data-nav="{{ item.url }}">
+                {% if item.icon %}
+                <svg width="18" height="18"><use href="#icon-{{ item.icon }}"/></svg>
                 {% endif %}
                 {{ item.text }}
             </a>
@@ -30,8 +26,6 @@
             <a href="/"><svg width="18" height="18"><use href="#icon-home"/></svg>首页</a>
             <a href="/categories/"><svg width="18" height="18"><use href="#icon-folder"/></svg>知识库</a>
         {% endif %}
-
-        <a href="/moments/"><svg width="18" height="18"><use href="#icon-activity"/></svg>动态</a>
         
         <button class="theme-toggle" aria-label="Toggle dark theme">
             <svg class="icon-sun" width="20" height="20"><use href="#icon-sun"/></svg>

@@ -249,14 +249,83 @@
 @media (max-width: 768px) {
     .knowledge-container {
         flex-direction: column;
+        gap: 24px;
+        margin-top: 0;
+    }
+    
+    .knowledge-body {
+        flex-direction: column;
+        gap: 24px;
     }
 
     .knowledge-sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 20px;
+        border-bottom: 1px solid var(--accent-subtle);
+        margin-bottom: 0;
+        padding-right: 0;
         padding-bottom: 20px;
+    }
+    
+    .sidebar-title {
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+    }
+    
+    .folder-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .folder-item {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+    
+    .folder-icon {
+        width: 18px;
+        margin-right: 6px;
+    }
+    
+    .knowledge-content {
+        padding-left: 0;
+    }
+    
+    .section-header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .clean-card {
+        padding: 18px;
+    }
+    
+    .clean-card h3 {
+        font-size: 1.05rem;
+        margin-bottom: 10px;
+    }
+    
+    .knowledge-card-desc {
+        font-size: 0.9rem;
+        height: auto;
+        -webkit-line-clamp: 2;
+    }
+    
+    .card-footer {
+        font-size: 0.8rem;
+        padding-top: 10px;
     }
 }
 

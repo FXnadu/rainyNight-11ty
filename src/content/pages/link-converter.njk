@@ -107,31 +107,6 @@ pageStyles:
 </div>
 
 <script>
-    // ==================== Tab 切换功能 ====================
-    const sidebarTabs = document.querySelectorAll('.sidebar-tab');
-    const contentPanels = document.querySelectorAll('.content-panel');
-    const tipsContents = document.querySelectorAll('.tips-content');
-
-    sidebarTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const tabName = tab.dataset.tab;
-            
-            // 切换按钮状态
-            sidebarTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            // 切换面板
-            contentPanels.forEach(panel => {
-                panel.classList.toggle('active', panel.dataset.panel === tabName);
-            });
-            
-            // 切换说明
-            tipsContents.forEach(tip => {
-                tip.classList.toggle('hidden', tip.dataset.tips !== tabName);
-            });
-        });
-    });
-
     // ==================== 抖音转链功能 ====================
     const CORS_PROXY = 'https://api.allorigins.win/get?url=';
     const douyinInput = document.getElementById('douyin-input');

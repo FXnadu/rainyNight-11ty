@@ -1138,3 +1138,274 @@ body.has-lightbox-open {
     background: rgba(148, 163, 184, 0.14);
     color: #f8fafc;
 }
+
+/* ============================================
+   移动端适配优化 - Mobile Responsive Enhancements
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* 文章容器优化 */
+    .post-container {
+        width: 100%;
+        padding: 0 16px;
+        gap: 16px;
+    }
+    
+    /* 文章头部优化 */
+    .post-header {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 24px;
+    }
+    
+    .post-title {
+        font-size: 1.8rem;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
+        line-height: 1.3;
+    }
+    
+    .post-meta {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 0.85rem;
+    }
+    
+    .post-meta-updated {
+        margin-left: 0;
+    }
+    
+    /* 标签优化 */
+    .post-tag {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+    }
+    
+    /* 文章内容优化 */
+    .post-content {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+    
+    .post-content h2 {
+        font-size: 1.4rem;
+        margin-top: 28px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+    
+    .post-content h3 {
+        font-size: 1.2rem;
+        margin-top: 22px;
+        margin-bottom: 10px;
+    }
+    
+    .post-content h4,
+    .post-content h5,
+    .post-content h6 {
+        font-size: 1.1rem;
+        margin-top: 18px;
+    }
+    
+    .post-content p {
+        margin-bottom: 16px;
+    }
+    
+    .post-content ul,
+    .post-content ol {
+        padding-left: 20px;
+        margin-bottom: 16px;
+    }
+    
+    .post-content li {
+        margin-bottom: 6px;
+    }
+    
+    /* 引用块优化 */
+    .post-content blockquote {
+        margin: 16px 0;
+        padding: 12px 14px;
+        font-size: 0.95rem;
+    }
+    
+    /* 图片优化 */
+    .post-content img {
+        margin: 16px auto;
+        border-radius: 8px;
+    }
+    
+    .post-content img.is-tall-image {
+        max-height: 50vh;
+    }
+    
+    /* 表格优化 - 横向滚动 */
+    .post-content table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+    
+    .post-content th,
+    .post-content td {
+        padding: 10px 12px;
+    }
+    
+    /* 代码块优化 */
+    .post-content pre {
+        padding: 14px;
+        font-size: 0.85rem;
+        overflow-x: auto;
+    }
+    
+    .post-content code {
+        font-size: 0.85rem;
+    }
+    
+    /* Mermaid图表优化 */
+    .post-content .mermaid {
+        overflow-x: auto;
+    }
+    
+    .post-content .mermaid svg {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* 移动端目录优化 */
+    .post-toc-mobile {
+        margin-bottom: 20px;
+        padding: 14px 16px;
+    }
+    
+    .post-toc-mobile summary {
+        font-size: 1rem;
+        padding: 4px 0;
+    }
+    
+    .post-toc-mobile .post-toc-link {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+    }
+    
+    /* 操作按钮优化 */
+    .post-actions {
+        right: 12px;
+        bottom: 80px;
+        gap: 8px;
+    }
+    
+    .post-action {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+    
+    /* 侧边栏优化 */
+    .post-sidebar-trigger {
+        width: 22px;
+        height: 48px;
+    }
+    
+    .post-sidebar {
+        width: 85vw;
+        max-width: 280px;
+        padding: 16px;
+    }
+    
+    .post-sidebar-title {
+        font-size: 0.9rem;
+    }
+    
+    .post-sidebar-link {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+    }
+    
+    /* 脚注优化 */
+    .footnote-preview {
+        max-width: calc(100vw - 32px);
+        padding: 12px 14px;
+        font-size: 0.9rem;
+    }
+    
+    /* 图片灯箱优化 */
+    .image-lightbox-shell {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .image-lightbox-close {
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .image-lightbox-toolbar {
+        bottom: 20px;
+        padding: 8px;
+    }
+    
+    .image-lightbox-action {
+        min-width: 48px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+    
+    .image-lightbox-caption {
+        left: 12px;
+        bottom: 80px;
+        max-width: calc(100% - 24px);
+        font-size: 0.85rem;
+    }
+    
+    /* 详情/折叠块优化 */
+    .post-content details {
+        padding: 12px 14px;
+    }
+    
+    .post-content summary {
+        font-size: 0.95rem;
+    }
+    
+    /* 图片标题优化 */
+    .post-content figcaption {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-title {
+        font-size: 1.6rem;
+    }
+    
+    .post-content {
+        font-size: 0.95rem;
+    }
+    
+    .post-content h2 {
+        font-size: 1.25rem;
+    }
+    
+    .post-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .post-meta {
+        font-size: 0.8rem;
+    }
+    
+    .post-actions {
+        right: 10px;
+        bottom: 70px;
+    }
+    
+    .post-action {
+        width: 38px;
+        height: 38px;
+    }
+}

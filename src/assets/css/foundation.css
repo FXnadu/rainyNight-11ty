@@ -134,7 +134,7 @@ body {
 }
 
 /* 仅非首页且非禁用页使用的方格背景 */
-body:not(.home-page):not(.no-grid-page)::before {
+body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
     content: "";
     position: fixed;
     top: 0;
@@ -152,13 +152,15 @@ body:not(.home-page):not(.no-grid-page)::before {
     pointer-events: none;
 }
 
-/* 列表页：仅在标题区域显示方格并向下渐隐 */
-body.no-grid-page .site-main {
+/* 列表页、归档页、文章页：仅在标题区域显示方格并向下渐隐 */
+body.no-grid-page .site-main,
+body.post-page .site-main {
     position: relative;
     isolation: isolate;
 }
 
-body.no-grid-page .site-main::before {
+body.no-grid-page .site-main::before,
+body.post-page .site-main::before {
     content: "";
     position: absolute;
     top: 0;
@@ -181,18 +183,6 @@ body.categories-page .site-main::before {
     height: min(30vh, 300px);
     mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
-}
-
-/* 文章页：沿用同一背景层，延展到正文并保持极淡 */
-body.post-page .site-main::before {
-    height: 100%;
-    background-image:
-        linear-gradient(var(--post-reading-grid-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--post-reading-grid-line) 1px, transparent 1px);
-    background-size: 60px 60px;
-    background-position: center top;
-    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 80px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 80px), transparent 100%);
 }
 
 /* Global Smooth Theme Transition */
@@ -282,6 +272,51 @@ img {
 .theme-toggle svg {
     display: inline-block;
     flex-shrink: 0;
+}
+
+/* ============================================
+   移动端适配优化 - Mobile Responsive Enhancements
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* 方格背景优化 */
+    body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
+        background-size: 40px 40px;
+    }
+    
+    body.no-grid-page .site-main::before {
+        background-size: 40px 40px;
+    }
+    
+    body.post-page .site-main::before {
+        background-size: 40px 40px;
+    }
+    
+    /* 滚动条优化 */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    
+    /* 选中文字优化 */
+    ::selection {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+    }
+}
+
+@media (max-width: 480px) {
+    body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
+        background-size: 30px 30px;
+    }
+    
+    body.no-grid-page .site-main::before {
+        background-size: 30px 30px;
+    }
+    
+    body.post-page .site-main::before {
+        background-size: 30px 30px;
+    }
 }
 
 body.post-bg-highlight {

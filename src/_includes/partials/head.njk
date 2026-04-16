@@ -8,9 +8,13 @@
     <link rel="preconnect" href="https://fonts.loli.net">
     <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
     <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;500&display=block">
-    <link rel="stylesheet" href="/assets/css/foundation.css?v=20260407-1">
-    <link rel="stylesheet" href="/assets/css/layout.css?v=20260407-1">
-    <link rel="stylesheet" href="/assets/css/components.css?v=20260407-1">
+    {% if env.ELEVENTY_ENV == "production" and build and build.cssBundleHash %}
+        <link rel="stylesheet" href="/assets/css/bundle.css?v={{ build.cssBundleHash }}">
+    {% else %}
+        <link rel="stylesheet" href="/assets/css/foundation.css?v=20260416-2">
+        <link rel="stylesheet" href="/assets/css/layout.css?v=20260416-2">
+        <link rel="stylesheet" href="/assets/css/components.css?v=20260416-2">
+    {% endif %}
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script>
         (function() {

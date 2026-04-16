@@ -1464,6 +1464,39 @@ const initSidebarToggle = () => {
     };
 };
 
+const initLinkConverterTabs = () => {
+    const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+    if (!sidebarTabs.length) return;
+
+    const contentPanels = document.querySelectorAll('.content-panel');
+    const tipsContents = document.querySelectorAll('.tips-content');
+
+    const handleTabClick = (tab) => {
+        const tabName = tab.dataset.tab;
+
+        sidebarTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        contentPanels.forEach(panel => {
+            panel.classList.toggle('active', panel.dataset.panel === tabName);
+        });
+
+        tipsContents.forEach(tip => {
+            tip.classList.toggle('hidden', tip.dataset.tips !== tabName);
+        });
+    };
+
+    sidebarTabs.forEach(tab => {
+        tab.addEventListener('click', () => handleTabClick(tab));
+    });
+
+    return () => {
+        sidebarTabs.forEach(tab => {
+            tab.removeEventListener('click', () => handleTabClick(tab));
+        });
+    };
+};
+
 const initPage = () => {
     while (pageCleanups.length) {
         const cleanup = pageCleanups.pop();
@@ -1482,6 +1515,7 @@ const initPage = () => {
     pageCleanups.push(initProtectedContact());
     pageCleanups.push(initMomentsActions());
     pageCleanups.push(initSidebarToggle());
+    pageCleanups.push(initLinkConverterTabs());
 };
 
 let globalInited = false;
@@ -1593,8 +1627,20 @@ const swapContent = (nextDoc) => {
     executeScripts(currentMain);
 };
 
+const updateNavHighlight = () => {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.menu-links a[data-nav]');
+
+    navLinks.forEach(link => {
+        const navPath = link.getAttribute('data-nav');
+        const isActive = navPath === '/' ? currentPath === '/' : currentPath.startsWith(navPath);
+        link.classList.toggle('active', isActive);
+    });
+};
+
 const reinitAfterSwap = () => {
     initPage();
+    updateNavHighlight();
     if (window.mermaid && typeof window.mermaid.init === "function") {
         window.mermaid.init(undefined, document.querySelectorAll(".mermaid"));
     }

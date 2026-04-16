@@ -40,6 +40,18 @@ function getPostsFromContentDir(collectionApi) {
     .sort((a, b) => b.date - a.date);
 }
 
+function getFileSlugFromPostInputPath(inputPath) {
+  if (!inputPath) return "";
+  const normalizedPath = inputPath.split(path.sep).join("/");
+  const marker = "/src/content/posts/";
+  const markerIndex = normalizedPath.indexOf(marker);
+  if (markerIndex === -1) return "";
+
+  const relativePath = normalizedPath.slice(markerIndex + marker.length);
+  const fileName = relativePath.split("/").pop() || "";
+  return fileName.replace(/\.md$/, "");
+}
+
 function getNumberFromFrontMatter(item, fieldName, fallbackValue) {
   const rawValue = item && item.data ? item.data[fieldName] : undefined;
   if (rawValue === undefined || rawValue === null || rawValue === "") return fallbackValue;
@@ -127,9 +139,9 @@ function normalizeMetaObject(rawMeta, sourceLabel) {
 }
 
 function loadCategoryMeta() {
-  const settingsDir = path.join(process.cwd(), "src/content/settings");
-  const descriptionsPath = path.join(settingsDir, "categoryDescriptions.json");
-  return normalizeMetaObject(loadJsonFileSafe(descriptionsPath), descriptionsPath);
+  const dataDir = path.join(process.cwd(), "src/_data");
+  const metaPath = path.join(dataDir, "categoryMeta.json");
+  return normalizeMetaObject(loadJsonFileSafe(metaPath), metaPath);
 }
 
 function getCategoryMeta(meta, categoryPath) {
@@ -397,36 +409,45 @@ function registerCollections(eleventyConfig) {
   // 生成文章页面重定向（旧 fileSlug URL → 新短编码 URL）
   eleventyConfig.addCollection("postRedirects", (collectionApi) => {
     const posts = getPostsFromContentDir(collectionApi);
-    const redirects = [];
+    const redirectsByOldUrl = new Map();
 
     posts.forEach((post) => {
       const inputPath = post.inputPath || "";
-      const normalizedPath = inputPath.split(path.sep).join("/");
-      const marker = "/src/content/posts/";
-      const markerIndex = normalizedPath.indexOf(marker);
-      
-      if (markerIndex === -1) return;
-      
-      const relativePath = normalizedPath.slice(markerIndex + marker.length);
-      const fileName = relativePath.split("/").pop();
-      const fileSlug = fileName.replace(/\.md$/, "");
-      
-      // 旧 URL（基于文件名/fileSlug）
-      const oldUrl = `/posts/${fileSlug}/`;
-      // 新 URL（已经编码好的）
+      const fileSlug = getFileSlugFromPostInputPath(inputPath);
       const newUrl = post.url;
-      
-      // 如果新旧 URL 不同，添加重定向
-      if (oldUrl !== newUrl) {
-        redirects.push({
-          oldUrl,
-          newUrl,
-          title: post.data?.title || fileSlug
-        });
+      const title = (post.data && post.data.title) ? post.data.title : (fileSlug || "post");
+
+      // Legacy URL 1: based on fileSlug (human readable)
+      if (fileSlug) {
+        const oldUrl = `/posts/${fileSlug}/`;
+        if (oldUrl !== newUrl && !redirectsByOldUrl.has(oldUrl)) {
+          redirectsByOldUrl.set(oldUrl, { oldUrl, newUrl, title });
+        }
       }
+
+      // Legacy URL 2: previously used short id derived from title (or fileSlug when title missing)
+      const legacyKey = (post.data && post.data.title) ? post.data.title : (fileSlug || "");
+      if (legacyKey) {
+        const legacyId = encodeSlug(String(legacyKey), { prefix: "p", minLength: 6 });
+        const oldUrl = `/posts/${legacyId}/`;
+        if (oldUrl !== newUrl && !redirectsByOldUrl.has(oldUrl)) {
+          redirectsByOldUrl.set(oldUrl, { oldUrl, newUrl, title });
+        }
+      }
+
+      // Future-proof: if someone explicitly sets slug/id and later changes it,
+      // they can add aliases (array of old URLs) in front matter and we will redirect them.
+      const aliases = post.data && Array.isArray(post.data.aliases) ? post.data.aliases : [];
+      aliases.forEach((alias) => {
+        const oldUrl = typeof alias === "string" ? alias.trim() : "";
+        if (!oldUrl) return;
+        if (oldUrl !== newUrl && !redirectsByOldUrl.has(oldUrl)) {
+          redirectsByOldUrl.set(oldUrl, { oldUrl, newUrl, title });
+        }
+      });
     });
 
-    return redirects;
+    return Array.from(redirectsByOldUrl.values());
   });
 
   eleventyConfig.addCollection("folderGroups", (collectionApi) => {

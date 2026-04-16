@@ -295,32 +295,58 @@
     transform: translateX(2px);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .moments-page-container {
-        padding: 20px 16px 60px;
+        padding: 20px 16px 40px;
+        width: 100%;
+    }
+    
+    .moments-header {
+        margin-bottom: 30px;
+        padding-bottom: 16px;
     }
 
     .moments-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 6px;
     }
-
-    .timeline-track {
-        left: 10px;
+    
+    .moments-subtitle {
+        font-size: 0.9rem;
     }
-
-    .moment-date-group {
-        padding-left: 25px;
+    
+    .moments-timeline {
+        padding-left: 24px;
     }
-
-    .moment-date-dot {
-        left: -14px;
+    
+    .moments-timeline::before {
+        left: 6px;
+    }
+    
+    .moment-date-label {
+        margin-bottom: 16px;
+    }
+    
+    .moment-date-label::before {
+        left: -22px;
         width: 8px;
         height: 8px;
+    }
+    
+    .moment-date {
+        font-size: 0.8rem;
+        padding: 3px 12px;
+    }
+    
+    .moment-date-items {
+        gap: 12px;
+        padding-bottom: 24px;
     }
 
     .moment-card {
         padding: 14px;
-        gap: 10px;
+        gap: 12px;
+        border-radius: 10px;
     }
 
     .moment-avatar {
@@ -328,7 +354,92 @@
         height: 32px;
         min-width: 32px;
     }
+    
+    .moment-header {
+        margin-bottom: 6px;
+    }
+    
+    .moment-time {
+        font-size: 0.75rem;
+    }
+    
+    .moment-body {
+        margin-bottom: 8px;
+    }
 
+    .moment-text {
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+    
+    .moment-images {
+        margin-top: 8px;
+        gap: 4px;
+    }
+    
+    .moment-images.single {
+        max-width: 100%;
+    }
+    
+    .moment-images.multi {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .moment-image-item {
+        border-radius: 6px;
+    }
+    
+    .moment-video {
+        margin-top: 8px;
+    }
+    
+    .moment-video-play {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .moment-link {
+        padding: 10px 12px;
+        margin-top: 8px;
+    }
+    
+    .moment-link-title {
+        font-size: 0.85rem;
+    }
+    
+    .moment-link-desc {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .moments-page-container {
+        padding: 16px 12px 30px;
+    }
+    
+    .moments-title {
+        font-size: 1.4rem;
+    }
+    
+    .moments-timeline {
+        padding-left: 20px;
+    }
+    
+    .moment-card {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .moment-avatar {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+    }
+    
+    .moment-text {
+        font-size: 0.88rem;
+    }
+    
     .moment-images.multi {
         grid-template-columns: 1fr;
     }

@@ -8,6 +8,10 @@ _site/
 dist/
 reports/
 
+# Generated build artifacts (created by scripts/merge-css.js)
+src/assets/css/bundle.css
+src/_data/build.json
+
 # Environment variables
 .env
 .env.local

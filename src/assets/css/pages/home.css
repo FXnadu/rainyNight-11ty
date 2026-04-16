@@ -577,3 +577,153 @@ body.home-page::before {
     .closing-headline { font-size: 1.8rem; }
     .closing-content { padding-top: 0; }
 }
+
+/* ============================================
+   移动端适配优化 - Mobile Responsive Enhancements
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Hero区域优化 */
+    .hero-section {
+        min-height: auto;
+        padding: 60px 16px 40px;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+        margin-bottom: 16px;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    
+    /* 搜索框优化 */
+    .hero-search {
+        margin-top: 16px;
+    }
+    
+    .home-search {
+        padding: 18px 16px;
+        border-radius: 14px;
+    }
+    
+    .home-search-input {
+        min-height: 48px;
+        padding: 0 56px 0 16px;
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+    
+    .home-search-button {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .home-search-hint {
+        font-size: 0.85rem;
+    }
+    
+    .home-search-results {
+        max-height: 60vh;
+        border-radius: 12px;
+    }
+    
+    /* 板块标题优化 */
+    .section-block {
+        margin-bottom: 50px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        padding-left: 12px;
+    }
+    
+    .section-title::before {
+        height: 20px;
+    }
+    
+    /* 功能网格优化 */
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .feature-item-link {
+        padding: 18px 16px;
+    }
+    
+    .feature-title {
+        font-size: 1.1rem;
+    }
+    
+    .feature-desc {
+        font-size: 0.9rem;
+    }
+    
+    /* 适用人群网格优化 */
+    .who-for-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .who-for-item {
+        padding: 18px 16px;
+    }
+    
+    .who-for-item:hover {
+        padding: 17px 15px;
+    }
+    
+    .who-for-icon {
+        margin-right: 14px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .who-for-title {
+        font-size: 1rem;
+    }
+    
+    .who-for-desc {
+        font-size: 0.9rem;
+    }
+    
+    /* 结尾区域优化 */
+    .closing-block {
+        margin-top: 60px;
+        padding-top: 40px;
+    }
+    
+    .closing-headline {
+        font-size: 1.5rem;
+    }
+    
+    .closing-desc {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .closing-headline {
+        font-size: 1.3rem;
+    }
+}

@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CONTENT_DIR = path.join(__dirname, '../src/content/posts');
-const SETTINGS_DIR = path.join(__dirname, '../src/content/settings');
-const DESCRIPTIONS_FILE = path.join(SETTINGS_DIR, 'categoryDescriptions.json');
+const DATA_DIR = path.join(__dirname, '../src/_data');
+const DESCRIPTIONS_FILE = path.join(DATA_DIR, 'categoryMeta.json');
 const DEFAULT_DESCRIPTION = '暂无简介';
 
 function getAllFiles(dirPath, arrayOfFiles) {
@@ -104,8 +104,8 @@ function syncMeta() {
   });
   console.log(`📊 Total subcategories: ${totalSubcategories}`);
 
-  if (!fs.existsSync(SETTINGS_DIR)) {
-    fs.mkdirSync(SETTINGS_DIR, { recursive: true });
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
   }
 
   if (!fs.existsSync(DESCRIPTIONS_FILE)) {

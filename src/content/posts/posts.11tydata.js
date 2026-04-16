@@ -16,8 +16,15 @@ module.exports = {
   tags: ["posts"],
   layout: "layouts/post.njk",
   permalink: function(data) {
-    const title = data.title || (data.page && data.page.fileSlug) || "";
-    const encodedSlug = encodeSlug(title, { prefix: 'p', minLength: 6 });
+    // Prefer stable keys so URLs don't change when titles are edited.
+    const stableKey =
+      (typeof data.slug === "string" && data.slug.trim()) ||
+      (typeof data.id === "string" && data.id.trim()) ||
+      (data.page && data.page.fileSlug) ||
+      data.title ||
+      "";
+
+    const encodedSlug = encodeSlug(String(stableKey), { prefix: "p", minLength: 6 });
     return `/posts/${encodedSlug}/`;
   },
   category: function(data) {

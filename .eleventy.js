@@ -24,6 +24,9 @@ module.exports = async function(eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(mermaidPlugin);
 
+  // Expose environment variables to templates (e.g. env.ELEVENTY_ENV).
+  eleventyConfig.addGlobalData("env", process.env);
+
   passthroughPaths.forEach((path) => eleventyConfig.addPassthroughCopy(path));
 
   registerDateFilters(eleventyConfig);
