@@ -1,3 +1,5 @@
+const CONTENT_PREVIEW_LENGTH = 300;
+
 function stripHtml(value) {
   return String(value || "")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
@@ -12,14 +14,12 @@ function stripHtml(value) {
 }
 
 function getSearchText(item) {
-  const parts = [
-    item?.data?.title,
-    item?.data?.category,
-    item?.data?.description,
-    stripHtml(item?.templateContent)
-  ];
+  const fullContent = stripHtml(item?.templateContent);
+  const truncated = fullContent.length > CONTENT_PREVIEW_LENGTH
+    ? fullContent.slice(0, CONTENT_PREVIEW_LENGTH)
+    : fullContent;
 
-  return parts
+  return [item?.data?.title, item?.data?.category, item?.data?.description, truncated]
     .filter(Boolean)
     .join(" ")
     .replace(/\s+/g, " ")

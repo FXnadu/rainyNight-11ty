@@ -39,6 +39,15 @@ const config = {
         default: "light"
     },
 
+    external: {
+        fonts: "https://fonts.loli.net/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;500&display=block"
+    },
+
+    search: {
+        resultLimit: 6,
+        debounceMs: 200
+    },
+
     pagination: {
         archivePageSize: 20,
         categoryPageSize: 16,

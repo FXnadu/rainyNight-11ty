@@ -16,6 +16,11 @@
     {% include "partials/site-footer.njk" %}
 
     <script src="/assets/js/main.js"></script>
+    {% if pageScripts %}
+        {% for src in pageScripts %}
+            <script src="{{ src }}" defer></script>
+        {% endfor %}
+    {% endif %}
     {% mermaid_js %}
 </body>
 </html>

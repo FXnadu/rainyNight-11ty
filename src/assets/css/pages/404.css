@@ -1,0 +1,42 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-primary, #6366f1);
+  opacity: 0.3;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem;
+  color: var(--color-text, #1a1a2e);
+}
+
+.error-desc {
+  color: var(--color-text-secondary, #64748b);
+  margin-bottom: 2rem;
+}
+
+.error-link {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: var(--color-primary, #6366f1);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.error-link:hover {
+  opacity: 0.85;
+}

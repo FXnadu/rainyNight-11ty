@@ -1299,30 +1299,36 @@ const initHomeSearch = () => {
 
         try {
             const index = await loadIndex();
+            const normalizedQuery = normalizeText(query);
             const keywords = query
                 .split(/\s+/)
                 .map((item) => normalizeText(item))
                 .filter(Boolean);
 
-            const matched = index
-                .filter((item) => {
-                    const haystack = normalizeText([
-                        item.title,
-                        item.category,
-                        item.description,
-                        item.content
-                    ].join(" "));
-                    return keywords.every((keyword) => haystack.includes(keyword));
-                })
-                .sort((a, b) => {
-                    const aTitleHit = normalizeText(a.title).includes(normalizeText(query)) ? 1 : 0;
-                    const bTitleHit = normalizeText(b.title).includes(normalizeText(query)) ? 1 : 0;
-                    if (aTitleHit !== bTitleHit) {
-                        return bTitleHit - aTitleHit;
-                    }
-                    return (b.date || "").localeCompare(a.date || "");
-                })
-                .slice(0, RESULT_LIMIT);
+            const matchesKeywords = (text) => {
+                const normalized = normalizeText(text);
+                return keywords.every((kw) => normalized.includes(kw));
+            };
+
+            const scored = [];
+            for (const item of index) {
+                const metaText = [item.title, item.category, item.description].join(" ");
+                const metaMatch = matchesKeywords(metaText);
+                const contentMatch = !metaMatch && matchesKeywords(item.content);
+
+                if (!metaMatch && !contentMatch) continue;
+
+                const titleHit = normalizeText(item.title).includes(normalizedQuery) ? 2 : 0;
+                const score = titleHit + (metaMatch ? 1 : 0);
+                scored.push({ item, score });
+            }
+
+            scored.sort((a, b) => {
+                if (a.score !== b.score) return b.score - a.score;
+                return (b.item.date || "").localeCompare(a.item.date || "");
+            });
+
+            const matched = scored.slice(0, RESULT_LIMIT).map((s) => s.item);
 
             if (hint) {
                 hint.textContent = `共找到 ${matched.length} 条结果。`;
@@ -1466,12 +1472,12 @@ const initSidebarToggle = () => {
 
 const initLinkConverterTabs = () => {
     const sidebarTabs = document.querySelectorAll('.sidebar-tab');
-    if (!sidebarTabs.length) return;
+    if (!sidebarTabs.length) return () => {};
 
     const contentPanels = document.querySelectorAll('.content-panel');
     const tipsContents = document.querySelectorAll('.tips-content');
 
-    const handleTabClick = (tab) => {
+    const makeTabHandler = (tab) => () => {
         const tabName = tab.dataset.tab;
 
         sidebarTabs.forEach(t => t.classList.remove('active'));
@@ -1486,13 +1492,15 @@ const initLinkConverterTabs = () => {
         });
     };
 
-    sidebarTabs.forEach(tab => {
-        tab.addEventListener('click', () => handleTabClick(tab));
+    const tabListeners = Array.from(sidebarTabs).map(tab => {
+        const handler = makeTabHandler(tab);
+        tab.addEventListener('click', handler);
+        return { tab, handler };
     });
 
     return () => {
-        sidebarTabs.forEach(tab => {
-            tab.removeEventListener('click', () => handleTabClick(tab));
+        tabListeners.forEach(({ tab, handler }) => {
+            tab.removeEventListener('click', handler);
         });
     };
 };

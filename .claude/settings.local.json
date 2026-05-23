@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node .eleventy.js)",
+      "Bash(node -e ' *)",
+      "Bash(npx eleventy *)",
+      "Bash(npm install *)",
+      "Bash(npx vitest *)"
+    ]
+  }
+}

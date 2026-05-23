@@ -1,188 +1,61 @@
-const fs = require("fs");
-const path = require("path");
+/**
+ * Eleventy collection registration.
+ * Builds categories, moments, redirects, and folder groupings.
+ * Delegates path parsing to path-utils and metadata to category-meta.
+ */
 const siteConfig = require("../../src/_data/siteConfig");
 const { encodeSlug } = require("../utils/slug-encoder");
+const { normalizePath, getFolderNameFromPostPath } = require("../utils/path-utils");
+const { loadCategoryMeta, getCategoryMeta, getSubcategoryMeta } = require("./category-meta");
+const { comparePostsForCategoryPages, getPostsFromContentDir } = require("./post-utils");
+const { resolveContentType } = require("./content-types");
 
-const DEFAULT_CATEGORY_DESCRIPTION = "暂无简介";
+// --- Comparison helpers ---
 
-function getFolderNameFromPostPath(item) {
-  const inputPath = item && item.inputPath ? item.inputPath : "";
-  if (!inputPath) return "其他";
-
-  const normalizedPath = inputPath.split(path.sep).join("/");
-  const marker = "/src/content/posts/";
-  const markerIndex = normalizedPath.indexOf(marker);
-
-  if (markerIndex === -1) return "其他";
-
-  const relativePath = normalizedPath.slice(markerIndex + marker.length);
-  const segments = relativePath.split("/").filter(Boolean);
-
-  if (segments.length <= 1) return "其他";
-  return segments[0];
-}
-
-function getCategoryPathFromPost(item) {
-  const folder = getFolderNameFromPostPath(item);
-  if (folder && folder !== "其他") return folder;
-
-  return "默认分类";
-}
-
-function getPostsFromContentDir(collectionApi) {
-  return collectionApi
-    .getAll()
-    .filter((item) => {
-      if (!item || !item.inputPath) return false;
-      const normalizedPath = item.inputPath.split(path.sep).join("/");
-      return normalizedPath.includes("/src/content/posts/") && normalizedPath.endsWith(".md");
-    })
-    .sort((a, b) => b.date - a.date);
+function compareMoments(a, b) {
+  const dateA = a.date;
+  const dateB = b.date;
+  if (dateA - dateB !== 0) return dateB - dateA;
+  const timeA = a.data && a.data.time ? a.data.time : "";
+  const timeB = b.data && b.data.time ? b.data.time : "";
+  return timeB.localeCompare(timeA);
 }
 
 function getFileSlugFromPostInputPath(inputPath) {
   if (!inputPath) return "";
-  const normalizedPath = inputPath.split(path.sep).join("/");
-  const marker = "/src/content/posts/";
-  const markerIndex = normalizedPath.indexOf(marker);
-  if (markerIndex === -1) return "";
+  const normalized = normalizePath(inputPath);
+  const resolved = resolveContentType(normalized);
+  if (!resolved) return "";
 
-  const relativePath = normalizedPath.slice(markerIndex + marker.length);
+  const markerIndex = normalized.indexOf(resolved.marker);
+  const relativePath = normalized.slice(markerIndex + resolved.marker.length);
   const fileName = relativePath.split("/").pop() || "";
   return fileName.replace(/\.md$/, "");
 }
 
-function getNumberFromFrontMatter(item, fieldName, fallbackValue) {
-  const rawValue = item && item.data ? item.data[fieldName] : undefined;
-  if (rawValue === undefined || rawValue === null || rawValue === "") return fallbackValue;
-
-  const parsed = Number(rawValue);
-  return Number.isFinite(parsed) ? parsed : fallbackValue;
-}
-
-function comparePostsForCategoryPages(a, b) {
-  const orderA = getNumberFromFrontMatter(a, "categoryOrder", Number.MAX_SAFE_INTEGER);
-  const orderB = getNumberFromFrontMatter(b, "categoryOrder", Number.MAX_SAFE_INTEGER);
-  if (orderA !== orderB) return orderA - orderB;
-
-  const dateDiff = b.date - a.date;
-  if (dateDiff !== 0) return dateDiff;
-
-  const titleA = a && a.data && a.data.title ? a.data.title : "";
-  const titleB = b && b.data && b.data.title ? b.data.title : "";
-  return titleA.localeCompare(titleB, "zh-Hans-CN");
-}
-
-function loadJsonFileSafe(filePath, fallbackValue = {}) {
-  try {
-    if (!fs.existsSync(filePath)) return fallbackValue;
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
-  } catch (error) {
-    console.warn(`[category-meta] Invalid JSON in ${filePath}. Using fallback.`, error.message);
-    return fallbackValue;
-  }
-}
-
-function normalizeMetaEntry(entry, categoryPath) {
-  if (typeof entry === "string") {
-    const description = entry.trim() || DEFAULT_CATEGORY_DESCRIPTION;
-    return { description };
-  }
-
-  if (!entry || typeof entry !== "object" || Array.isArray(entry)) return null;
-
-  const description = typeof entry.description === "string"
-    ? (entry.description.trim() || DEFAULT_CATEGORY_DESCRIPTION)
-    : DEFAULT_CATEGORY_DESCRIPTION;
-
-  const result = { description };
-  
-  // 保留 order 字段用于排序
-  if (typeof entry.order === "number") {
-    result.order = entry.order;
-  }
-  
-  if (entry.subcategories && typeof entry.subcategories === "object" && !Array.isArray(entry.subcategories)) {
-    result.subcategories = entry.subcategories;
-  }
-
-  return result;
-}
-
-function normalizeMetaObject(rawMeta, sourceLabel) {
-  const normalized = { categories: {} };
-
-  if (!rawMeta || typeof rawMeta !== "object" || Array.isArray(rawMeta)) {
-    if (rawMeta !== undefined) {
-      console.warn(`[category-meta] Ignore non-object source: ${sourceLabel}`);
-    }
-    return normalized;
-  }
-
-  if (rawMeta.categories) {
-    const rawCategories = rawMeta.categories;
-    if (rawCategories && typeof rawCategories === "object" && !Array.isArray(rawCategories)) {
-      Object.keys(rawCategories).forEach((categoryPath) => {
-        const entry = normalizeMetaEntry(rawCategories[categoryPath], categoryPath);
-        if (entry) normalized.categories[categoryPath] = entry;
-      });
-    }
-    return normalized;
-  }
-
-  Object.keys(rawMeta).forEach((categoryPath) => {
-    const entry = normalizeMetaEntry(rawMeta[categoryPath], categoryPath);
-    if (entry) normalized.categories[categoryPath] = entry;
-  });
-
-  return normalized;
-}
-
-function loadCategoryMeta() {
-  const dataDir = path.join(process.cwd(), "src/_data");
-  const metaPath = path.join(dataDir, "categoryMeta.json");
-  return normalizeMetaObject(loadJsonFileSafe(metaPath), metaPath);
-}
-
-function getCategoryMeta(meta, categoryPath) {
-  const category = typeof categoryPath === "string" ? categoryPath.trim() : "";
-  const topLevelCategory = category.split("/")[0];
-
-  if (meta.categories[category]) return meta.categories[category];
-  if (meta.categories[topLevelCategory]) return meta.categories[topLevelCategory];
-  return null;
-}
-
-function getSubcategoryMeta(meta, topLevelCategory, subcategoryCode) {
-  if (!meta.categories || !meta.categories[topLevelCategory]) return null;
-  const cat = meta.categories[topLevelCategory];
-  if (!cat.subcategories || !cat.subcategories[subcategoryCode]) return null;
-  return cat.subcategories[subcategoryCode];
-}
+// --- Category tree builder ---
 
 function buildCategoryNodes(posts, meta) {
   const nodes = {};
 
   posts.forEach((item) => {
+    const segments = [];
     const inputPath = item && item.inputPath ? item.inputPath : "";
-    const normalizedPath = inputPath.split(path.sep).join("/");
-    const marker = "/src/content/posts/";
-    const markerIndex = normalizedPath.indexOf(marker);
-    
-    if (markerIndex === -1) return;
-    
-    const relativePath = normalizedPath.slice(markerIndex + marker.length);
-    const segments = relativePath.split("/").filter(Boolean);
-    
-    if (segments.length < 2) return;
-    
-    const topLevelCategory = segments[0];
-    const subcategoryCode = segments.length >= 3 ? segments[segments.length - 2] : null;
-    
-    // 构建分类路径
+    const normalized = normalizePath(inputPath);
+    const resolved = resolveContentType(normalized);
+
+    if (!resolved) return;
+
+    const markerIndex = normalized.indexOf(resolved.marker);
+    const relativePath = normalized.slice(markerIndex + resolved.marker.length);
+    const pathSegments = relativePath.split("/").filter(Boolean);
+
+    if (pathSegments.length < 2) return;
+
+    const topLevelCategory = pathSegments[0];
+    const subcategoryCode = pathSegments.length >= 3 ? pathSegments[pathSegments.length - 2] : null;
     const categoryPath = topLevelCategory;
-    
-    // 创建顶级分类节点
+
     if (!nodes[categoryPath]) {
       nodes[categoryPath] = {
         key: categoryPath,
@@ -194,11 +67,10 @@ function buildCategoryNodes(posts, meta) {
         encodedKey: encodeSlug(categoryPath, { prefix: 'c', minLength: 6 })
       };
     }
-    
-    // 如果有子分类
+
     if (subcategoryCode) {
       const subPath = `${categoryPath}/${subcategoryCode}`;
-      
+
       if (!nodes[subPath]) {
         nodes[subPath] = {
           key: subPath,
@@ -210,7 +82,7 @@ function buildCategoryNodes(posts, meta) {
           encodedKey: encodeSlug(subPath, { prefix: 'c', minLength: 6 })
         };
       }
-      
+
       nodes[subPath].posts.push(item);
       if (!nodes[categoryPath].children.includes(subPath)) {
         nodes[categoryPath].children.push(subPath);
@@ -220,7 +92,7 @@ function buildCategoryNodes(posts, meta) {
     }
   });
 
-  // 为子分类添加元数据描述
+  // Attach subcategory metadata
   Object.keys(nodes).forEach((key) => {
     const node = nodes[key];
     const parts = key.split("/");
@@ -235,7 +107,7 @@ function buildCategoryNodes(posts, meta) {
     }
   });
 
-  // 按文件夹名排序子分类
+  // Sort children by title
   Object.keys(nodes).forEach((key) => {
     const node = nodes[key];
     if (node.children && node.children.length > 0) {
@@ -247,22 +119,50 @@ function buildCategoryNodes(posts, meta) {
     }
   });
 
+  // Collision detection: warn if two different categories produce the same encodedKey
+  const encodedKeyMap = new Map();
+  Object.values(nodes).forEach((node) => {
+    const existing = encodedKeyMap.get(node.encodedKey);
+    if (existing && existing !== node.key) {
+      console.warn(
+        `[slug-collision] encodedKey "${node.encodedKey}" is shared by "${existing}" and "${node.key}". ` +
+        "One of these categories should be renamed to avoid URL conflicts."
+      );
+    }
+    encodedKeyMap.set(node.encodedKey, node.key);
+  });
+
   return nodes;
 }
 
-function compareMoments(a, b) {
-  const dateA = a.date;
-  const dateB = b.date;
-  if (dateA - dateB !== 0) return dateB - dateA;
-  const timeA = a.data && a.data.time ? a.data.time : "";
-  const timeB = b.data && b.data.time ? b.data.time : "";
-  return timeB.localeCompare(timeA);
-}
+// --- Registration ---
 
 function registerCollections(eleventyConfig) {
   const categoryPageSize = siteConfig.pagination && Number(siteConfig.pagination.categoryPageSize) > 0
     ? Number(siteConfig.pagination.categoryPageSize)
     : 10;
+
+  // --- Build-time caches: each value computed once per build ---
+  let _posts = null;
+  let _meta = null;
+  let _nodes = null;
+
+  const getPosts = (collectionApi) => {
+    if (!_posts) _posts = getPostsFromContentDir(collectionApi);
+    return _posts;
+  };
+
+  const getMeta = () => {
+    if (!_meta) _meta = loadCategoryMeta();
+    return _meta;
+  };
+
+  const getNodes = (collectionApi) => {
+    if (!_nodes) _nodes = buildCategoryNodes(getPosts(collectionApi), getMeta());
+    return _nodes;
+  };
+
+  // --- Collection registrations ---
 
   eleventyConfig.addCollection("moments", (collectionApi) =>
     collectionApi
@@ -271,14 +171,15 @@ function registerCollections(eleventyConfig) {
   );
 
   eleventyConfig.addCollection("posts", (collectionApi) =>
-    getPostsFromContentDir(collectionApi)
+    getPosts(collectionApi)
   );
 
   eleventyConfig.addCollection("categories", (collectionApi) => {
     const categories = {};
 
-    getPostsFromContentDir(collectionApi).forEach((item) => {
-      const category = getCategoryPathFromPost(item);
+    getPosts(collectionApi).forEach((item) => {
+      const folder = getFolderNameFromPostPath(item.inputPath);
+      const category = folder;
       const parts = category.split("/");
       let currentPath = "";
 
@@ -296,7 +197,6 @@ function registerCollections(eleventyConfig) {
       });
     });
 
-    // 对每个分类下的文章按 categoryOrder 排序
     Object.keys(categories).forEach((key) => {
       categories[key].sort(comparePostsForCategoryPages);
     });
@@ -305,22 +205,16 @@ function registerCollections(eleventyConfig) {
   });
 
   eleventyConfig.addCollection("categoriesList", (collectionApi) => {
-    const posts = getPostsFromContentDir(collectionApi);
-    const meta = loadCategoryMeta();
-    const nodes = buildCategoryNodes(posts, meta);
-    return Object.values(nodes);
+    return Object.values(getNodes(collectionApi));
   });
 
   eleventyConfig.addCollection("categoryPages", (collectionApi) => {
-    const posts = getPostsFromContentDir(collectionApi);
-    const meta = loadCategoryMeta();
-    const nodes = buildCategoryNodes(posts, meta);
+    const nodes = getNodes(collectionApi);
     const pages = [];
 
     Object.values(nodes).forEach((node) => {
       const sortedPosts = [...node.posts].sort(comparePostsForCategoryPages);
       const totalPages = Math.max(1, Math.ceil(sortedPosts.length / categoryPageSize));
-      // 使用 encodedKey 生成 URL
       const baseUrl = `/categories/${node.encodedKey}/`;
       const parts = node.key.split("/");
       const breadcrumbs = [];
@@ -371,29 +265,19 @@ function registerCollections(eleventyConfig) {
     return pages;
   });
 
-  // 生成分类页面重定向（旧中文 URL → 新短编码 URL）
   eleventyConfig.addCollection("categoryRedirects", (collectionApi) => {
-    const posts = getPostsFromContentDir(collectionApi);
-    const meta = loadCategoryMeta();
-    const nodes = buildCategoryNodes(posts, meta);
+    const nodes = getNodes(collectionApi);
     const redirects = [];
 
     Object.values(nodes).forEach((node) => {
-      // 旧 URL（中文）
       const oldUrl = `/categories/${node.key}/`;
-      // 新 URL（短编码）
       const newUrl = `/categories/${node.encodedKey}/`;
-      
-      redirects.push({
-        oldUrl,
-        newUrl,
-        title: node.title
-      });
 
-      // 也生成分页的重定向
+      redirects.push({ oldUrl, newUrl, title: node.title });
+
       const sortedPosts = [...node.posts].sort(comparePostsForCategoryPages);
       const totalPages = Math.ceil(sortedPosts.length / categoryPageSize);
-      
+
       for (let pageNumber = 2; pageNumber <= totalPages; pageNumber += 1) {
         redirects.push({
           oldUrl: `/categories/${node.key}/page/${pageNumber}/`,
@@ -406,9 +290,8 @@ function registerCollections(eleventyConfig) {
     return redirects;
   });
 
-  // 生成文章页面重定向（旧 fileSlug URL → 新短编码 URL）
   eleventyConfig.addCollection("postRedirects", (collectionApi) => {
-    const posts = getPostsFromContentDir(collectionApi);
+    const posts = getPosts(collectionApi);
     const redirectsByOldUrl = new Map();
 
     posts.forEach((post) => {
@@ -417,7 +300,6 @@ function registerCollections(eleventyConfig) {
       const newUrl = post.url;
       const title = (post.data && post.data.title) ? post.data.title : (fileSlug || "post");
 
-      // Legacy URL 1: based on fileSlug (human readable)
       if (fileSlug) {
         const oldUrl = `/posts/${fileSlug}/`;
         if (oldUrl !== newUrl && !redirectsByOldUrl.has(oldUrl)) {
@@ -425,7 +307,6 @@ function registerCollections(eleventyConfig) {
         }
       }
 
-      // Legacy URL 2: previously used short id derived from title (or fileSlug when title missing)
       const legacyKey = (post.data && post.data.title) ? post.data.title : (fileSlug || "");
       if (legacyKey) {
         const legacyId = encodeSlug(String(legacyKey), { prefix: "p", minLength: 6 });
@@ -435,8 +316,6 @@ function registerCollections(eleventyConfig) {
         }
       }
 
-      // Future-proof: if someone explicitly sets slug/id and later changes it,
-      // they can add aliases (array of old URLs) in front matter and we will redirect them.
       const aliases = post.data && Array.isArray(post.data.aliases) ? post.data.aliases : [];
       aliases.forEach((alias) => {
         const oldUrl = typeof alias === "string" ? alias.trim() : "";
@@ -452,14 +331,25 @@ function registerCollections(eleventyConfig) {
 
   eleventyConfig.addCollection("folderGroups", (collectionApi) => {
     const folders = {};
-    const posts = getPostsFromContentDir(collectionApi);
-    const meta = loadCategoryMeta();
+    const posts = getPosts(collectionApi);
+    const meta = getMeta();
 
     posts.forEach((item) => {
-      const category = getCategoryPathFromPost(item);
-      const topLevelCategory = category.split("/")[0];
-      const folder = getFolderNameFromPostPath(item);
-      const subcategoryCode = item.data && item.data.subcategory ? item.data.subcategory : null;
+      const folder = getFolderNameFromPostPath(item.inputPath);
+      const inputPath = item.inputPath || "";
+      const normalized = normalizePath(inputPath);
+      const resolved = resolveContentType(normalized);
+      let topLevelCategory = folder;
+      let subcategoryCode = null;
+
+      if (resolved) {
+        const markerIndex = normalized.indexOf(resolved.marker);
+        const relativePath = normalized.slice(markerIndex + resolved.marker.length);
+        const pathSegments = relativePath.split("/").filter(Boolean);
+        if (pathSegments.length >= 1) topLevelCategory = pathSegments[0];
+        if (pathSegments.length >= 3) subcategoryCode = pathSegments[pathSegments.length - 2];
+      }
+
       const metaEntry = getCategoryMeta(meta, topLevelCategory);
       const subMeta = subcategoryCode ? getSubcategoryMeta(meta, topLevelCategory, subcategoryCode) : null;
 
@@ -471,21 +361,20 @@ function registerCollections(eleventyConfig) {
         };
       }
 
-      const nodeKey = subcategoryCode 
+      const nodeKey = subcategoryCode
         ? `${topLevelCategory}::${subcategoryCode}`
         : topLevelCategory;
 
       const displayTitle = subMeta && subMeta.name ? subMeta.name : (subcategoryCode || topLevelCategory);
-      const displayDesc = subMeta && subMeta.description ? subMeta.description : (metaEntry ? metaEntry.description : DEFAULT_CATEGORY_DESCRIPTION);
+      const displayDesc = subMeta && subMeta.description ? subMeta.description : (metaEntry ? metaEntry.description : "暂无简介");
 
       const existingCategory = folders[folder].categories.find(c => c.key === nodeKey);
       if (!existingCategory) {
-        // 生成编码后的 URL
-        const categoryPath = subcategoryCode 
+        const categoryPath = subcategoryCode
           ? `${topLevelCategory}/${subcategoryCode}`
           : topLevelCategory;
         const encodedPath = encodeSlug(categoryPath, { prefix: 'c', minLength: 6 });
-        
+
         folders[folder].categories.push({
           key: nodeKey,
           title: displayTitle,
@@ -504,28 +393,23 @@ function registerCollections(eleventyConfig) {
       cat.posts.push(item);
     });
 
-    // 对每个分类下的文章排序：先按 order/categoryOrder，再按日期（新到旧）
     Object.values(folders).forEach((folder) => {
       folder.categories.forEach((cat) => {
         cat.posts.sort((a, b) => {
-          // 获取 order 或 categoryOrder，默认 Infinity（排最后）
           const orderA = a.data?.order ?? a.data?.categoryOrder ?? Infinity;
           const orderB = b.data?.order ?? b.data?.categoryOrder ?? Infinity;
-          
-          // 如果都有 order，按 order 排序
+
           if (orderA !== Infinity || orderB !== Infinity) {
             if (orderA !== orderB) {
               return orderA - orderB;
             }
           }
-          
-          // 否则按日期排序（新到旧）
+
           return b.date - a.date;
         });
       });
     });
 
-    // 按 order 排序，order 相同则按标题排序
     return Object.values(folders).sort((a, b) => {
       if (a.order !== b.order) {
         return a.order - b.order;
@@ -535,7 +419,4 @@ function registerCollections(eleventyConfig) {
   });
 }
 
-module.exports = {
-  registerCollections,
-  getFolderNameFromPostPath
-};
+module.exports = { registerCollections };

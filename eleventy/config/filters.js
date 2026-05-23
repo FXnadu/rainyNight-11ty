@@ -1,18 +1,8 @@
 const { DateTime } = require("luxon");
-const { getFolderNameFromPostPath } = require("./collections");
 const { encodeSlug } = require("../utils/slug-encoder");
-const path = require("path");
+const { getFolderNameFromPostPath, getCategoryFromPath } = require("../utils/path-utils");
 
 const toUtcDate = (dateObj) => DateTime.fromJSDate(dateObj, { zone: "utc" });
-
-function getCategoryName(inputPath) {
-  if (!inputPath) return null;
-  const normalized = inputPath.split(path.sep).join("/");
-  const marker = "/src/content/posts/";
-  const idx = normalized.indexOf(marker);
-  if (idx === -1) return null;
-  return normalized.slice(idx + marker.length).split("/").filter(Boolean)[0] || null;
-}
 
 function registerDateFilters(eleventyConfig) {
   eleventyConfig.addFilter("readableDate", (dateObj) =>
@@ -40,7 +30,7 @@ function registerDateFilters(eleventyConfig) {
   );
 
   eleventyConfig.addFilter("categoryFromPath", (inputPath) =>
-    getCategoryName(inputPath)
+    getCategoryFromPath(inputPath)
   );
 
   eleventyConfig.addFilter("groupByDate", (items) => {

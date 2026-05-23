@@ -18,7 +18,9 @@ pageStyles:
                     <span class="tab-label">抖音转链</span>
                 </button>
                 <button class="sidebar-tab" data-tab="taobao">
-                    <i data-lucide="shopping-bag" class="tab-icon" style="width: 20px; height: 20px;"></i>
+                    <svg class="tab-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
                     <span class="tab-label">淘宝简链</span>
                 </button>
             </nav>
@@ -270,8 +272,4 @@ pageStyles:
         container.appendChild(itemDiv);
     }
 
-    // 初始化 Lucide 图标
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
 </script>

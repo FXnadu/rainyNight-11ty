@@ -1,13 +1,14 @@
 {
   "name": "deepwhitedocs",
   "version": "1.0.0",
-  "description": "---\r title: Heading\r ---\r # {{ title }}",
-  "main": "index.js",
+  "description": "DeepWhite docs - 11ty static site for tutorials and documentation",
+  "main": ".eleventy.js",
   "scripts": {
     "start": "eleventy --serve",
     "build": "node scripts/build.js",
     "debug": "DEBUG=* eleventy",
-    "moment": "node scripts/new-moment.js"
+    "moment": "node scripts/new-moment.js",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "gray-matter": "^4.0.3",
-    "luxon": "^3.7.2"
+    "luxon": "^3.7.2",
+    "vitest": "^4.1.7"
   }
 }
