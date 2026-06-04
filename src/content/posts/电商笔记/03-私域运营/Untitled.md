@@ -1,3 +1,11 @@
+---
+title: Untitled
+category: 电商笔记
+date: '2026-05-27'
+description: ''
+categoryOrder: 5
+updated: '2026-06-03'
+---
 # 私域账号资产管理：从理论到实践的企业级运营指南
 
 ## 一、核心理念与模型框架：将账号视为战略资产

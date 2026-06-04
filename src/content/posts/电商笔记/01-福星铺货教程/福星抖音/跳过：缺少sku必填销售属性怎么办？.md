@@ -3,8 +3,10 @@ title: 跳过：缺少sku必填销售属性怎么办？
 date: '2026-04-08'
 description: ''
 categoryOrder: 11
-updated: '2026-04-11'
+updated: '2026-06-03'
 category: 福星铺货教程
+contentTags:
+  - 福星抖音教程
 ---
 
 该报错常见于跨平台复制，原商品规格名称与发布规则不一致导致。

@@ -15,7 +15,6 @@ process.env.ELEVENTY_ENV = process.env.ELEVENTY_ENV || "production";
 const steps = [
   { name: "清理站点", cmd: `node "${path.join(scriptsDir, "clean-site.js")}"` },
   { name: "更新日期", cmd: `node "${path.join(scriptsDir, "manage-dates.js")}"` },
-  { name: "更新动态", cmd: `node "${path.join(scriptsDir, "manage-moments.js")}"` },
   { name: "同步元数据", cmd: `node "${path.join(scriptsDir, "sync-category-meta.js")}"` },
   { name: "合并CSS", cmd: `node "${path.join(scriptsDir, "merge-css.js")}"` },
   { name: "生成站点", cmd: "npx eleventy" },

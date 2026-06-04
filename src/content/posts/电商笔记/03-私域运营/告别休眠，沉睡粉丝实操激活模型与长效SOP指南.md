@@ -4,6 +4,9 @@ category: 电商笔记
 date: '2026-04-13'
 description: ''
 categoryOrder: 3
+contentTags:
+  - 私域运营
+updated: '2026-06-03'
 ---
 
 ## 一、沉睡粉丝定义与识别

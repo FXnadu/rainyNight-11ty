@@ -4,7 +4,9 @@ date: '2026-04-10'
 description: ''
 categoryOrder: 1
 category: 其他other
-updated: '2026-04-11'
+updated: '2026-06-03'
+contentTags:
+  - 其他
 ---
 还在用一年年前的土味Prompt？Anthropic大佬亲授7个AI骚操作，让你秒变高玩！
 

@@ -65,8 +65,25 @@ function getPostsFromContentDir(collectionApi) {
   return getItemsByType(collectionApi, "posts");
 }
 
+/**
+ * Get all pages from src/content/pages/ that have contentTags, sorted by date (newest first).
+ */
+function getPagesWithTags(collectionApi) {
+  return collectionApi
+    .getAll()
+    .filter((item) => {
+      if (!item || !item.inputPath) return false;
+      const normalizedPath = normalizePath(item.inputPath);
+      const isPage = normalizedPath.includes("/src/content/pages/");
+      const hasTags = item.data && Array.isArray(item.data.contentTags) && item.data.contentTags.length > 0;
+      return isPage && hasTags && normalizedPath.endsWith(".njk");
+    })
+    .sort((a, b) => b.date - a.date);
+}
+
 module.exports = {
   comparePostsForCategoryPages,
   getItemsByType,
+  getPagesWithTags,
   getPostsFromContentDir
 };

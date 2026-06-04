@@ -1,25 +1,16 @@
 /**
  * Eleventy collection registration.
- * Builds categories, moments, redirects, and folder groupings.
+ * Builds categories, redirects, and folder groupings.
  * Delegates path parsing to path-utils and metadata to category-meta.
  */
 const siteConfig = require("../../src/_data/siteConfig");
 const { encodeSlug } = require("../utils/slug-encoder");
 const { normalizePath, getFolderNameFromPostPath } = require("../utils/path-utils");
 const { loadCategoryMeta, getCategoryMeta, getSubcategoryMeta } = require("./category-meta");
-const { comparePostsForCategoryPages, getPostsFromContentDir } = require("./post-utils");
+const { comparePostsForCategoryPages, getPagesWithTags, getPostsFromContentDir } = require("./post-utils");
 const { resolveContentType } = require("./content-types");
 
 // --- Comparison helpers ---
-
-function compareMoments(a, b) {
-  const dateA = a.date;
-  const dateB = b.date;
-  if (dateA - dateB !== 0) return dateB - dateA;
-  const timeA = a.data && a.data.time ? a.data.time : "";
-  const timeB = b.data && b.data.time ? b.data.time : "";
-  return timeB.localeCompare(timeA);
-}
 
 function getFileSlugFromPostInputPath(inputPath) {
   if (!inputPath) return "";
@@ -163,12 +154,6 @@ function registerCollections(eleventyConfig) {
   };
 
   // --- Collection registrations ---
-
-  eleventyConfig.addCollection("moments", (collectionApi) =>
-    collectionApi
-      .getFilteredByTag("moments")
-      .sort(compareMoments)
-  );
 
   eleventyConfig.addCollection("posts", (collectionApi) =>
     getPosts(collectionApi)
@@ -327,6 +312,81 @@ function registerCollections(eleventyConfig) {
     });
 
     return Array.from(redirectsByOldUrl.values());
+  });
+
+  // --- Content tag collections ---
+
+  eleventyConfig.addCollection("tagList", (collectionApi) => {
+    const tagMap = new Map();
+    const posts = getPosts(collectionApi);
+    const pages = getPagesWithTags(collectionApi);
+    const allItems = [...posts, ...pages];
+
+    allItems.forEach((item) => {
+      const contentTags = item.data && Array.isArray(item.data.contentTags) ? item.data.contentTags : [];
+      contentTags.forEach((tag) => {
+        const trimmed = String(tag).trim();
+        if (!trimmed) return;
+        if (!tagMap.has(trimmed)) {
+          tagMap.set(trimmed, { title: trimmed, posts: [], encodedKey: encodeSlug(trimmed, { prefix: 't', minLength: 6 }) });
+        }
+        tagMap.get(trimmed).posts.push(item);
+      });
+    });
+
+    // Sort posts within each tag by date descending
+    tagMap.forEach((entry) => {
+      entry.posts.sort((a, b) => b.date - a.date);
+    });
+
+    return Array.from(tagMap.values()).sort((a, b) => b.posts.length - a.posts.length);
+  });
+
+  eleventyConfig.addCollection("tagPages", (collectionApi) => {
+    const tagMap = new Map();
+    const posts = getPosts(collectionApi);
+    const taggedPages = getPagesWithTags(collectionApi);
+    const allItems = [...posts, ...taggedPages];
+
+    allItems.forEach((item) => {
+      const contentTags = item.data && Array.isArray(item.data.contentTags) ? item.data.contentTags : [];
+      contentTags.forEach((tag) => {
+        const trimmed = String(tag).trim();
+        if (!trimmed) return;
+        if (!tagMap.has(trimmed)) {
+          tagMap.set(trimmed, { title: trimmed, posts: [], encodedKey: encodeSlug(trimmed, { prefix: 't', minLength: 6 }) });
+        }
+        tagMap.get(trimmed).posts.push(item);
+      });
+    });
+
+    const pages = [];
+    const tagPageSize = 16;
+
+    tagMap.forEach((entry) => {
+      const sortedPosts = [...entry.posts].sort((a, b) => b.date - a.date);
+      const totalPages = Math.max(1, Math.ceil(sortedPosts.length / tagPageSize));
+      const baseUrl = `/tags/${entry.encodedKey}/`;
+
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber += 1) {
+        const start = (pageNumber - 1) * tagPageSize;
+        const pagePosts = sortedPosts.slice(start, start + tagPageSize);
+        const url = pageNumber === 1 ? baseUrl : `${baseUrl}page/${pageNumber}/`;
+
+        pages.push({
+          title: entry.title,
+          encodedKey: entry.encodedKey,
+          url,
+          baseUrl,
+          pageNumber,
+          totalPages,
+          count: sortedPosts.length,
+          posts: pagePosts
+        });
+      }
+    });
+
+    return pages;
   });
 
   eleventyConfig.addCollection("folderGroups", (collectionApi) => {

@@ -4,21 +4,20 @@
  */
 const config = {
     brand: {
-        logoText: "DeepWhite docs",
+        logoText: "helloSummer",
         homeUrl: "/"
     },
 
     navigation: {
         main: [
             { text: "首页", url: "/", icon: "home" },
-            { text: "内容归档", url: "/categories/", icon: "folder" },
-            { text: "动态", url: "/moments/", icon: "activity" },
+            { text: "标签分类", url: "/tags/", icon: "tag" },
             { text: "页面说明", url: "/services/", icon: "info" }
         ]
     },
 
     footer: {
-        copyrightOwner: "DeepWhite docs",
+        copyrightOwner: "helloSummer ",
         tagline: "用于记录展示的轻量网站",
         socialLinks: [
             { text: "GitHub", url: "https://github.com", icon: "fa-brands fa-github" },
@@ -27,9 +26,9 @@ const config = {
     },
 
     meta: {
-        title: "DeepWhite | 教程",
+        title: "",
         description: "my Tutorial Website",
-        author: "DeepWhite docs",
+        author: "helloSummer ",
         email: "contact@deepwhite.dev",
         url: "https://deepwhite.me",
         lang: "zh-CN"
@@ -64,10 +63,10 @@ const config = {
             title: "首页",
             hero: {
                 title: "Documentation",
-                subtitle: "DeepWhite's Tutorial Website",
+                subtitle: "my Tutorial Website",
                 descriptionLines: [
                     "my Tutorial Website",
-                    "你可以直接把它当成电商软件教程网站，获取自己需要的内容。"
+                    "你可以获取自己需要的内容，如果有的话。"
                 ]
             },
             audience: {
@@ -98,22 +97,28 @@ const config = {
                 placeholder: "搜索知识库...",
                 buttonLabel: "搜索",
                 description: "支持标题、分类、摘要和正文关键词检索，快速找到你需要的内容。",
-                examples: "例如：限售品牌、指定类目发布、使用教程、安装指南..."
+                examples: "例如：电脑蓝屏、报错、线程异常、安装指南..."
             },
 
             closing: {
                 label: "开始浏览",
                 headline: "把接触的内容整理清楚 \n 让结果自然生长",
-                description: "欢迎来到我的电商笔记网页，所有内容皆为个人整理的笔记与分享",
+                description: "欢迎访问，所有内容皆为个人整理的笔记与分享",
                 actionText: "查看内容归档",
                 actionUrl: "/categories/"
             }
         },
 
         categories: {
-            sidebarTitle: "项目阶段导航",
+            sidebarTitle: "归档",
             docUnit: "篇文档",
             monthUnit: "个月份"
+        },
+
+        tags: {
+            title: "标签分类",
+            subtitle: "通过标签快速筛选和浏览相关内容",
+            docUnit: "篇文档"
         },
 
         categoryDetail: {
@@ -125,7 +130,7 @@ const config = {
 
         archive: {
             title: "全部文档",
-            subtitle: "按时间查看这套个人网站演示站的所有页面文案与示例文章。"
+            subtitle: "暂无简介"
         },
 
         services: {
@@ -147,9 +152,9 @@ const config = {
                 {
                     number: "02",
                     title: "免责声明",
-                    description: "本网站非任何软件官方平台，请注意以下声明：",
+                    description: "本网站任何任何内容非官方，请注意以下声明：",
                     bullets: [
-                        "非官方站点，软件售后及问题请咨询官方",
+                        "不构成任何建议或保证。",
                         "教程、文章内容仅供学习参考",
                         "部分内容源自网络，侵删"
                     ]
@@ -163,16 +168,6 @@ const config = {
                         { label: "Email", encoded: "ZGVlcHdoaXRlODZAb3V0bG9vay5jb20=" }
                     ],
                     isProtected: true
-                },
-                {
-                    number: "04",
-                    title: "转载指南",
-                    description: "本站文章采用<a href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener noreferrer\">非商业性使用 4.0 国际许可协议 (CC BY-NC 4.0)</a>进行许可。",
-                    bullets: [
-                        "您可以自由分享、复制、修改本作品",
-                        "需注明原作者及原文来源",
-                        "不得用于商业用途"
-                    ]
                 }
             ],
             cta: {

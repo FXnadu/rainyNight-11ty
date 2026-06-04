@@ -3,14 +3,6 @@
     "电商笔记": {
       "order": 1,
       "subcategories": {
-        "01-福星铺货教程": {
-          "description": "福星铺货工具使用教程",
-          "subcategories": {
-            "福星抖音": {
-              "description": "福星抖音助手使用教程"
-            }
-          }
-        },
         "02-运营技巧": {
           "description": "电商运营技巧与入门指南"
         },
@@ -19,6 +11,9 @@
         },
         "04-其他": {
           "description": "其他相关内容"
+        },
+        "福星抖音": {
+          "description": "暂无简介"
         }
       }
     }

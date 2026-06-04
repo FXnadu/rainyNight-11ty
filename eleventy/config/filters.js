@@ -32,18 +32,6 @@ function registerDateFilters(eleventyConfig) {
   eleventyConfig.addFilter("categoryFromPath", (inputPath) =>
     getCategoryFromPath(inputPath)
   );
-
-  eleventyConfig.addFilter("groupByDate", (items) => {
-    const groups = {};
-    items.forEach((item) => {
-      const dateStr = toUtcDate(item.date).toFormat("yyyy-MM-dd");
-      if (!groups[dateStr]) {
-        groups[dateStr] = { date: dateStr, items: [] };
-      }
-      groups[dateStr].items.push(item);
-    });
-    return Object.values(groups).sort((a, b) => b.date.localeCompare(a.date));
-  });
 }
 
 function registerTitleFilters(eleventyConfig) {

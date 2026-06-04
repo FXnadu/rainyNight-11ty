@@ -7,7 +7,6 @@
     "start": "eleventy --serve",
     "build": "node scripts/build.js",
     "debug": "DEBUG=* eleventy",
-    "moment": "node scripts/new-moment.js",
     "test": "vitest run"
   },
   "keywords": [],
