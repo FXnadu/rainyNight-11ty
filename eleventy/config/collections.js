@@ -160,12 +160,12 @@ function registerCollections(eleventyConfig) {
   );
 
   eleventyConfig.addCollection("categories", (collectionApi) => {
+    const { getCategoryFromPath } = require("../utils/path-utils");
     const categories = {};
 
     getPosts(collectionApi).forEach((item) => {
-      const folder = getFolderNameFromPostPath(item.inputPath);
-      const category = folder;
-      const parts = category.split("/");
+      const categoryPath = getCategoryFromPath(item.inputPath);
+      const parts = categoryPath.split("/");
       let currentPath = "";
 
       parts.forEach((part, index) => {

@@ -37,11 +37,17 @@ function getFolderNameFromPostPath(inputPath) {
 }
 
 /**
- * Get the top-level category from a content item's inputPath.
- * Alias for getFolderNameFromPostPath used in template filters and data files.
+ * Get the category path from a content item's inputPath.
+ * Returns the most specific category path available:
+ * - posts/Category/Subcategory/file.md → "Category/Subcategory"
+ * - posts/Category/file.md → "Category"
+ * - posts/file.md → "其他"
  */
 function getCategoryFromPath(inputPath) {
-  return getFolderNameFromPostPath(inputPath);
+  const segments = getContentRelativeSegments(inputPath);
+  if (!segments || segments.length <= 1) return "其他";
+  // Return all segments except the filename as the category path
+  return segments.slice(0, -1).join("/");
 }
 
 /**
