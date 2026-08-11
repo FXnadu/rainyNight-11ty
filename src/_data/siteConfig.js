@@ -10,9 +10,7 @@ const config = {
 
     navigation: {
         main: [
-            { text: "首页", url: "/", icon: "home" },
-            { text: "标签分类", url: "/tags/", icon: "tag" },
-            { text: "页面说明", url: "/services/", icon: "info" }
+            { text: "首页", url: "/", icon: "home" }
         ]
     },
 
@@ -20,8 +18,7 @@ const config = {
         copyrightOwner: "helloSummer ",
         tagline: "用于记录展示的轻量网站",
         socialLinks: [
-            { text: "GitHub", url: "https://github.com", icon: "fa-brands fa-github" },
-            { text: "页面说明", url: "/services/", icon: "fa-solid fa-file-lines" }
+            { text: "GitHub", url: "https://github.com", icon: "fa-brands fa-github" }
         ]
     },
 
@@ -88,7 +85,7 @@ const config = {
                         icon: "fa-solid fa-link",
                         title: "链接转换工具",
                         description: "长链接转短链接",
-                        url: "/link-converter/"
+                        url: "/"
                     }
                 ]
             },
