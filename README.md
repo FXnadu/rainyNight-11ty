@@ -2,6 +2,16 @@
 
 一个基于 [Eleventy (11ty) v3](https://www.11ty.dev/) 的开源静态博客 / 知识库主题。零框架、纯原生 CSS/JS，内置分类体系、标签、时间归档、全站搜索、暗色模式与丰富的 Markdown 渲染能力，适合做个人知识库、教程站或文档博客。
 
+## 预览
+
+| 首页（浅色） | 首页（暗色） |
+| --- | --- |
+| ![首页（浅色）](docs/screenshots/home.png) | ![首页（暗色）](docs/screenshots/home-dark.png) |
+
+| 文章页 | 分类页 |
+| --- | --- |
+| ![文章页](docs/screenshots/post.png) | ![分类页](docs/screenshots/categories.png) |
+
 ## 特性
 
 - **内容组织**：按目录层级自动生成父子分类，支持标签云与按月归档三种浏览方式
