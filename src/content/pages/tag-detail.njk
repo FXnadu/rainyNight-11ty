@@ -1,0 +1,66 @@
+---
+layout: layouts/base.njk
+bodyClass: no-grid-page
+pagination:
+  data: collections.tagPages
+  size: 1
+  alias: pageData
+permalink: "{{ pageData.url }}"
+eleventyComputed:
+  title: "{{ pageData.title }}"
+pageStyles:
+  - /assets/css/pages/tags.css
+---
+{% set paginationConfig = siteConfig.pagination.labels %}
+
+<div style="margin-bottom: 20px; font-size: 0.9rem; display: flex; align-items: center; flex-wrap: wrap;">
+  <a href="/tags/" style="text-decoration: none; color: var(--text-secondary);">
+    <svg width="14" height="14" style="vertical-align: middle; margin-right: 4px;"><use href="#icon-tag"/></svg>
+    全部标签
+  </a>
+  <span style="margin: 0 8px; color: var(--accent-subtle);">/</span>
+  <span style="color: var(--text-primary); font-weight: 500;">{{ pageData.title }}</span>
+</div>
+
+<h1 class="page-title">
+  <svg width="24" height="24" style="vertical-align: middle;"><use href="#icon-tag"/></svg>
+  {{ pageData.title }}
+</h1>
+<p class="page-subtitle">{{ pageData.count }} 篇相关文档</p>
+
+<div class="clean-list">
+    {% for post in pageData.posts %}
+    <a href="{{ post.url }}" class="clean-item">
+        <span class="clean-item-title">{{ post.data.title }}</span>
+        <span class="clean-item-index">#{{ ((pageData.pageNumber - 1) * 16) + loop.index }}</span>
+    </a>
+    {% endfor %}
+</div>
+
+{% if pageData.totalPages > 1 %}
+<div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+    {% if pageData.pageNumber > 1 %}
+    {% if pageData.pageNumber == 2 %}
+    <a href="{{ pageData.baseUrl }}" class="clean-link">{{ paginationConfig.previousPage }}</a>
+    {% else %}
+    <a href="{{ pageData.baseUrl }}page/{{ pageData.pageNumber - 1 }}/" class="clean-link">{{ paginationConfig.previousPage }}</a>
+    {% endif %}
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    <span style="font-size: 0.9rem; color: var(--text-secondary);">
+        {{ paginationConfig.pageIndicator | replace('{current}', pageData.pageNumber) | replace('{total}', pageData.totalPages) }}
+    </span>
+
+    {% if pageData.pageNumber < pageData.totalPages %}
+    <a href="{{ pageData.baseUrl }}page/{{ pageData.pageNumber + 1 }}/" class="clean-link">{{ paginationConfig.nextPage }}</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+</div>
+{% endif %}
+
+<div style="margin-top: 40px;">
+    <a href="/tags/" class="clean-link">← 返回全部标签</a>
+</div>

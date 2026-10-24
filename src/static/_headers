@@ -1,0 +1,24 @@
+# Cache control headers for CDN
+
+# CSS files - always revalidate
+/assets/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Bundle CSS - always revalidate
+/assets/css/bundle.css*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Page-specific CSS - always revalidate
+/assets/css/pages/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JS files - cache for 1 hour
+/assets/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Images and fonts - cache for 1 week
+/assets/images/*
+  Cache-Control: public, max-age=604800, immutable
+
+/static/*
+  Cache-Control: public, max-age=604800, immutable

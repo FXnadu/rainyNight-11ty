@@ -1,0 +1,368 @@
+.site-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.site-nav.is-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-nav.is-transparent {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-bottom-color: transparent !important;
+}
+
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    text-transform: none;
+}
+
+.menu-links {
+    display: flex;
+    gap: 40px;
+    align-items: center; /* Align items vertically */
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.menu-links a svg {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.menu-links a:hover,
+.menu-links a.active {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.menu-links a:hover svg,
+.menu-links a.active svg {
+    opacity: 1;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: color 0.3s, background-color 0.3s;
+    margin-left: 10px; /* Spacing from last link */
+}
+
+.theme-toggle:hover {
+    color: var(--text-primary);
+    background-color: var(--hover-bg);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.theme-toggle .icon-sun {
+    display: none;
+}
+
+.theme-toggle .icon-moon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+}
+
+main {
+    padding: 120px 50px 50px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
+}
+
+footer {
+    padding: 60px 50px;
+    border-top: 1px solid var(--accent-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.footer-meta {
+    margin-top: 30px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.socials a {
+    color: var(--text-secondary);
+    margin-left: 20px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.socials a:hover {
+    color: var(--text-primary);
+}
+
+/* Hamburger Menu Button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 24px;
+    position: relative;
+    z-index: 102; /* Above sidebar */
+}
+
+.hamburger-box {
+    width: 30px;
+    height: 24px;
+    display: inline-block;
+    position: relative;
+}
+
+.hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    width: 30px;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+}
+
+.hamburger-inner::before, .hamburger-inner::after {
+    content: "";
+    display: block;
+}
+
+.hamburger-inner::before {
+    top: -8px;
+}
+
+.hamburger-inner::after {
+    bottom: -8px;
+}
+
+/* Active State for Hamburger */
+.menu-toggle.is-active .hamburger-inner {
+    transform: rotate(45deg);
+}
+
+.menu-toggle.is-active .hamburger-inner::before {
+    top: 0;
+    opacity: 0;
+}
+
+.menu-toggle.is-active .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 1024px) {
+    .site-nav { 
+        padding: 16px 20px;
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .menu-toggle {
+        display: block;
+        width: 28px;
+        height: 22px;
+    }
+    
+    .hamburger-box {
+        width: 28px;
+        height: 22px;
+    }
+    
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after {
+        width: 28px;
+        height: 2px;
+    }
+    
+    .hamburger-inner::before {
+        top: -7px;
+    }
+    
+    .hamburger-inner::after {
+        bottom: -7px;
+    }
+
+    .menu-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Hidden by default */
+        width: 75%;
+        max-width: 280px;
+        height: 100vh;
+        background: var(--bg-color, #fcfcfc);
+        padding: 80px 24px 40px;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+        transition: right 0.3s ease;
+        z-index: 100;
+        gap: 20px;
+        align-items: flex-start; /* Reset align-items for mobile column layout */
+    }
+
+    .menu-links.is-active {
+        right: 0;
+    }
+    
+    .menu-links a {
+        font-size: 1.1rem;
+        padding: 12px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--accent-subtle);
+    }
+    
+    .menu-links a:last-of-type {
+        border-bottom: none;
+    }
+    
+    .menu-overlay {
+        display: block; /* But opacity 0 until active */
+        pointer-events: none;
+    }
+
+    /* Adjust theme toggle in mobile menu */
+    .theme-toggle {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 44px;
+        height: 44px;
+    }
+    
+    .theme-toggle svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-nav {
+        padding: 14px 16px;
+    }
+    
+    .logo {
+        font-size: 1rem;
+    }
+    
+    .menu-links {
+        width: 80%;
+        max-width: 260px;
+        padding: 70px 20px 30px;
+    }
+    
+    .menu-links a {
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    main { 
+        padding: 90px 16px 30px;
+        min-height: calc(100vh - 150px);
+    }
+
+    footer { 
+        flex-direction: column; 
+        gap: 16px; 
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 0.85rem;
+    }
+    
+    .footer-meta {
+        margin-top: 20px;
+        font-size: 0.75rem;
+    }
+    
+    .socials a { margin: 0 8px; }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 80px 12px 24px;
+    }
+    
+    footer {
+        padding: 30px 16px;
+    }
+}

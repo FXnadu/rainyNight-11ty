@@ -1,0 +1,351 @@
+:root {
+    /* Common Variables */
+    --cursor-size: 10px;
+
+    /* 
+     * EYE-CARE LIGHT THEME (Default)
+     * Optimized for Paper-like Reading Comfort
+     * Avoids #FFFFFF and #000000 to reduce glare and contrast vibration
+     */
+    --bg-color: #F9FAFB; /* Cool Gray 50 - "Paper White" */
+    --text-primary: #1F2937; /* Gray 900 - "Ink Black" */
+    --text-secondary: #4B5563; /* Gray 600 */
+    --accent-color: #059669; /* Modern Teal (Emerald 600) - Fresh & Professional */
+    --accent-subtle: #E5E7EB; /* Gray 200 */
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.06);
+    --page-grid-line: rgba(0, 0, 0, 0.035);
+    --post-reading-grid-line: rgba(0, 0, 0, 0.015);
+    --hover-bg: rgba(0, 0, 0, 0.04);
+    --nav-bg: rgba(249, 250, 251, 0.95);
+    
+    /* Service Tile Backgrounds (Light) */
+    --tile-bg-1: #FFFFFF; /* Cards pop slightly against F9FAFB bg */
+    --tile-bg-2: #F3F4F6;
+    --tile-bg-3: #F9FAFB;
+    --tile-bg-gradient: linear-gradient(135deg, #FFFFFF, #F3F4F6);
+    --tile-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --hero-line-gradient: linear-gradient(90deg, rgba(5, 150, 105, 0.1), rgba(5, 150, 105, 0.01));
+    
+    /* Code/Block Elements */
+    --code-bg: #F3F4F6;
+    --blockquote-border: #059669;
+
+    /* Tag System (Light Mode) */
+    --tag-saturation: 80%;
+    --tag-lightness: 35%;
+    --tag-bg-opacity: 0.1;
+    
+    /* Semantic Palette (Light Mode) */
+    --color-primary: #7c3aed;
+    --color-success: #059669;
+    --color-warning: #d97706;
+    --color-danger:  #dc2626;
+    --color-info:    #2563eb;
+
+    /* Search Highlight */
+    --mark-bg: #fff3cd;
+    --mark-text: inherit;
+}
+
+[data-theme="dark"] {
+    /* 
+     * HIGH CONTRAST DARK THEME
+     * Scheme 1: Cyber Neon (Vibrant & Modern)
+     * Focus: High readability on dark backgrounds using bright, saturated pastels.
+     */
+    --bg-color: #050505; /* Deepest Black for max contrast */
+    --text-primary: #FFFFFF; /* Pure White for text */
+    --text-secondary: #E5E7EB; /* Gray 200 - Very light gray */
+    
+    /* Primary Accent: Modern Emerald (Restored) */
+    --accent-color: #34D399; /* Emerald 400 */
+    
+    /* Borders: Visible but subtle gray */
+    --accent-subtle: #333333; 
+    
+    --glass-bg: rgba(5, 5, 5, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --page-grid-line: rgba(255, 255, 255, 0.12);
+    --post-reading-grid-line: rgba(255, 255, 255, 0.045);
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --nav-bg: rgba(5, 5, 5, 0.95);
+
+    /* Service Tile Backgrounds (Dark) */
+    --tile-bg-1: #121212; /* Slightly lighter than bg */
+    --tile-bg-2: #1A1A1A;
+    --tile-bg-3: #000000;
+    --tile-bg-gradient: linear-gradient(135deg, #121212, #1E1E1E);
+    --tile-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --hero-line-gradient: linear-gradient(90deg, rgba(52, 211, 153, 0.5), rgba(52, 211, 153, 0.05));
+    
+    /* Code/Block Elements */
+    --code-bg: #121212;
+    --blockquote-border: #34D399;
+
+    /* Tag System (High Contrast Dark) */
+    --tag-saturation: 85%;  /* High saturation for vibrancy */
+    --tag-lightness: 75%;   /* High lightness for readability */
+    --tag-bg-opacity: 0.15;
+    
+    /* Semantic Palette (Cyber Neon) */
+    --color-primary: #C084FC; /* Bright Purple */
+    --color-success: #4ADE80; /* Neon Green */
+    --color-warning: #FACC15; /* Bright Yellow */
+    --color-danger:  #F87171; /* Salmon Red */
+    --color-info:    #38BDF8; /* Sky Blue */
+
+    /* Search Highlight */
+    --mark-bg: #5c4a00;
+    --mark-text: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button,
+summary,
+label[for],
+input[type="checkbox"],
+input[type="radio"],
+select,
+[role="button"],
+[data-lightbox-action],
+[data-lightbox-close] {
+    cursor: pointer;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    width: 100vw;
+    min-height: 100vh;
+    line-height: 1.6;
+    /* transition: background-color 0.3s ease, color 0.3s ease; -- Removed, handled by .theme-transition */
+}
+
+/* 仅非首页且非禁用页使用的方格背景 */
+body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image:
+        linear-gradient(var(--page-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--page-grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center top;
+    z-index: -1;
+    mask-image: none;
+    -webkit-mask-image: none;
+    pointer-events: none;
+}
+
+/* 列表页、归档页、文章页：仅在标题区域显示方格并向下渐隐 */
+body.no-grid-page .site-main,
+body.post-page .site-main {
+    position: relative;
+    isolation: isolate;
+}
+
+body.no-grid-page .site-main::before,
+body.post-page .site-main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: min(46vh, 420px);
+    background-image:
+        linear-gradient(var(--page-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--page-grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center top;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.85) 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.85) 55%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 分类页：方格更早在侧栏附近衰减，避免干扰列表阅读 */
+body.categories-page .site-main::before {
+    height: min(30vh, 300px);
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
+}
+
+/* Global Smooth Theme Transition */
+.theme-transition,
+.theme-transition * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Selection Styling - Theme Adaptive */
+::selection {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+/* Scrollbar Styling - Minimal & Theme Adaptive */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-subtle);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Focus Styles - Accessibility */
+:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion - Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Performance: Contain layout for complex components */
+.site-header,
+.card-grid,
+.post-list {
+    contain: layout;
+}
+
+/* Image rendering optimization */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Prevent text selection on UI elements */
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Utility: Visually hidden but accessible */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Ensure crisp icon rendering */
+.menu-links a svg,
+.theme-toggle svg {
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   移动端适配优化 - Mobile Responsive Enhancements
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* 方格背景优化 */
+    body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
+        background-size: 40px 40px;
+    }
+    
+    body.no-grid-page .site-main::before {
+        background-size: 40px 40px;
+    }
+    
+    body.post-page .site-main::before {
+        background-size: 40px 40px;
+    }
+    
+    /* 滚动条优化 */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    
+    /* 选中文字优化 */
+    ::selection {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+    }
+}
+
+@media (max-width: 480px) {
+    body:not(.home-page):not(.no-grid-page):not(.post-page)::before {
+        background-size: 30px 30px;
+    }
+    
+    body.no-grid-page .site-main::before {
+        background-size: 30px 30px;
+    }
+    
+    body.post-page .site-main::before {
+        background-size: 30px 30px;
+    }
+}
+
+body.post-bg-highlight {
+    --bg-color: #fdf7f0;
+}
+
+[data-theme="dark"] body.post-bg-highlight {
+     --bg-color: #1a1a1a; /* Fallback for dark mode highlight */
+}
+
+/* FAQ / Documentation style background */
+/* body.post-bg-faq {
+    --bg-color: #f7f9fc;
+} */
+body.post-bg-faq::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.03) 0%, transparent 50%);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Dark mode adjustments for FAQ background */
+[data-theme="dark"] body.post-bg-faq::before {
+    background: radial-gradient(circle at 20% 80%, rgba(52, 211, 153, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.03) 0%, transparent 50%);
+}

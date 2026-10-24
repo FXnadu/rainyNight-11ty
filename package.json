@@ -1,0 +1,31 @@
+{
+  "name": "rainynight-11ty",
+  "version": "1.0.0",
+  "description": "RainyNight - open-source 11ty static site theme for blogs and documentation",
+  "main": ".eleventy.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "node scripts/build.js",
+    "debug": "DEBUG=* eleventy",
+    "test": "vitest run"
+  },
+  "keywords": ["eleventy", "11ty", "blog", "theme", "documentation"],
+  "author": "FXnadu",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@kevingimbel/eleventy-plugin-mermaid": "^3.0.1",
+    "markdown-it": "^14.1.0",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-github-alerts": "^1.0.1",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-task-lists": "^2.1.1"
+  },
+  "devDependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "gray-matter": "^4.0.3",
+    "luxon": "^3.7.2",
+    "vitest": "^4.1.7"
+  }
+}

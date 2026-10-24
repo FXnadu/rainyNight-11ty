@@ -1,0 +1,357 @@
+.knowledge-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 10px;
+    min-height: 60vh;
+}
+
+.knowledge-header {
+    margin-bottom: 20px;
+}
+
+.knowledge-body {
+    display: flex;
+    gap: 40px;
+    flex: 1;
+}
+
+.knowledge-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--accent-subtle);
+    padding-right: 20px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.sidebar-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-title i,
+.sidebar-title svg {
+    width: 24px;
+    text-align: center;
+    margin-right: 4px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.folder-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateZ(0);
+}
+
+.folder-title svg {
+    opacity: 0.85;
+}
+
+.card-arrow {
+    opacity: 0.5;
+}
+
+.folder-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.folder-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 16px 10px 12px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    color: var(--text-secondary, #888);
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    border-radius: 6px;
+}
+
+.folder-icon {
+    width: 24px;
+    text-align: center;
+    margin-right: 6px;
+    font-size: 0.9em;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.folder-item:hover .folder-icon,
+.folder-item.active .folder-icon {
+    opacity: 1;
+}
+
+.folder-item.active .folder-icon {
+    color: var(--accent-color);
+}
+
+.folder-item:hover {
+    color: var(--text-primary, #fff);
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.05));
+}
+
+.folder-item.active {
+    color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color), transparent 85%);
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+[data-theme="light"] .folder-item.active {
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .folder-item.active .folder-icon {
+    color: inherit;
+}
+
+.knowledge-content {
+    flex: 1;
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 0;
+}
+
+.folder-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+    margin-top: 0;
+}
+
+.folder-section.active {
+    display: block;
+}
+
+.section-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--text-primary, #fff);
+    line-height: 1.4;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+@media (max-width: 1400px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.clean-card {
+    background: var(--bg-card, #1a1a1a);
+    border: 1px solid var(--border-color, #333);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.clean-card:hover,
+[data-theme="dark"] .clean-card:hover {
+    transform: none;
+    border-color: #34D399;
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.15);
+}
+
+.clean-card h3 {
+    font-size: 1.1rem;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.clean-card h3 a {
+    text-decoration: none;
+    color: var(--text-primary, #fff);
+}
+
+.knowledge-card-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #aaa);
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+    height: 4.5em; /* 1.5 line-height * 3 lines = 4.5em */
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color, rgba(255,255,255,0.05));
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+[data-theme="light"] .clean-card {
+    background: var(--tile-bg-1, #ffffff);
+    border-color: var(--border-color, #e5e7eb);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .clean-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .card-footer {
+    border-top-color: var(--border-color, #f3f4f6);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .knowledge-container {
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 0;
+    }
+    
+    .knowledge-body {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .knowledge-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--accent-subtle);
+        margin-bottom: 0;
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+    
+    .sidebar-title {
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+    }
+    
+    .folder-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .folder-item {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+    
+    .folder-icon {
+        width: 18px;
+        margin-right: 6px;
+    }
+    
+    .knowledge-content {
+        padding-left: 0;
+    }
+    
+    .section-header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .clean-card {
+        padding: 18px;
+    }
+    
+    .clean-card h3 {
+        font-size: 1.05rem;
+        margin-bottom: 10px;
+    }
+    
+    .knowledge-card-desc {
+        font-size: 0.9rem;
+        height: auto;
+        -webkit-line-clamp: 2;
+    }
+    
+    .card-footer {
+        font-size: 0.8rem;
+        padding-top: 10px;
+    }
+}
+
+/* 展开卡片样式 - 用于无子分类的分类 */
+.clean-card.expanded {
+    height: auto;
+    display: block;
+}
+
+.clean-card.expanded h3 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.clean-card.expanded .article-list {
+    background: var(--bg-primary, #0a0a0a);
+}
+
+.clean-card.expanded .article-list a:hover {
+    background: var(--bg-secondary, #1a1a1a) !important;
+}
+
+[data-theme="light"] .clean-card.expanded .article-list {
+    background: var(--bg-primary, #ffffff);
+}
+
+[data-theme="light"] .clean-card.expanded .article-list a:hover {
+    background: var(--bg-secondary, #f3f4f6) !important;
+}

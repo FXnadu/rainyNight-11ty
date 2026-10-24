@@ -1,0 +1,62 @@
+---
+layout: layouts/base.njk
+permalink: /services/
+pageStyles:
+  - /assets/css/pages/services.css
+---
+{% set servicesConfig = siteConfig.pages.services %}
+
+<div class="services-page-container">
+    <header class="services-header">
+        <div class="services-title-wrapper">
+            <h1>{{ servicesConfig.headerTitle }}</h1>
+            <div class="services-subtitle-bg">{{ servicesConfig.subtitleBackground }}</div>
+        </div>
+        <div class="services-header-meta">
+            <p>{{ servicesConfig.headerMetaLines[0] }}<br>{{ servicesConfig.headerMetaLines[1] }}</p>
+        </div>
+    </header>
+
+    <div class="services-list">
+        {% for item in servicesConfig.items %}
+            <article class="service-item">
+                <div class="service-content-grid">
+                    <div class="service-meta">
+                        <span class="service-number">{{ item.number }}</span>
+                    </div>
+                    <h2 class="service-title">{{ item.title }}</h2>
+                    <div class="service-desc-wrapper">
+                        <p class="service-desc">{{ item.description | safe }}</p>
+                        {% if item.bullets and item.bullets.length %}
+                            <ul class="service-list-items">
+                                {% for bullet in item.bullets %}
+                                    {% if item.isProtected and bullet.encoded %}
+                                        <li>
+                                            <span class="contact-label">{{ bullet.label }}：</span>
+                                            <button type="button" class="protected-contact-btn" data-encoded="{{ bullet.encoded }}" data-label="{{ bullet.label }}">点击查看</button>
+                                        </li>
+                                    {% else %}
+                                        <li>{{ bullet }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if item.linkText and item.linkUrl %}
+                            <a href="{{ item.linkUrl }}" class="service-faq-link">{{ item.linkText }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    <section class="cta-section">
+        <h3 class="cta-title">{{ servicesConfig.cta.title }}</h3>
+        <a href="{{ servicesConfig.cta.linkUrl }}" class="cta-link">{{ servicesConfig.cta.linkText }}</a>
+    </section>
+</div>
+
+
+
+
+

@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+permalink: /tags/
+bodyClass: no-grid-page tags-page
+pageStyles:
+  - /assets/css/pages/tags.css
+---
+{% set tagsConfig = siteConfig.pages.tags %}
+
+<div class="tags-container">
+    <!-- 页面标题区域和统计信息 -->
+    <div class="tags-hero">
+        <header class="tags-header">
+            <div class="tags-title-wrapper">
+                <h1 aria-hidden="true">TAGS</h1>
+                <h2 class="tags-subtitle-bg">{{ tagsConfig.title }}</h2>
+            </div>
+            <div class="tags-header-meta">
+                <p>{{ tagsConfig.subtitle }}</p>
+            </div>
+        </header>
+
+        <!-- 标签统计信息 -->
+        <div class="tags-stats">
+            <div class="tags-stat-item">
+                <span class="tags-stat-value">{{ collections.tagList.length }}</span>
+                <span class="tags-stat-label">标签总数</span>
+            </div>
+            <div class="tags-stat-item">
+                <span class="tags-stat-value">{{ collections.posts.length }}</span>
+                <span class="tags-stat-label">文章总数</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标签云 -->
+    <section class="tags-cloud-section">
+        <div class="tags-cloud">
+            {% for tag in collections.tagList %}
+            <a href="/tags/{{ tag.encodedKey }}/" class="tag-chip" data-count="{{ tag.posts.length }}">
+                <svg class="tag-chip-icon" width="14" height="14"><use href="#icon-tag"/></svg>
+                <span class="tag-chip-text">{{ tag.title }}</span>
+                <span class="tag-chip-count">{{ tag.posts.length }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ siteConfig.meta.lang }}">
+<head>
+    {% include "partials/head.njk" %}
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+    {# SVG Sprite - 所有图标定义一次 #}
+    {% include "partials/svg-sprite.njk" %}
+    
+    {% include "partials/site-header.njk" %}
+
+    <main class="site-main">
+        {{ content | safe }}
+    </main>
+
+    {% include "partials/site-footer.njk" %}
+
+    <script src="/assets/js/main.js"></script>
+    {% if pageScripts %}
+        {% for src in pageScripts %}
+            <script src="{{ src }}" defer></script>
+        {% endfor %}
+    {% endif %}
+    {% mermaid_js %}
+</body>
+</html>

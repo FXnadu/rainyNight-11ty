@@ -1,0 +1,56 @@
+---
+layout: layouts/base.njk
+bodyClass: no-grid-page
+---
+{% set archiveConfig = siteConfig.pages.archive %}
+{% set previousLabel = siteConfig.pagination.labels.previousPage %}
+{% set nextLabel = siteConfig.pagination.labels.nextPage %}
+{% set pageIndicatorTemplate = siteConfig.pagination.labels.pageIndicator %}
+
+<h1 class="page-title">{{ archiveConfig.title }}</h1>
+<p class="page-subtitle">{{ archiveConfig.subtitle }}</p>
+
+{% set currentYear = "" %}
+
+<div class="clean-list">
+    {% for post in pagedPosts %}
+        {% set postYear = post.date | year %}
+        
+        {% if currentYear != postYear %}
+            {% set currentYear = postYear %}
+            <h2 class="archive-year-title">
+                <svg width="16" height="16"><use href="#icon-book-open"/></svg>
+                {{ currentYear }}
+            </h2>
+        {% endif %}
+
+        <a href="{{ post.url }}" class="clean-item">
+            <span class="clean-item-title">{{ post.data.title }}</span>
+            <span class="clean-item-index">#{{ (pagination.pageNumber * siteConfig.pagination.archivePageSize) + loop.index }}</span>
+        </a>
+    {% endfor %}
+</div>
+
+{% if pagination.pages.length > 1 %}
+<div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+    {% if pagination.pageNumber > 0 %}
+    {% if pagination.pageNumber == 1 %}
+    <a href="/archive/" class="clean-link">{{ previousLabel }}</a>
+    {% else %}
+    <a href="/archive/page/{{ pagination.pageNumber }}/" class="clean-link">{{ previousLabel }}</a>
+    {% endif %}
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    <span style="font-size: 0.9rem; color: var(--text-secondary);">
+        {{ pageIndicatorTemplate | replace('{current}', pagination.pageNumber + 1) | replace('{total}', pagination.pages.length) }}
+    </span>
+
+    {% if pagination.pageNumber + 1 < pagination.pages.length %}
+    <a href="/archive/page/{{ pagination.pageNumber + 2 }}/" class="clean-link">{{ nextLabel }}</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+</div>
+{% endif %}

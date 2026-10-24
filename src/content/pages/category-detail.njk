@@ -1,0 +1,80 @@
+---
+layout: layouts/base.njk
+bodyClass: no-grid-page
+pagination:
+  data: collections.categoryPages
+  size: 1
+  alias: pageData
+permalink: "{{ pageData.url }}"
+eleventyComputed:
+  title: "{{ pageData.title }}"
+---
+{% set detailConfig = siteConfig.pages.categoryDetail %}
+{% set paginationConfig = siteConfig.pagination.labels %}
+
+<div style="margin-bottom: 20px; font-size: 0.9rem; display: flex; align-items: center; flex-wrap: wrap;">
+  <a href="/categories/" style="text-decoration: none; color: var(--text-secondary);">{{ detailConfig.allLabel }}</a>
+  {% for crumb in pageData.breadcrumbs %}
+  <span style="margin: 0 8px; color: var(--accent-subtle);">/</span>
+  <a href="{{ crumb.url }}" style="text-decoration: none; color: var(--text-secondary);">{{ crumb.title }}</a>
+  {% endfor %}
+  <span style="margin: 0 8px; color: var(--accent-subtle);">/</span>
+  <span style="color: var(--text-primary); font-weight: 500;">{{ pageData.title }}</span>
+</div>
+
+<h1 class="page-title">{{ pageData.title }}</h1>
+<p class="page-subtitle">
+    {{ pageData.count }} {{ detailConfig.docUnit }}
+    {% if pageData.meta.description %}
+    <br><span style="font-size: 1rem; margin-top: 8px; display: block;">{{ pageData.meta.description }}</span>
+    {% endif %}
+</p>
+
+{# 子分类文件夹卡片 - 始终显示（如果有子分类）#}
+{% if pageData.children.length > 0 %}
+<div class="clean-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 0; margin-bottom: 24px; gap: 20px;">
+    {% for child in pageData.children %}
+    <div class="clean-card" style="padding: 20px;" onclick="window.location.href='{{ child.url }}'">
+        <h4 style="margin-top: 0; margin-bottom: 8px; font-size: 1.1rem;"><a href="{{ child.url }}" style="text-decoration: none; color: inherit;">{{ child.title }}</a></h4>
+        <p style="font-size: 0.9rem; margin-bottom: 0; color: var(--text-secondary);">{{ child.count }} {{ detailConfig.docUnit }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="clean-list">
+    {% for post in pageData.posts %}
+    <a href="{{ post.url }}" class="clean-item">
+        <span class="clean-item-title">{{ post.data.title }}</span>
+        <span class="clean-item-index">#{{ ((pageData.pageNumber - 1) * siteConfig.pagination.categoryPageSize) + loop.index }}</span>
+    </a>
+    {% endfor %}
+</div>
+
+{% if pageData.totalPages > 1 %}
+<div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+    {% if pageData.pageNumber > 1 %}
+    {% if pageData.pageNumber == 2 %}
+    <a href="{{ pageData.baseUrl }}" class="clean-link">{{ paginationConfig.previousPage }}</a>
+    {% else %}
+    <a href="{{ pageData.baseUrl }}page/{{ pageData.pageNumber - 1 }}/" class="clean-link">{{ paginationConfig.previousPage }}</a>
+    {% endif %}
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    <span style="font-size: 0.9rem; color: var(--text-secondary);">
+        {{ paginationConfig.pageIndicator | replace('{current}', pageData.pageNumber) | replace('{total}', pageData.totalPages) }}
+    </span>
+
+    {% if pageData.pageNumber < pageData.totalPages %}
+    <a href="{{ pageData.baseUrl }}page/{{ pageData.pageNumber + 1 }}/" class="clean-link">{{ paginationConfig.nextPage }}</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+</div>
+{% endif %}
+
+<div style="margin-top: 40px;">
+    <a href="/categories/" class="clean-link">{{ detailConfig.backToOverview }}</a>
+</div>

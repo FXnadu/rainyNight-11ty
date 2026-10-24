@@ -1,0 +1,12 @@
+<footer>
+    <div class="footer-logo">{{ siteConfig.brand.logoText }}</div>
+    <div class="socials">
+        {% for social in siteConfig.footer.socialLinks %}
+        <a href="{{ social.url }}" class="hover-trigger">{{ social.text }}</a>
+        {% endfor %}
+    </div>
+    <p class="footer-meta">
+        {{ siteConfig.footer.tagline }}<br>
+        &copy; {{ page.date | year }} {{ siteConfig.footer.copyrightOwner }}
+    </p>
+</footer>
